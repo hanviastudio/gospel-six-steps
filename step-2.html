@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Gospel in Six Stages</title>
+<title>The Spiritual World — The Gospel in Six Stages</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Figtree:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;600&display=swap" rel="stylesheet">
@@ -24,36 +24,12 @@
 
 <nav class="rail" aria-label="Steps"><ol id="rail"></ol></nav>
 
-<!-- full-screen cosmic intro -->
-<section id="intro">
-  <div class="intro-neb"></div>
-  <canvas id="stars"></canvas>
-  <div class="intro-vignette"></div>
-  <div class="intro-inner">
-    <p class="intro-kicker" id="introKicker">A Bible Study</p>
-    <h1 class="intro-title" id="introTitle">The Gospel in Six Stages</h1>
-  </div>
-  <button class="intro-scroll" id="introScroll" type="button" aria-label="Scroll down">
-    <span id="scrollText">Scroll down</span>
-    <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8.5l7 7 7-7"/></svg></span>
-  </button>
-</section>
-
 <main id="app"></main>
 
 <footer><div class="wrap" id="foot"></div></footer>
 
 <script src="common.js"></script>
-<script>
-  G.init({page:"landing"});
-  G.cosmos(document.getElementById("stars"));
-  (function(){
-    var b = document.getElementById("introScroll");
-    if(b) b.addEventListener("click", function(){
-      var a = document.getElementById("app");
-      if(a) a.scrollIntoView({behavior:"smooth"});
-    });
-  })();
-</script>
+<!-- Later: add detailed lesson body via  <script src="content/step-2.js"></script>  (sets window.CHAPTER + window.renderChapterBody) -->
+<script>G.init({page:"step-2"});</script>
 </body>
 </html>
