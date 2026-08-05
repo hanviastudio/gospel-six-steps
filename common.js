@@ -34,7 +34,7 @@ var SITE = {
   "intro":{"en":"When someone gives a gift, the one who receives it only sees the real gift after peeling off the wrapping and opening the box. However good the gift is, if you take no interest and never open it, you can never know what is inside. Through these six steps of the gospel, we set out to see the precious gift God gives — and what he has done.","ko":"선물을 주면 받은 사람은 포장지를 벗기고 상자를 열고 나서야 비로소 그 안의 진짜 선물을 보게 된다. 아무리 좋은 선물이라도 관심이 없고 또 뜯어보지 않는다면 무엇이 그 안에 있는지 알 수 없다. 하나님께서 주시고 하시는 귀한 선물을 복음 여섯 단계를 통하여 알아보고자 한다.","zh":"送礼时，收礼的人只有在拆开包装、打开盒子之后，才能看见里面真正的礼物。无论礼物多么好，若毫不在意、从不打开，就无法知道里面是什么。我们要通过福音的六个阶段，认识神所赐、所成就的宝贵礼物。","es":"Cuando alguien da un regalo, quien lo recibe solo ve el verdadero regalo después de quitar el envoltorio y abrir la caja. Por muy bueno que sea, si no te interesa y nunca lo abres, jamás sabrás qué hay dentro. A través de estos seis pasos del evangelio, queremos ver el precioso regalo que Dios nos da — y lo que él ha hecho."}
 },
 "intro":{
-  "title":{"en":"The Gospel in Six Stages","ko":"복음, 여섯 단계","zh":"福音的六个阶段","es":"El Evangelio en Seis Etapas"},
+  "title":{"en":["The Gospel","in Six Stages"],"ko":["복음","여섯 단계"],"zh":["福音","六个阶段"],"es":["El Evangelio","en Seis Etapas"]},
   "overview":{"en":"A six-stage journey through the gospel — from the unseen spiritual world to the faith that opens the gift.","ko":"복음을 여는 여섯 단계 — 보이지 않는 영의 세계에서, 선물을 여는 믿음에 이르기까지.","zh":"通往福音的六个阶段——从看不见的灵界，到那打开礼物的信心。","es":"Un recorrido del evangelio en seis etapas — del mundo espiritual invisible a la fe que abre el regalo."},
   "scroll":{"en":"Scroll","ko":"스크롤","zh":"滚动","es":"Desliza"}
 },
@@ -130,7 +130,7 @@ function pointsList(s,cls){ var h='<ul class="points'+(cls?" "+cls:"")+'">'; s.p
 
 /* ---------- renderers ---------- */
 function cards(){
-  var h = '<div class="cards-head">'+esc(L(SITE.ui.contents))+'</div><div class="cards">';
+  var h = '<div class="cards-head reveal">'+esc(L(SITE.ui.contents))+'</div><div class="cards">';
   SITE.steps.forEach(function(s){
     h += '<a class="card" href="'+s.id+'.html" style="--dot:'+s.dot+'">'
        + '<div class="card-top"><span class="card-num">'+s.numeral+'</span><span class="card-ic">'+ICON(s.id)+'</span></div>'
@@ -147,10 +147,10 @@ function cards(){
 function renderLanding(){
   var h = '<section class="field" id="top"><div class="wrap"><div class="hero-grid">'
      + '<div class="hero-left">'
-     + '<p class="eyebrow">'+esc(L(SITE.hero.eyebrow))+'</p>'
-     + '<h1>'+esc(L(SITE.hero.title))+'</h1>'
-     + '<p class="hero-sub">'+esc(L(SITE.hero.sub))+'</p>'
-     + '<p class="hero-intro">'+esc(L(SITE.hero.intro))+'</p>'
+     + '<p class="eyebrow reveal">'+esc(L(SITE.hero.eyebrow))+'</p>'
+     + '<h1 class="reveal">'+esc(L(SITE.hero.title))+'</h1>'
+     + '<p class="hero-sub reveal">'+esc(L(SITE.hero.sub))+'</p>'
+     + '<p class="hero-intro reveal">'+esc(L(SITE.hero.intro))+'</p>'
      + '</div>'
      + '<div class="hero-right">'+cards()+'</div>'
      + '</div></div></section>';
@@ -208,8 +208,16 @@ function applyLangButtons(){
   for(var i=0;i<btns.length;i++){ btns[i].setAttribute("aria-pressed", btns[i].getAttribute("data-lang")===lang ? "true":"false"); }
 }
 function wireReveal(){
+  /* stagger each reveal by its order within its section for a premium cascade */
+  document.querySelectorAll("#app section").forEach(function(sec){
+    var i = 0;
+    sec.querySelectorAll(".reveal").forEach(function(el){
+      el.style.transitionDelay = Math.min(i*0.08, 0.55) + "s";
+      i++;
+    });
+  });
   if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window){
-    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); },{threshold:.12});
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); },{threshold:.14});
     document.querySelectorAll(".reveal, .cards, .sec-head").forEach(function(el){ io.observe(el); });
   } else {
     document.querySelectorAll(".reveal, .cards, .sec-head").forEach(function(el){ el.classList.add("in"); });
@@ -249,7 +257,8 @@ function paint(page){
   /* full-screen intro splash (index only) */
   var it = document.getElementById("introTitle");
   if(it){
-    it.textContent = L(SITE.intro.title);
+    var tl = SITE.intro.title[lang] || SITE.intro.title.en;
+    it.innerHTML = tl.map(function(t){ return '<span class="line"><span class="rise">'+esc(t)+'</span></span>'; }).join("");
     var isc = document.getElementById("scrollText"); if(isc) isc.textContent = L(SITE.intro.scroll);
     var ov = document.getElementById("introOverview"); if(ov) ov.textContent = L(SITE.intro.overview);
     var ovl = document.getElementById("introOverviewLabel"); if(ovl) ovl.textContent = L(SITE.ui.overview);
