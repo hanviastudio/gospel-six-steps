@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Gospel — Six Steps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Figtree:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1E9DA;
+  --ink:#14161C;
+  --display:"Fraunces",Georgia,serif;
+  --body:"Figtree","Noto Sans KR","Noto Sans SC",system-ui,sans-serif;
+  --mono:"Space Mono","Noto Sans KR",monospace;
+  --wide:min(1120px,100% - 2.5rem);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink);color:var(--paper);
+  font-family:var(--body);font-weight:300;font-size:17px;line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+/* ---------- top bar ---------- */
+.bar{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.55rem clamp(.9rem,3vw,1.6rem);
+  background:rgba(14,14,18,.78);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(241,233,218,.13);
+}
+.brand{display:flex;align-items:center;gap:.55rem;min-width:0;font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:#C9C2B4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cur-dot{flex:none;width:9px;height:9px;border-radius:50%;background:transparent;opacity:0;
+  transition:background .3s ease,opacity .3s ease;box-shadow:0 0 0 3px rgba(255,255,255,.04)}
+#curText{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .25s ease}
+.langs{display:flex;gap:.25rem;flex:none}
+.langs button{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;
+  background:transparent;color:#9A9384;border:1px solid rgba(241,233,218,.2);
+  padding:.34rem .55rem;border-radius:2px;cursor:pointer;transition:.18s;
+}
+.langs button:hover{color:#F1E9DA;border-color:rgba(241,233,218,.5)}
+.langs button[aria-pressed="true"]{background:#F1E9DA;color:#14161C;border-color:#F1E9DA;font-weight:700}
+.bar-progress{position:absolute;left:0;bottom:-1px;height:2px;background:currentColor;width:0;color:#8B9BEC;transition:width .12s linear}
+
+/* ---------- left rail ---------- */
+.rail{position:fixed;left:24px;top:50%;transform:translateY(-50%);z-index:50;display:none}
+@media(min-width:1240px){.rail{display:block}}
+.rail ol{list-style:none;margin:0;padding:0;position:relative}
+.rail ol::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:rgba(241,233,218,.22)}
+.rail li{position:relative;padding:0 0 24px 0;min-height:11px}
+.rail li:last-child{padding-bottom:0}
+.rail a{position:absolute;left:22px;top:-3px;white-space:nowrap;text-decoration:none;color:#F1E9DA;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  opacity:0;pointer-events:none;transform:translateX(-4px);transition:.22s;
+  background:rgba(14,14,18,.92);padding:.24rem .55rem;border-radius:3px;border:1px solid rgba(241,233,218,.12)}
+.rail li::before{content:"";position:absolute;left:0;top:5px;width:11px;height:11px;border-radius:50%;border:1px solid rgba(241,233,218,.35);background:var(--ink);transition:.25s;cursor:pointer}
+.rail li:hover::before{border-color:var(--dot)}
+.rail li[data-on="1"]::before{background:var(--dot);border-color:var(--dot);transform:scale(1.25)}
+.rail li:hover a,.rail li[data-on="1"] a{opacity:1;pointer-events:auto;transform:none}
+
+/* ---------- sections ---------- */
+main{padding-top:0}
+.field{
+  background:var(--field);color:var(--fg);
+  padding:clamp(4.5rem,11vw,7.5rem) 0;
+  position:relative;overflow:hidden;
+  --mark:color-mix(in srgb,var(--dot,#8B9BEC) 62%,var(--fg));
+}
+.wrap{width:var(--wide);margin:0 auto;position:relative;z-index:2}
+.eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;opacity:.62;margin:0 0 1.1rem}
+h1{font-family:var(--display);font-weight:300;font-size:clamp(3rem,10vw,6rem);line-height:.95;margin:0 0 1.3rem;letter-spacing:-.02em}
+h2{font-family:var(--display);font-weight:300;font-size:clamp(2.3rem,7vw,4rem);line-height:1.0;margin:.2rem 0 1rem;letter-spacing:-.02em}
+p{margin:0 0 1.15rem;max-width:60ch}
+.lead{font-family:var(--display);font-weight:300;font-size:clamp(1.2rem,3.2vw,1.55rem);line-height:1.5;opacity:.95;max-width:34ch}
+.hairline{height:1px;background:currentColor;opacity:.22;margin:2.4rem 0;border:0}
+.numeral{font-family:var(--display);font-weight:300;font-size:.95rem;letter-spacing:.3em;opacity:.9;display:block;margin-bottom:.4rem;color:var(--mark)}
+.thread-tag{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid currentColor;border-radius:999px;padding:.4rem .95rem;opacity:.85;margin-bottom:1.6rem;
+}
+.thread-tag i{width:6px;height:6px;border-radius:50%;background:var(--mark);font-style:normal}
+
+/* ---------- hero / contents ---------- */
+#top{background:var(--ink);color:var(--paper);padding-top:clamp(6rem,13vw,9rem)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(2rem,5vw,4.5rem);align-items:start}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:2.5rem}}
+.motif{width:96px;height:96px;margin:0 0 1.6rem;display:block}
+.hero-sub{font-family:var(--display);font-weight:300;font-size:clamp(1.2rem,3vw,1.5rem);line-height:1.45;color:#E9C46A;max-width:26ch;margin:0 0 1.6rem}
+.hero-intro{max-width:42ch;opacity:.9;font-size:1rem;line-height:1.75}
+
+/* contents label + cards */
+.cards-head{font-family:var(--mono);font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;opacity:.55;margin:.3rem 0 1.2rem;display:flex;align-items:center;gap:.8rem}
+.cards-head::after{content:"";flex:1;height:1px;background:currentColor;opacity:.22}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:.85rem}
+@media(min-width:1080px){.cards{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){.cards{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:620px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:380px){.cards{grid-template-columns:1fr}}
+.card{
+  position:relative;display:flex;flex-direction:column;text-decoration:none;color:var(--paper);
+  background:#20222B;border:1px solid rgba(241,233,218,.1);border-radius:4px;
+  padding:1.3rem 1.15rem 1.2rem;min-height:190px;overflow:hidden;
+  transition:transform .28s cubic-bezier(.2,.7,.2,1),border-color .28s ease,background .28s ease,box-shadow .28s ease;
+}
+.card::before{content:"";position:absolute;left:0;top:0;right:0;height:3px;background:var(--dot);opacity:.9;transform:scaleX(1);transform-origin:left}
+.card:hover,.card:focus-visible{transform:translateY(-4px);background:#262935;border-color:color-mix(in srgb,var(--dot) 55%,transparent);box-shadow:0 14px 34px -18px var(--dot)}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.15rem}
+.card-num{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;color:var(--dot)}
+.card-ic{width:30px;height:30px;color:var(--dot)}
+.card-ic svg{width:100%;height:100%;display:block}
+.card-title{font-family:var(--display);font-weight:500;font-size:clamp(1.2rem,1.02rem + .7vw,1.42rem);line-height:1.14;margin:0;overflow-wrap:break-word;hyphens:auto}
+.card-rule{width:26px;height:2px;background:var(--dot);opacity:.7;margin:.65rem 0 .6rem}
+.card-sub{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin:0}
+.card-teaser{font-size:.86rem;line-height:1.5;opacity:.82;margin:.7rem 0 1rem;flex:1 1 auto}
+.card-go{display:inline-flex;align-items:center;align-self:flex-start;gap:.45rem;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--dot);background:color-mix(in srgb,var(--dot) 14%,transparent);
+  border:1px solid color-mix(in srgb,var(--dot) 45%,transparent);border-radius:999px;
+  padding:.5rem .95rem;transition:background .25s ease,color .25s ease,transform .25s ease}
+.card-go .arw{transition:transform .25s ease}
+.card:hover .card-go,.card:focus-visible .card-go{background:var(--dot);color:#14161C}
+.card:hover .card-go .arw{transform:translateX(3px)}
+
+/* ---------- step opener ---------- */
+.sec-head{display:flex;align-items:flex-start;gap:clamp(.7rem,2.2vw,1.15rem);margin-bottom:.2rem}
+.sec-ic{flex:none;width:clamp(44px,7.5vw,62px);height:clamp(44px,7.5vw,62px);color:var(--mark)}
+.sec-ic svg{width:100%;height:100%;display:block}
+.sec-head .numeral{margin:0 0 .55rem}
+.soon{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;
+  border:1px dashed currentColor;border-radius:999px;padding:.5rem 1rem;opacity:.72;margin-top:1.4rem}
+.soon i{width:6px;height:6px;border-radius:50%;background:var(--mark);font-style:normal;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+.backlink{display:inline-flex;align-items:center;gap:.45rem;margin-top:2.2rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:inherit;text-decoration:none;opacity:.7;transition:.2s}
+.backlink:hover{opacity:1}
+
+footer{padding:3rem 0 4rem;background:#0E0E12;color:#8B8578}
+footer .wrap{font-size:.8rem;line-height:1.7}
+footer b{color:#C9C2B4;font-weight:500}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+
+/* motion: cards cascade + titles rise + icons draw */
+.cards .card{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
+.cards.in .card{opacity:1;transform:none}
+.cards.in .card:nth-child(1){transition-delay:.05s}
+.cards.in .card:nth-child(2){transition-delay:.11s}
+.cards.in .card:nth-child(3){transition-delay:.17s}
+.cards.in .card:nth-child(4){transition-delay:.23s}
+.cards.in .card:nth-child(5){transition-delay:.29s}
+.cards.in .card:nth-child(6){transition-delay:.35s}
+.card-ic svg [pathLength]{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .9s ease .2s}
+.cards.in .card-ic svg [pathLength]{stroke-dashoffset:0}
+.field h2.reveal{transform:translateY(24px) scale(.986);filter:blur(8px);
+  transition:opacity .85s ease,transform .85s cubic-bezier(.2,.7,.25,1),filter .85s ease;transition-delay:.1s}
+.field h2.reveal.in{transform:none;filter:blur(0)}
+.sec-head .sec-ic svg [pathLength]{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.05s ease .15s}
+.sec-head.in .sec-ic svg [pathLength]{stroke-dashoffset:0}
+#top h1{animation:heroRise 1s cubic-bezier(.2,.7,.2,1) both}
+#top .hero-sub{animation:heroRise 1s cubic-bezier(.2,.7,.2,1) .12s both}
+@keyframes heroRise{from{opacity:0;transform:translateY(24px);filter:blur(7px)}to{opacity:1;transform:none;filter:blur(0)}}
+@media(prefers-reduced-motion:reduce){
+  .cards .card,.card-ic svg [pathLength],.field h2.reveal,.sec-head .sec-ic svg [pathLength],#top h1,#top .hero-sub{
+    opacity:1!important;transform:none!important;filter:none!important;animation:none!important;stroke-dashoffset:0!important}
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="brand" id="brand"><span class="cur-dot" id="curDot"></span><span id="curText">The Gospel · Six Steps</span></div>
+  <nav class="langs" aria-label="Language">
+    <button data-lang="en" aria-pressed="true">EN</button>
+    <button data-lang="ko" aria-pressed="false">한국어</button>
+    <button data-lang="zh" aria-pressed="false">中文</button>
+    <button data-lang="es" aria-pressed="false">ES</button>
+  </nav>
+  <div class="bar-progress" id="prog"></div>
+</header>
+
+<nav class="rail" aria-label="Steps"><ol id="rail"></ol></nav>
+
+<main id="app"></main>
+
+<footer><div class="wrap" id="foot"></div></footer>
+
+<script type="application/json" id="DATA">
+{
+"ui":{
+  "brand":{"en":"The Gospel · Six Steps","ko":"복음 · 여섯 단계","zh":"福音 · 六个阶段","es":"El Evangelio · Seis Pasos"},
+  "contents":{"en":"Contents · six steps","ko":"목차 · 여섯 단계","zh":"目录 · 六个阶段","es":"Contenido · seis pasos"},
+  "open":{"en":"Click","ko":"클릭","zh":"点击","es":"Clic"},
+  "soon":{"en":"Study content coming soon","ko":"본문은 곧 추가됩니다","zh":"内容即将推出","es":"Contenido en preparación"},
+  "back":{"en":"Back to contents","ko":"목차로 돌아가기","zh":"返回目录","es":"Volver al contenido"},
+  "footer":{
+    "en":"A six-part gospel study. Scripture references and study text for each step will be added from the source material. Korean, Chinese, and Spanish renderings are prepared for this study; swap in your preferred translation as needed.",
+    "ko":"여섯 과로 이루어진 복음 교재입니다. 각 단계의 성경 본문과 해설은 원자료에서 이어서 채워집니다. 한국어·중국어·스페인어 번역은 이 교재를 위해 준비한 것이며, 원하시는 역본으로 바꾸실 수 있습니다.",
+    "zh":"六课福音教材。每一阶段的经文与讲解将依原始资料陆续补充。中韩西译文为本教材所备，可按需替换为您偏好的译本。",
+    "es":"Un estudio del evangelio en seis partes. El texto y las referencias bíblicas de cada paso se añadirán a partir del material original. Las versiones en coreano, chino y español se han preparado para este estudio; puede sustituirlas por la traducción que prefiera."
+  }
+},
+
+"hero":{
+  "eyebrow":{"en":"A six-step journey through the gospel","ko":"복음을 여는 여섯 단계","zh":"通往福音的六个阶段","es":"Un recorrido del evangelio en seis pasos"},
+  "title":{"en":"Open the Gift","ko":"선물을 열다","zh":"打开礼物","es":"Abre el regalo"},
+  "sub":{"en":"The gospel: what Jesus Christ has done, and his word.","ko":"복음: 예수 그리스도가 하신 일과 그의 말씀.","zh":"福音：耶稣基督所成就的事，和他的话语。","es":"El evangelio: lo que Jesucristo ha hecho, y su palabra."},
+  "intro":{"en":"When someone gives a gift, the one who receives it only sees the real gift after peeling off the wrapping and opening the box. However good the gift is, if you take no interest and never open it, you can never know what is inside. Through these six steps of the gospel, we set out to see the precious gift God gives — and what he has done.","ko":"선물을 주면 받은 사람은 포장지를 벗기고 상자를 열고 나서야 비로소 그 안의 진짜 선물을 보게 된다. 아무리 좋은 선물이라도 관심이 없고 또 뜯어보지 않는다면 무엇이 그 안에 있는지 알 수 없다. 하나님께서 주시고 하시는 귀한 선물을 복음 여섯 단계를 통하여 알아보고자 한다.","zh":"送礼时，收礼的人只有在拆开包装、打开盒子之后，才能看见里面真正的礼物。无论礼物多么好，若毫不在意、从不打开，就无法知道里面是什么。我们要通过福音的六个阶段，认识神所赐、所成就的宝贵礼物。","es":"Cuando alguien da un regalo, quien lo recibe solo ve el verdadero regalo después de quitar el envoltorio y abrir la caja. Por muy bueno que sea, si no te interesa y nunca lo abres, jamás sabrás qué hay dentro. A través de estos seis pasos del evangelio, queremos ver el precioso regalo que Dios nos da — y lo que él ha hecho."}
+},
+
+"steps":[
+ {
+  "id":"step-1","numeral":"01","dot":"#8B9BEC","field":"#262C5C","fg":"#ECECF8",
+  "title":{"en":"The Spiritual World","ko":"영의 세계","zh":"灵的世界","es":"El mundo espiritual"},
+  "sub":{"en":"Spiritual World","ko":"Spiritual World","zh":"Spiritual World","es":"Spiritual World"},
+  "teaser":{"en":"There is a reality you cannot see.","ko":"보이지 않는 실재가 있다.","zh":"有一个你看不见的实在。","es":"Hay una realidad que no puedes ver."}
+ },
+ {
+  "id":"step-2","numeral":"02","dot":"#5CC2A0","field":"#14615A","fg":"#E9F6F0",
+  "title":{"en":"The Human Being","ko":"인간","zh":"人","es":"El ser humano"},
+  "sub":{"en":"Living Being","ko":"Living Being","zh":"Living Being","es":"Living Being"},
+  "teaser":{"en":"You were made to carry the breath of God.","ko":"당신은 하나님의 숨을 담도록 지어졌다.","zh":"你被造，是为了承载神的气息。","es":"Fuiste hecho para llevar el aliento de Dios."}
+ },
+ {
+  "id":"step-3","numeral":"03","dot":"#E28275","field":"#832B2D","fg":"#F8E7E3",
+  "title":{"en":"Sin","ko":"죄","zh":"罪","es":"El pecado"},
+  "sub":{"en":"Sin","ko":"Sin","zh":"Sin","es":"Sin"},
+  "teaser":{"en":"One break cut us off from the source.","ko":"한 번의 단절이 근원에서 우리를 끊어 놓았다.","zh":"一次断裂，把我们与源头隔开。","es":"Una ruptura nos separó de la fuente."}
+ },
+ {
+  "id":"step-4","numeral":"04","dot":"#DDA457","field":"#6E3F1F","fg":"#F7ECDC",
+  "title":{"en":"Redemption","ko":"속죄","zh":"救赎","es":"La redención"},
+  "sub":{"en":"Redemption","ko":"Redemption","zh":"Redemption","es":"Redemption"},
+  "teaser":{"en":"A price was paid to buy you back.","ko":"당신을 되사기 위해 값이 치러졌다.","zh":"有一个代价被付上，把你赎回。","es":"Se pagó un precio para rescatarte."}
+ },
+ {
+  "id":"step-5","numeral":"05","dot":"#E4A0C2","field":"#7C3B60","fg":"#F8E8F1",
+  "title":{"en":"Grace","ko":"은혜","zh":"恩典","es":"La gracia"},
+  "sub":{"en":"Grace","ko":"Grace","zh":"Grace","es":"Grace"},
+  "teaser":{"en":"A gift you could never earn.","ko":"결코 스스로 얻을 수 없는 선물.","zh":"一份你永远无法赚得的礼物。","es":"Un regalo que jamás podrías ganar."}
+ },
+ {
+  "id":"step-6","numeral":"06","dot":"#E9C46A","field":"#D9B24A","fg":"#2A2312",
+  "title":{"en":"Faith","ko":"믿음","zh":"信","es":"La fe"},
+  "sub":{"en":"What I Believe","ko":"What I Believe","zh":"What I Believe","es":"What I Believe"},
+  "teaser":{"en":"Open the box. Receive it.","ko":"상자를 열라. 받으라.","zh":"打开盒子，领受它。","es":"Abre la caja. Recíbelo."}
+ }
+]
+}
+</script>
+
+<script>
+(function(){
+"use strict";
+var D = JSON.parse(document.getElementById("DATA").textContent);
+var lang = "en";
+var esc = function(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");};
+var L = function(o){ if(!o) return ""; return o[lang] || o.en || ""; };
+
+/* line icons — normalise every stroke to length 1 so it can draw itself */
+var pl = function(s){ return s.replace(/<(path|circle|rect|line|polyline|polygon|ellipse) /g,'<$1 pathLength="1" '); };
+var ICONP = {
+  "step-1":'<circle cx="12" cy="12" r="8.4"/><circle cx="12" cy="12" r="2.4"/><path d="M12 3.6v2.4M12 18v2.4M3.6 12H6M18 12h2.4M6.1 6.1l1.7 1.7M16.2 16.2l1.7 1.7M17.9 6.1l-1.7 1.7M7.8 16.2l-1.7 1.7"/>',
+  "step-2":'<circle cx="12" cy="6.6" r="3.1"/><path d="M6 20a6 6 0 0 1 12 0"/><path d="M12 9.7v3.1"/>',
+  "step-3":'<path d="M11.2 8H8.6a3.6 3.6 0 0 0 0 7h2.6"/><path d="M12.8 8h2.6a3.6 3.6 0 0 1 0 7h-2.6"/><path d="M7.2 6.2l1.5 1.6M16.8 6.2l-1.5 1.6"/>',
+  "step-4":'<path d="M12 3v18M7.5 8.5h9"/>',
+  "step-5":'<rect x="4" y="9.5" width="16" height="10.5" rx="1"/><path d="M4 13h16M12 9.5V20"/><path d="M12 9.5C10.6 9.5 8.7 9 8.7 7.2 8.7 6 9.6 5.6 10.3 5.6c1.4 0 1.7 1.9 1.7 3.9M12 9.5c1.4 0 3.3-.5 3.3-2.3 0-1.2-.9-1.6-1.6-1.6-1.4 0-1.7 1.9-1.7 3.9"/>',
+  "step-6":'<path d="M4.5 12.5V20h15v-7.5"/><path d="M3 12.5l3-2.5h12l3 2.5"/><path d="M12 9.5V3M9.4 5.2 12 2.7l2.6 2.5"/>'
+};
+var ICON = function(id){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+pl(ICONP[id]||'')+'</svg>';
+};
+
+function cards(){
+  var h = '<div class="cards-head">'+esc(L(D.ui.contents))+'</div><div class="cards">';
+  D.steps.forEach(function(s){
+    h += '<a class="card" href="#'+s.id+'" style="--dot:'+s.dot+'">'
+       + '<div class="card-top"><span class="card-num">'+s.numeral+'</span><span class="card-ic">'+ICON(s.id)+'</span></div>'
+       + '<h3 class="card-title">'+esc(L(s.title))+'</h3>'
+       + '<div class="card-rule"></div>'
+       + '<p class="card-sub">'+esc(L(s.sub))+'</p>'
+       + '<p class="card-teaser">'+esc(L(s.teaser))+'</p>'
+       + '<span class="card-go">'+esc(L(D.ui.open))+' <span class="arw">&#8594;</span></span>'
+       + '</a>';
+  });
+  return h + '</div>';
+}
+
+function render(){
+  document.documentElement.lang = lang;
+  document.getElementById("curText").textContent = L(D.ui.brand);
+  document.getElementById("foot").innerHTML = '<b>'+esc(L(D.hero.title))+'</b><br>'+esc(L(D.ui.footer));
+
+  var h = '';
+  /* hero + contents */
+  h += '<section class="field" id="top"><div class="wrap"><div class="hero-grid">'
+     + '<div class="hero-left">'
+     + '<p class="eyebrow">'+esc(L(D.hero.eyebrow))+'</p>'
+     + '<h1>'+esc(L(D.hero.title))+'</h1>'
+     + '<p class="hero-sub">'+esc(L(D.hero.sub))+'</p>'
+     + '<p class="hero-intro">'+esc(L(D.hero.intro))+'</p>'
+     + '</div>'
+     + '<div class="hero-right">'+cards()+'</div>'
+     + '</div></div></section>';
+
+  /* step opener sections */
+  D.steps.forEach(function(s){
+    h += '<section class="field" id="'+s.id+'" style="--field:'+s.field+';--fg:'+s.fg+';--dot:'+s.dot+'"><div class="wrap">'
+       + '<div class="sec-head reveal"><span class="sec-ic">'+ICON(s.id)+'</span>'
+       + '<div><span class="numeral">'+s.numeral+'</span>'
+       + '<div class="thread-tag"><i></i>'+esc(L(s.sub))+'</div></div></div>'
+       + '<h2 class="reveal">'+esc(L(s.title))+'</h2>'
+       + '<p class="lead reveal">'+esc(L(s.teaser))+'</p>'
+       + '<div class="soon reveal"><i></i>'+esc(L(D.ui.soon))+'</div>'
+       + '<br><a class="backlink" href="#top">&#8593; '+esc(L(D.ui.back))+'</a>'
+       + '</div></section>';
+  });
+
+  document.getElementById("app").innerHTML = h;
+
+  /* rail */
+  document.getElementById("rail").innerHTML = D.steps.map(function(s){
+    return '<li data-sec="'+s.id+'" style="--dot:'+s.dot+'"><a href="#'+s.id+'">'+esc(L(s.title))+'</a></li>';
+  }).join("");
+
+  wire();
+}
+
+function wire(){
+  /* reveal */
+  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+    },{threshold:.12});
+    document.querySelectorAll(".reveal, .cards, .sec-head").forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll(".reveal, .cards, .sec-head").forEach(function(el){ el.classList.add("in"); });
+  }
+
+  /* scroll spy: progress + rail + top-bar indicator */
+  var items = Array.prototype.slice.call(document.querySelectorAll("#rail li"));
+  var prog = document.getElementById("prog");
+  var curDot = document.getElementById("curDot");
+  var curText = document.getElementById("curText");
+  var brandTitle = L(D.ui.brand);
+  var marks = D.steps.map(function(s){
+    return {el:document.getElementById(s.id), dot:s.dot, label:s.numeral+" · "+L(s.title)};
+  });
+  function onScroll(){
+    var y = window.scrollY || window.pageYOffset;
+    var docH = document.body.scrollHeight - window.innerHeight;
+    prog.style.width = (docH>0 ? Math.min(100,(y/docH)*100) : 0) + "%";
+    var active = -1;
+    marks.forEach(function(m,i){ if(m.el && m.el.offsetTop <= y + window.innerHeight*0.35) active = i; });
+    items.forEach(function(li,i){ li.setAttribute("data-on", i===active ? "1":"0"); });
+    prog.style.color = active>=0 ? marks[active].dot : "#8B9BEC";
+    if(active>=0){
+      curDot.style.background = marks[active].dot;
+      curDot.style.opacity = "1";
+      curText.textContent = marks[active].label;
+    } else {
+      curDot.style.opacity = "0";
+      curText.textContent = brandTitle;
+    }
+  }
+  window.removeEventListener("scroll", window.__spy || function(){});
+  window.__spy = onScroll;
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+}
+
+/* language buttons */
+document.querySelectorAll(".langs button").forEach(function(b){
+  b.addEventListener("click", function(){
+    lang = b.getAttribute("data-lang");
+    document.querySelectorAll(".langs button").forEach(function(x){
+      x.setAttribute("aria-pressed", x===b ? "true":"false");
+    });
+    var y = window.scrollY;
+    render();
+    window.scrollTo(0,y);
+  });
+});
+
+render();
+})();
+</script>
+</body>
+</html>
