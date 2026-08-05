@@ -314,6 +314,29 @@ function cosmos(canvas){
   if(reduce){ draw(0); } else { raf = requestAnimationFrame(loop); }
 }
 
+/* ---------- cinematic intro parallax (fly-through + fade on scroll) ---------- */
+function introMotion(){
+  var intro = document.getElementById("intro"); if(!intro) return;
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var inner = intro.querySelector(".intro-inner");
+  var stars = document.getElementById("stars");
+  var neb = intro.querySelector(".intro-neb");
+  var cue = document.getElementById("introScroll");
+  var ticking = false;
+  function upd(){
+    ticking = false;
+    var vh = window.innerHeight || 1;
+    var p = Math.min(1, Math.max(0, (window.scrollY||window.pageYOffset||0) / vh));
+    if(inner){ inner.style.transform = "translateY("+(-p*64)+"px)"; inner.style.opacity = String(Math.max(0,1-p*1.28)); }
+    if(stars){ stars.style.transform = "scale("+(1+p*0.2)+")"; stars.style.opacity = String(Math.max(0,1-p*0.9)); }
+    if(neb){ neb.style.opacity = String(Math.max(0,1-p*0.95)); }
+    if(cue){ cue.style.opacity = p>0.02 ? String(Math.max(0,0.82-p*1.6)) : ""; }
+  }
+  window.addEventListener("scroll", function(){ if(!ticking){ ticking=true; requestAnimationFrame(upd); } }, {passive:true});
+  window.addEventListener("resize", upd);
+  upd();
+}
+
 /* ---------- public API ---------- */
 window.G = {
   data: SITE,
@@ -329,6 +352,7 @@ window.G = {
       });
     });
     paint(page);
+    introMotion();
   }
 };
 })();
