@@ -117,7 +117,18 @@ p{margin:0 0 1.15rem;max-width:60ch}
 .card-title{font-family:var(--display);font-weight:500;font-size:clamp(1.2rem,1.02rem + .7vw,1.42rem);line-height:1.14;margin:0;overflow-wrap:break-word;hyphens:auto}
 .card-rule{width:26px;height:2px;background:var(--dot);opacity:.7;margin:.65rem 0 .6rem}
 .card-sub{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin:0}
-.card-teaser{font-size:.86rem;line-height:1.5;opacity:.82;margin:.7rem 0 1rem;flex:1 1 auto}
+.card-teaser{font-size:.86rem;line-height:1.5;opacity:.82;margin:.7rem 0 .2rem}
+.points{list-style:none;margin:.85rem 0 0;padding:0;display:grid;gap:.42rem}
+.points li{position:relative;padding-left:.95rem;font-size:.8rem;line-height:1.4;opacity:.84}
+.points li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:2px;background:var(--dot);border-radius:2px}
+.card .points{margin-bottom:auto}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:.55rem;flex-wrap:wrap;margin-top:1.1rem}
+.card-meta{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;opacity:.5}
+.stage-meta{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-top:.5rem}
+.stage-sub{font-family:var(--mono);font-weight:400;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin:2.2rem 0 .1rem}
+.points-lg{gap:.7rem;margin-top:1.2rem;max-width:52ch}
+.points-lg li{padding-left:1.5rem;font-size:clamp(.98rem,2.4vw,1.1rem);line-height:1.5;opacity:.94}
+.points-lg li::before{top:.72em;width:13px;height:2px}
 .card-go{display:inline-flex;align-items:center;align-self:flex-start;gap:.45rem;
   font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--dot);background:color-mix(in srgb,var(--dot) 14%,transparent);
@@ -197,7 +208,9 @@ footer b{color:#C9C2B4;font-weight:500}
   "brand":{"en":"The Gospel · Six Steps","ko":"복음 · 여섯 단계","zh":"福音 · 六个阶段","es":"El Evangelio · Seis Pasos"},
   "contents":{"en":"Contents · six steps","ko":"목차 · 여섯 단계","zh":"目录 · 六个阶段","es":"Contenido · seis pasos"},
   "open":{"en":"Click","ko":"클릭","zh":"点击","es":"Clic"},
-  "soon":{"en":"Study content coming soon","ko":"본문은 곧 추가됩니다","zh":"内容即将推出","es":"Contenido en preparación"},
+  "lessons":{"en":"lessons","ko":"과","zh":"课","es":"lecciones"},
+  "inStage":{"en":"In this stage","ko":"이 단계에서 배우는 것","zh":"本阶段学习","es":"En esta etapa"},
+  "soon":{"en":"Full study content coming soon","ko":"상세 본문은 곧 추가됩니다","zh":"详细内容即将推出","es":"Contenido detallado en preparación"},
   "back":{"en":"Back to contents","ko":"목차로 돌아가기","zh":"返回目录","es":"Volver al contenido"},
   "footer":{
     "en":"A six-part gospel study. Scripture references and study text for each step will be added from the source material. Korean, Chinese, and Spanish renderings are prepared for this study; swap in your preferred translation as needed.",
@@ -216,40 +229,76 @@ footer b{color:#C9C2B4;font-weight:500}
 
 "steps":[
  {
-  "id":"step-1","numeral":"01","dot":"#8B9BEC","field":"#262C5C","fg":"#ECECF8",
+  "id":"step-1","numeral":"01","dot":"#8B9BEC","field":"#262C5C","fg":"#ECECF8","nl":4,"range":"1.1–1.4",
   "title":{"en":"The Spiritual World","ko":"영의 세계","zh":"灵的世界","es":"El mundo espiritual"},
   "sub":{"en":"Spiritual World","ko":"Spiritual World","zh":"Spiritual World","es":"Spiritual World"},
-  "teaser":{"en":"There is a reality you cannot see.","ko":"보이지 않는 실재가 있다.","zh":"有一个你看不见的实在。","es":"Hay una realidad que no puedes ver."}
+  "teaser":{"en":"There is a reality you cannot see.","ko":"보이지 않는 실재가 있다.","zh":"有一个你看不见的实在。","es":"Hay una realidad que no puedes ver."},
+  "points":[
+   {"en":"Two worlds — the seen and the unseen","ko":"두 세계 — 보이는 것과 보이지 않는 것","zh":"两个世界——看得见的与看不见的","es":"Dos mundos: lo visible y lo invisible"},
+   {"en":"Created, or evolved?","ko":"창조인가, 진화인가?","zh":"是受造，还是进化？","es":"¿Creado o evolucionado?"},
+   {"en":"Who is God?","ko":"하나님은 누구신가?","zh":"神是谁？","es":"¿Quién es Dios?"},
+   {"en":"The heavens and the spiritual realm","ko":"하늘과 영의 세계","zh":"诸天与灵界","es":"Los cielos y el mundo espiritual"}
+  ]
  },
  {
-  "id":"step-2","numeral":"02","dot":"#5CC2A0","field":"#14615A","fg":"#E9F6F0",
+  "id":"step-2","numeral":"02","dot":"#5CC2A0","field":"#14615A","fg":"#E9F6F0","nl":4,"range":"2.1–2.4",
   "title":{"en":"The Human Being","ko":"인간","zh":"人","es":"El ser humano"},
   "sub":{"en":"Living Being","ko":"Living Being","zh":"Living Being","es":"Living Being"},
-  "teaser":{"en":"You were made to carry the breath of God.","ko":"당신은 하나님의 숨을 담도록 지어졌다.","zh":"你被造，是为了承载神的气息。","es":"Fuiste hecho para llevar el aliento de Dios."}
+  "teaser":{"en":"You were made to carry the breath of God.","ko":"당신은 하나님의 숨을 담도록 지어졌다.","zh":"你被造，是为了承载神的气息。","es":"Fuiste hecho para llevar el aliento de Dios."},
+  "points":[
+   {"en":"Who am I, really?","ko":"진짜 ‘나’는 누구인가?","zh":"真正的“我”是谁？","es":"¿Quién soy yo en verdad?"},
+   {"en":"Body, soul, and spirit","ko":"몸과 혼과 영","zh":"身体、魂与灵","es":"Cuerpo, alma y espíritu"},
+   {"en":"Life after death","ko":"죽음 이후의 삶","zh":"死后的生命","es":"La vida después de la muerte"},
+   {"en":"The resurrection","ko":"부활","zh":"复活","es":"La resurrección"}
+  ]
  },
  {
-  "id":"step-3","numeral":"03","dot":"#E28275","field":"#832B2D","fg":"#F8E7E3",
+  "id":"step-3","numeral":"03","dot":"#E28275","field":"#832B2D","fg":"#F8E7E3","nl":4,"range":"3.1–3.4",
   "title":{"en":"Sin","ko":"죄","zh":"罪","es":"El pecado"},
   "sub":{"en":"Sin","ko":"Sin","zh":"Sin","es":"Sin"},
-  "teaser":{"en":"One break cut us off from the source.","ko":"한 번의 단절이 근원에서 우리를 끊어 놓았다.","zh":"一次断裂，把我们与源头隔开。","es":"Una ruptura nos separó de la fuente."}
+  "teaser":{"en":"One break cut us off from the source.","ko":"한 번의 단절이 근원에서 우리를 끊어 놓았다.","zh":"一次断裂，把我们与源头隔开。","es":"Una ruptura nos separó de la fuente."},
+  "points":[
+   {"en":"What sin is, and where it began","ko":"죄란 무엇이며 어디서 시작됐나","zh":"罪是什么，从何而来","es":"Qué es el pecado y dónde comenzó"},
+   {"en":"The price of sin","ko":"죄의 값","zh":"罪的代价","es":"El precio del pecado"},
+   {"en":"The kinds of sin","ko":"죄의 종류","zh":"罪的种类","es":"Las clases de pecado"},
+   {"en":"Is sin inherited?","ko":"죄는 유전되는가?","zh":"罪会遗传吗？","es":"¿Se hereda el pecado?"}
+  ]
  },
  {
-  "id":"step-4","numeral":"04","dot":"#DDA457","field":"#6E3F1F","fg":"#F7ECDC",
+  "id":"step-4","numeral":"04","dot":"#DDA457","field":"#6E3F1F","fg":"#F7ECDC","nl":4,"range":"4.1–4.4",
   "title":{"en":"Redemption","ko":"속죄","zh":"救赎","es":"La redención"},
   "sub":{"en":"Redemption","ko":"Redemption","zh":"Redemption","es":"Redemption"},
-  "teaser":{"en":"A price was paid to buy you back.","ko":"당신을 되사기 위해 값이 치러졌다.","zh":"有一个代价被付上，把你赎回。","es":"Se pagó un precio para rescatarte."}
+  "teaser":{"en":"A price was paid to buy you back.","ko":"당신을 되사기 위해 값이 치러졌다.","zh":"有一个代价被付上，把你赎回。","es":"Se pagó un precio para rescatarte."},
+  "points":[
+   {"en":"What redemption means","ko":"속죄란 무엇인가","zh":"救赎的意义","es":"Qué significa la redención"},
+   {"en":"Why and how it was done","ko":"왜, 어떻게 이루어졌나","zh":"为何、如何成就","es":"Por qué y cómo se hizo"},
+   {"en":"The cross: it is finished","ko":"십자가 — 다 이루었다","zh":"十字架——成了","es":"La cruz: consumado es"},
+   {"en":"Christianity is not a religion","ko":"기독교는 종교가 아니다","zh":"基督教不是宗教","es":"El cristianismo no es una religión"}
+  ]
  },
  {
-  "id":"step-5","numeral":"05","dot":"#E4A0C2","field":"#7C3B60","fg":"#F8E8F1",
+  "id":"step-5","numeral":"05","dot":"#E4A0C2","field":"#7C3B60","fg":"#F8E8F1","nl":3,"range":"5.1–5.3",
   "title":{"en":"Grace","ko":"은혜","zh":"恩典","es":"La gracia"},
   "sub":{"en":"Grace","ko":"Grace","zh":"Grace","es":"Grace"},
-  "teaser":{"en":"A gift you could never earn.","ko":"결코 스스로 얻을 수 없는 선물.","zh":"一份你永远无法赚得的礼物。","es":"Un regalo que jamás podrías ganar."}
+  "teaser":{"en":"A gift you could never earn.","ko":"결코 스스로 얻을 수 없는 선물.","zh":"一份你永远无法赚得的礼物。","es":"Un regalo que jamás podrías ganar."},
+  "points":[
+   {"en":"What grace means","ko":"은혜란 무엇인가","zh":"恩典的意义","es":"Qué significa la gracia"},
+   {"en":"The content of grace","ko":"은혜의 내용","zh":"恩典的内涵","es":"El contenido de la gracia"},
+   {"en":"The purpose of grace","ko":"은혜의 목적","zh":"恩典的目的","es":"El propósito de la gracia"},
+   {"en":"Living and testifying grace","ko":"은혜를 살아내고 증거함","zh":"活出并见证恩典","es":"Vivir y testificar la gracia"}
+  ]
  },
  {
-  "id":"step-6","numeral":"06","dot":"#E9C46A","field":"#D9B24A","fg":"#2A2312",
+  "id":"step-6","numeral":"06","dot":"#E9C46A","field":"#D9B24A","fg":"#2A2312","nl":4,"range":"6.1–6.4",
   "title":{"en":"Faith","ko":"믿음","zh":"信","es":"La fe"},
   "sub":{"en":"What I Believe","ko":"What I Believe","zh":"What I Believe","es":"What I Believe"},
-  "teaser":{"en":"Open the box. Receive it.","ko":"상자를 열라. 받으라.","zh":"打开盒子，领受它。","es":"Abre la caja. Recíbelo."}
+  "teaser":{"en":"Open the box. Receive it.","ko":"상자를 열라. 받으라.","zh":"打开盒子，领受它。","es":"Abre la caja. Recíbelo."},
+  "points":[
+   {"en":"What faith is, and where it comes from","ko":"믿음이란 무엇이며 어디서 오는가","zh":"信心是什么，从何而来","es":"Qué es la fe y de dónde viene"},
+   {"en":"The kinds of faith","ko":"믿음의 종류","zh":"信心的种类","es":"Las clases de fe"},
+   {"en":"The object of faith","ko":"믿음의 대상","zh":"信心的对象","es":"El objeto de la fe"},
+   {"en":"Believe and receive","ko":"믿고 받으라","zh":"相信并领受","es":"Cree y recibe"}
+  ]
  }
 ]
 }
@@ -277,6 +326,15 @@ var ICON = function(id){
   return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+pl(ICONP[id]||'')+'</svg>';
 };
 
+function lessonsLabel(s){
+  var w = L(D.ui.lessons), sep = (lang==="ko"||lang==="zh") ? "" : " ";
+  return s.nl + sep + w + " · " + s.range;
+}
+function pointsList(s,cls){
+  var h = '<ul class="points'+(cls?" "+cls:"")+'">';
+  s.points.forEach(function(p){ h += '<li>'+esc(L(p))+'</li>'; });
+  return h + '</ul>';
+}
 function cards(){
   var h = '<div class="cards-head">'+esc(L(D.ui.contents))+'</div><div class="cards">';
   D.steps.forEach(function(s){
@@ -284,9 +342,10 @@ function cards(){
        + '<div class="card-top"><span class="card-num">'+s.numeral+'</span><span class="card-ic">'+ICON(s.id)+'</span></div>'
        + '<h3 class="card-title">'+esc(L(s.title))+'</h3>'
        + '<div class="card-rule"></div>'
-       + '<p class="card-sub">'+esc(L(s.sub))+'</p>'
        + '<p class="card-teaser">'+esc(L(s.teaser))+'</p>'
-       + '<span class="card-go">'+esc(L(D.ui.open))+' <span class="arw">&#8594;</span></span>'
+       + pointsList(s,"")
+       + '<div class="card-foot"><span class="card-meta">'+esc(lessonsLabel(s))+'</span>'
+       + '<span class="card-go">'+esc(L(D.ui.open))+' <span class="arw">&#8594;</span></span></div>'
        + '</a>';
   });
   return h + '</div>';
@@ -317,6 +376,9 @@ function render(){
        + '<div class="thread-tag"><i></i>'+esc(L(s.sub))+'</div></div></div>'
        + '<h2 class="reveal">'+esc(L(s.title))+'</h2>'
        + '<p class="lead reveal">'+esc(L(s.teaser))+'</p>'
+       + '<div class="stage-meta reveal">'+esc(lessonsLabel(s))+'</div>'
+       + '<h3 class="stage-sub reveal">'+esc(L(D.ui.inStage))+'</h3>'
+       + pointsList(s,"points-lg reveal")
        + '<div class="soon reveal"><i></i>'+esc(L(D.ui.soon))+'</div>'
        + '<br><a class="backlink" href="#top">&#8593; '+esc(L(D.ui.back))+'</a>'
        + '</div></section>';
