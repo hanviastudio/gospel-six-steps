@@ -6,19 +6,22 @@
 <title>Redemption — The Gospel in Six Stages</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Figtree:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Figtree:wght@300;400;500;600&family=Inter:wght@400;500;600;800;900&family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="common.css">
 </head>
 <body>
 
 <header class="bar">
-  <a class="brand" id="brand" href="index.html"><span class="cur-dot" id="curDot"></span><span id="curText">The Gospel · Six Steps</span></a>
-  <nav class="langs" aria-label="Language">
-    <button data-lang="en" aria-pressed="true">EN</button>
-    <button data-lang="ko" aria-pressed="false">한국어</button>
-    <button data-lang="zh" aria-pressed="false">中文</button>
-    <button data-lang="es" aria-pressed="false">ES</button>
-  </nav>
+  <a class="brand" id="brand" href="index.html"><span class="cur-dot" id="curDot"></span><span id="curText">Church of Jesus</span></a>
+  <div class="bar-right">
+    <nav class="langs" aria-label="Language">
+      <button data-lang="en" aria-pressed="true">EN</button>
+      <button data-lang="ko" aria-pressed="false">한국어</button>
+      <button data-lang="zh" aria-pressed="false">中文</button>
+      <button data-lang="es" aria-pressed="false">ES</button>
+    </nav>
+    <a class="nav-contact" id="navContact" href="mailto:mjcojhan@gmail.com">Contact <span aria-hidden="true">&#8599;</span></a>
+  </div>
   <div class="bar-progress" id="prog"></div>
 </header>
 
@@ -29,7 +32,6 @@
 <footer><div class="wrap" id="foot"></div></footer>
 
 <script src="common.js"></script>
-<!-- Later: add detailed lesson body via  <script src="content/step-5.js"></script>  (sets window.CHAPTER + window.renderChapterBody) -->
 <script>G.init({page:"step-5"});</script>
 </body>
 </html>

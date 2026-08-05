@@ -9,7 +9,9 @@
    ============================================================ */
 var SITE = {
 "ui":{
-  "brand":{"en":"The Gospel · Six Steps","ko":"복음 · 여섯 단계","zh":"福音 · 六个阶段","es":"El Evangelio · Seis Pasos"},
+  "brand":{"en":"Church of Jesus","ko":"Church of Jesus","zh":"Church of Jesus","es":"Church of Jesus"},
+  "contact":{"en":"Contact","ko":"연락처","zh":"联系","es":"Contacto"},
+  "overview":{"en":"Overview","ko":"개요","zh":"概述","es":"Resumen"},
   "contents":{"en":"Contents · six steps","ko":"목차 · 여섯 단계","zh":"目录 · 六个阶段","es":"Contenido · seis pasos"},
   "open":{"en":"Click","ko":"클릭","zh":"点击","es":"Clic"},
   "lessons":{"en":"lessons","ko":"과","zh":"课","es":"lecciones"},
@@ -32,9 +34,9 @@ var SITE = {
   "intro":{"en":"When someone gives a gift, the one who receives it only sees the real gift after peeling off the wrapping and opening the box. However good the gift is, if you take no interest and never open it, you can never know what is inside. Through these six steps of the gospel, we set out to see the precious gift God gives — and what he has done.","ko":"선물을 주면 받은 사람은 포장지를 벗기고 상자를 열고 나서야 비로소 그 안의 진짜 선물을 보게 된다. 아무리 좋은 선물이라도 관심이 없고 또 뜯어보지 않는다면 무엇이 그 안에 있는지 알 수 없다. 하나님께서 주시고 하시는 귀한 선물을 복음 여섯 단계를 통하여 알아보고자 한다.","zh":"送礼时，收礼的人只有在拆开包装、打开盒子之后，才能看见里面真正的礼物。无论礼物多么好，若毫不在意、从不打开，就无法知道里面是什么。我们要通过福音的六个阶段，认识神所赐、所成就的宝贵礼物。","es":"Cuando alguien da un regalo, quien lo recibe solo ve el verdadero regalo después de quitar el envoltorio y abrir la caja. Por muy bueno que sea, si no te interesa y nunca lo abres, jamás sabrás qué hay dentro. A través de estos seis pasos del evangelio, queremos ver el precioso regalo que Dios nos da — y lo que él ha hecho."}
 },
 "intro":{
-  "kicker":{"en":"Church of Jesus","ko":"Church of Jesus","zh":"Church of Jesus","es":"Church of Jesus"},
   "title":{"en":"The Gospel in Six Stages","ko":"복음, 여섯 단계","zh":"福音的六个阶段","es":"El Evangelio en Seis Etapas"},
-  "scroll":{"en":"Scroll down","ko":"아래로 스크롤","zh":"向下滚动","es":"Desliza hacia abajo"}
+  "overview":{"en":"A six-stage journey through the gospel — from the unseen spiritual world to the faith that opens the gift.","ko":"복음을 여는 여섯 단계 — 보이지 않는 영의 세계에서, 선물을 여는 믿음에 이르기까지.","zh":"通往福音的六个阶段——从看不见的灵界，到那打开礼物的信心。","es":"Un recorrido del evangelio en seis etapas — del mundo espiritual invisible a la fe que abre el regalo."},
+  "scroll":{"en":"Scroll","ko":"스크롤","zh":"滚动","es":"Desliza"}
 },
 "steps":[
  {"id":"step-1","numeral":"01","dot":"#8B9BEC","field":"#262C5C","fg":"#ECECF8","nl":4,"range":"1.1–1.4",
@@ -226,9 +228,11 @@ function wireSpy(page){
     if(curText) curText.textContent = L(SITE.ui.brand);
     if(prog) prog.style.color = "#8B9BEC";
   }
+  var bar = document.querySelector(".bar");
   function onScroll(){
-    if(!prog) return;
     var y = window.scrollY || window.pageYOffset;
+    if(bar) bar.classList.toggle("scrolled", y > 40);
+    if(!prog) return;
     var docH = document.body.scrollHeight - window.innerHeight;
     prog.style.width = (docH>0 ? Math.min(100,(y/docH)*100) : 0) + "%";
   }
@@ -246,9 +250,12 @@ function paint(page){
   var it = document.getElementById("introTitle");
   if(it){
     it.textContent = L(SITE.intro.title);
-    var ik = document.getElementById("introKicker"); if(ik) ik.textContent = L(SITE.intro.kicker);
     var isc = document.getElementById("scrollText"); if(isc) isc.textContent = L(SITE.intro.scroll);
+    var ov = document.getElementById("introOverview"); if(ov) ov.textContent = L(SITE.intro.overview);
+    var ovl = document.getElementById("introOverviewLabel"); if(ovl) ovl.textContent = L(SITE.ui.overview);
   }
+  var ct = document.getElementById("navContact");
+  if(ct) ct.firstChild.textContent = L(SITE.ui.contact) + " ";
   if(page==="landing") renderLanding(); else renderChapter(page);
   buildRail(page);
   applyLangButtons();
@@ -321,7 +328,8 @@ function introMotion(){
   var inner = intro.querySelector(".intro-inner");
   var stars = document.getElementById("stars");
   var neb = intro.querySelector(".intro-neb");
-  var cue = document.getElementById("introScroll");
+  var foot = intro.querySelector(".intro-foot");
+  var guides = intro.querySelector(".intro-guides");
   var ticking = false;
   function upd(){
     ticking = false;
@@ -330,7 +338,8 @@ function introMotion(){
     if(inner){ inner.style.transform = "translateY("+(-p*64)+"px)"; inner.style.opacity = String(Math.max(0,1-p*1.28)); }
     if(stars){ stars.style.transform = "scale("+(1+p*0.2)+")"; stars.style.opacity = String(Math.max(0,1-p*0.9)); }
     if(neb){ neb.style.opacity = String(Math.max(0,1-p*0.95)); }
-    if(cue){ cue.style.opacity = p>0.02 ? String(Math.max(0,0.82-p*1.6)) : ""; }
+    if(guides){ guides.style.opacity = String(Math.max(0,1-p*1.2)); }
+    if(foot){ foot.style.opacity = String(Math.max(0,1-p*1.35)); foot.style.transform = "translateY("+(p*30)+"px)"; }
   }
   window.addEventListener("scroll", function(){ if(!ticking){ ticking=true; requestAnimationFrame(upd); } }, {passive:true});
   window.addEventListener("resize", upd);
