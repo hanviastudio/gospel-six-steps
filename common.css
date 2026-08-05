@@ -116,7 +116,10 @@ p{margin:0 0 1.15rem;max-width:60ch}
 @media(prefers-reduced-motion:reduce){.intro-scroll .chev svg,.intro-inner,.intro-scroll{animation:none!important}}
 
 /* ---------- hero / contents ---------- */
-#top{background:var(--ink);color:var(--paper);padding-top:clamp(4.5rem,9vw,6.5rem)}
+#top{background:var(--ink);color:var(--paper);min-height:100svh;display:flex;align-items:center;
+  padding-top:clamp(5rem,9vw,6.5rem);padding-bottom:clamp(3rem,6vw,4.5rem)}
+#top > .wrap{width:var(--wide)}
+footer{scroll-snap-align:end}
 .hero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(2rem,5vw,4.5rem);align-items:start}
 @media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:2.5rem}}
 .hero-sub{font-family:var(--display);font-weight:300;font-size:clamp(1.2rem,3vw,1.5rem);line-height:1.45;color:#E9C46A;max-width:26ch;margin:0 0 1.6rem}
