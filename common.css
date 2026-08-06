@@ -249,6 +249,22 @@ footer{scroll-snap-align:end}
 .dia-t{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin-bottom:1.1rem}
 .dia .tile{border-top:2px solid color-mix(in srgb,var(--dot) 46%,transparent)}
 
+/* clean chapter header kicker */
+.ch-kicker{display:flex;align-items:center;gap:.7rem;margin-bottom:1.15rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mark)}
+.ch-ic{width:27px;height:27px;flex:none;color:var(--mark)}
+.ch-ic svg{width:100%;height:100%;display:block}
+.ch-num{font-weight:700;letter-spacing:.1em}
+.ch-sep{opacity:.45}
+.ch-sub{opacity:.85}
+/* lesson divider inside the body */
+.lesson-mark{display:flex;align-items:center;gap:.85rem;margin:3.8rem 0 1.2rem;scroll-margin-top:84px}
+.lesson-mark .lm-n{flex:none;font-family:var(--mono);font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mark);
+  border:1px solid color-mix(in srgb,var(--mark) 55%,transparent);border-radius:999px;padding:.36rem .85rem}
+.lesson-mark .lm-t{font-family:var(--display);font-weight:500;font-size:1.05rem;opacity:.85}
+.lesson-mark::after{content:"";flex:1;height:1px;background:currentColor;opacity:.2}
+.body > .lesson-mark:first-child{margin-top:1rem}
+.lesson-mark + h3{margin-top:.5rem}
+
 /* scripture accordion */
 .scripture{margin:1.4rem 0 1.8rem;border-top:1px solid color-mix(in srgb,var(--fg) 26%,transparent)}
 .sv{border-bottom:1px solid color-mix(in srgb,var(--fg) 26%,transparent)}
@@ -312,7 +328,8 @@ footer{scroll-snap-align:end}
 .memory .hint{margin-bottom:.6rem}
 .memory q{font-family:var(--display);font-size:1.15rem;line-height:1.5;quotes:none}
 .memory cite{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;font-style:normal;opacity:.6;margin-top:.7rem}
-.qs{margin:1.4rem 0 0;padding:0;list-style:none;counter-reset:q}
+.qs-head{font-family:var(--mono);font-weight:400;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mark);margin:2.6rem 0 .2rem}
+.qs{margin:1.1rem 0 0;padding:0;list-style:none;counter-reset:q}
 .qs li{counter-increment:q;position:relative;padding-left:2.1rem;margin-bottom:.85rem;font-size:.98rem;line-height:1.6;max-width:60ch}
 .qs li::before{content:counter(q,decimal-leading-zero);position:absolute;left:0;top:.15rem;font-family:var(--mono);font-size:.68rem;opacity:.55;color:var(--mark)}
 

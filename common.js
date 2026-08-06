@@ -23,6 +23,7 @@ var SITE = {
   "tapHint":{"en":"Tap a reference to open the text","ko":"성경 구절을 누르면 본문이 열립니다","zh":"点击经文出处即可展开原文","es":"Toca una referencia para abrir el texto"},
   "memory":{"en":"Memory verse","ko":"암송 구절","zh":"背诵经文","es":"Versículo para memorizar"},
   "questions":{"en":"For discussion","ko":"함께 나눌 질문","zh":"讨论问题","es":"Para dialogar"},
+  "lesson":{"en":"Lesson","ko":"레슨","zh":"课","es":"Lección"},
   "footer":{
     "en":"A six-part gospel study. Scripture references and study text for each step will be added from the source material. Korean, Chinese, and Spanish renderings are prepared for this study; swap in your preferred translation as needed.",
     "ko":"여섯 과로 이루어진 복음 교재입니다. 각 단계의 성경 본문과 해설은 원자료에서 이어서 채워집니다. 한국어·중국어·스페인어 번역은 이 교재를 위해 준비한 것이며, 원하시는 역본으로 바꾸실 수 있습니다.",
@@ -124,8 +125,9 @@ var ICONP = {
   "step-5":'<rect x="4" y="9.5" width="16" height="10.5" rx="1"/><path d="M4 13h16M12 9.5V20"/><path d="M12 9.5C10.6 9.5 8.7 9 8.7 7.2 8.7 6 9.6 5.6 10.3 5.6c1.4 0 1.7 1.9 1.7 3.9M12 9.5c1.4 0 3.3-.5 3.3-2.3 0-1.2-.9-1.6-1.6-1.6-1.4 0-1.7 1.9-1.7 3.9"/>',
   "step-6":'<path d="M4.5 12.5V20h15v-7.5"/><path d="M3 12.5l3-2.5h12l3 2.5"/><path d="M12 9.5V3M9.4 5.2 12 2.7l2.6 2.5"/>'
 };
-var ICON = function(id){
-  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+pl(ICONP[id]||'')+'</svg>';
+var ICON = function(id, solid){
+  var p = ICONP[id] || '';
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(solid?p:pl(p))+'</svg>';
 };
 function stepById(id){ for(var i=0;i<SITE.steps.length;i++){ if(SITE.steps[i].id===id) return SITE.steps[i]; } return null; }
 function lessonsLabel(s){ var w=L(SITE.ui.lessons), sep=(lang==="ko"||lang==="zh")?"":" "; return s.nl+sep+w+" · "+s.range; }
@@ -175,9 +177,7 @@ function renderChapter(id){
   var detail = (window.CHAPTER && window.CHAPTER.id===id) ? window.CHAPTER : null;
 
   var h = '<section class="field" id="'+s.id+'" style="--field:'+s.field+';--fg:'+s.fg+';--dot:'+s.dot+'"><div class="wrap">'
-     + '<div class="sec-head reveal"><span class="sec-ic">'+ICON(s.id)+'</span>'
-     + '<div><span class="numeral">'+s.numeral+'</span>'
-     + '<div class="thread-tag"><i></i>'+esc(L(s.sub))+'</div></div></div>'
+     + '<div class="ch-kicker reveal"><span class="ch-ic">'+ICON(s.id,true)+'</span><b class="ch-num">'+s.numeral+'</b><span class="ch-sep">·</span><span class="ch-sub">'+esc(L(s.sub))+'</span></div>'
      + '<h2 class="reveal">'+esc(L(s.title))+'</h2>'
      + '<p class="lead reveal">'+esc(L(s.teaser))+'</p>'
      + '<div class="stage-meta reveal">'+esc(lessonsLabel(s))+'</div>'
@@ -242,14 +242,16 @@ var DIA = {
     return h+'</div>';
   }
 };
+function lessonId(n){ return "L"+String(n).replace(/\./g,"-"); }
 function blockBody(b, verses){
+  if(b.t==="lesson") return '<div class="lesson-mark reveal" id="'+lessonId(b.n)+'"><span class="lm-n">'+esc(L(SITE.ui.lesson))+' '+esc(b.n)+'</span>'+(b.title?'<span class="lm-t">'+esc(L(b.title))+'</span>':'')+'</div>';
   if(b.t==="p") return '<p class="reveal">'+esc(L(b.x))+'</p>';
   if(b.t==="h") return '<h3 class="reveal">'+esc(L(b.x))+'</h3>';
   if(b.t==="callout") return '<div class="callout reveal">'+esc(L(b.x))+'</div>';
   if(b.t==="s") return '<div class="reveal">'+scripture(b.v, verses)+'</div>';
   if(b.t==="dia"){ var t=b.title?'<div class="dia-t">'+esc(L(b.title))+'</div>':''; return '<div class="dia reveal">'+t+(DIA[b.kind]?DIA[b.kind](b):'')+'</div>'; }
   if(b.t==="mem"){ var v=verses[b.ref]; if(!v) return ''; return '<div class="memory reveal"><div class="hint">'+esc(L(SITE.ui.memory))+'</div><q>'+esc(L(v.t))+'</q><cite>'+esc(L(v.ref))+'</cite></div>'; }
-  if(b.t==="q"){ var hq='<h3 class="reveal">'+esc(L(SITE.ui.questions))+'</h3><ul class="qs reveal">'; b.items.forEach(function(q){ hq+='<li>'+esc(L(q))+'</li>'; }); return hq+'</ul>'; }
+  if(b.t==="q"){ var hq='<div class="qs-head reveal">'+esc(L(SITE.ui.questions))+'</div><ul class="qs reveal">'; b.items.forEach(function(q){ hq+='<li>'+esc(L(q))+'</li>'; }); return hq+'</ul>'; }
   return '';
 }
 window.renderChapterBody = function(detail){
@@ -272,11 +274,23 @@ function wireAccordion(){
 }
 
 /* ---------- shared chrome ---------- */
+function chapterLessons(page){
+  return (window.CHAPTER && window.CHAPTER.id===page && window.CHAPTER.blocks) ? window.CHAPTER.blocks.filter(function(b){return b.t==="lesson";}) : [];
+}
 function buildRail(page){
   var rail = document.getElementById("rail"); if(!rail) return;
-  rail.innerHTML = SITE.steps.map(function(s){
-    return '<li data-sec="'+s.id+'"'+(s.id===page?' data-on="1"':'')+' style="--dot:'+s.dot+'"><a href="'+s.id+'.html">'+esc(L(s.title))+'</a></li>';
-  }).join("");
+  var lessons = chapterLessons(page);
+  if(lessons.length){
+    var s = stepById(page), dot = s ? s.dot : "#8B9BEC";
+    rail.innerHTML = lessons.map(function(ls){
+      var lid = lessonId(ls.n), label = ls.n + (ls.title ? " " + L(ls.title) : "");
+      return '<li data-sec="'+lid+'" style="--dot:'+dot+'"><a href="#'+lid+'">'+esc(label)+'</a></li>';
+    }).join("");
+  } else {
+    rail.innerHTML = SITE.steps.map(function(s){
+      return '<li data-sec="'+s.id+'"'+(s.id===page?' data-on="1"':'')+' style="--dot:'+s.dot+'"><a href="'+s.id+'.html">'+esc(L(s.title))+'</a></li>';
+    }).join("");
+  }
 }
 function applyLangButtons(){
   var btns = document.querySelectorAll(".langs button");
@@ -312,9 +326,16 @@ function wireSpy(page){
     if(prog) prog.style.color = "#8B9BEC";
   }
   var bar = document.querySelector(".bar");
+  var lessonEls = chapterLessons(page).length ? Array.prototype.slice.call(document.querySelectorAll(".lesson-mark")) : [];
+  var railItems = Array.prototype.slice.call(document.querySelectorAll("#rail li"));
   function onScroll(){
     var y = window.scrollY || window.pageYOffset;
     if(bar) bar.classList.toggle("scrolled", y > 40);
+    if(lessonEls.length){
+      var active = -1, i;
+      for(i=0;i<lessonEls.length;i++){ if(lessonEls[i].offsetTop <= y + window.innerHeight*0.3) active = i; }
+      for(i=0;i<railItems.length;i++){ railItems[i].setAttribute("data-on", i===active ? "1":"0"); }
+    }
     if(!prog) return;
     var docH = document.body.scrollHeight - window.innerHeight;
     prog.style.width = (docH>0 ? Math.min(100,(y/docH)*100) : 0) + "%";
