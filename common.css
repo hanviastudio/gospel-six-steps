@@ -413,8 +413,8 @@ footer b{color:#C9C2B4;font-weight:500}
 .heavens-scroll{position:relative;width:100vw;margin-left:calc(50% - 50vw);
   height:calc(100vh + (var(--steps) - 1) * 80vh)}
 .heavens-stage{position:sticky;top:0;height:100vh;min-height:600px;overflow:hidden;
-  display:grid;grid-template-columns:1.1fr .9fr;align-items:center;column-gap:clamp(1rem,4vw,3.5rem);
-  padding:clamp(3.2rem,7vh,5rem) clamp(1.3rem,6vw,5rem) clamp(2.4rem,6vh,4rem)}
+  display:grid;grid-template-columns:1.45fr .8fr;align-items:center;column-gap:clamp(1rem,3.5vw,3rem);
+  padding:clamp(2.2rem,4.6vh,3rem) clamp(1.2rem,4vw,3.2rem) clamp(2rem,4.6vh,3rem)}
 .heavens-stage::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
   background:radial-gradient(120% 90% at 30% 40%,color-mix(in srgb,var(--dot) 12%,transparent),transparent 60%)}
 .heavens-stage>*{position:relative;z-index:1}
@@ -426,7 +426,7 @@ footer b{color:#C9C2B4;font-weight:500}
 .heavens-count b{color:var(--dot)}
 
 /* diagram */
-.heavens-viz{justify-self:center;align-self:center;position:relative;width:min(70vmin,540px);aspect-ratio:1/1}
+.heavens-viz{justify-self:center;align-self:center;position:relative;width:min(53vw,84vh,690px);aspect-ratio:1/1}
 .heavens-ring{position:absolute;top:50%;left:50%;border-radius:50%;
   border:1px solid color-mix(in srgb,var(--fg) 24%,transparent);
   transform:translate(-50%,-50%) scale(.78);opacity:0;
@@ -449,17 +449,19 @@ footer b{color:#C9C2B4;font-weight:500}
 .heavens-icon{position:absolute;transform:translate(-50%,-50%) scale(calc(var(--sc,1)*.55));
   color:color-mix(in srgb,var(--fg) 72%,transparent);opacity:0;
   transition:opacity .7s ease,transform .7s cubic-bezier(.2,.75,.2,1)}
-.heavens-icon svg{width:26px;height:26px;display:block;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--dot) 28%,transparent))}
+.heavens-icon svg{width:22px;height:22px;display:block;filter:drop-shadow(0 0 4px color-mix(in srgb,var(--dot) 24%,transparent))}
 .has-js .heavens-icon.on{opacity:.9;transform:translate(-50%,-50%) scale(var(--sc,1))}
 .heavens-rocket{color:color-mix(in srgb,var(--fg) 82%,transparent)}
-/* angels — outside the water, drifting */
-.heavens-ang{color:var(--dot)}
-.heavens-ang svg{filter:drop-shadow(0 0 7px color-mix(in srgb,var(--dot) 70%,transparent))}
-.has-js .heavens-ang.on.ang1{animation:heavensDriftA 9s ease-in-out infinite}
-.has-js .heavens-ang.on.ang2{animation:heavensDriftB 11s ease-in-out infinite}
-.has-js .heavens-ang.on.ang3{animation:heavensDriftA 13s ease-in-out infinite reverse}
-@keyframes heavensDriftA{0%,100%{transform:translate(-50%,-50%) scale(var(--sc,1))}50%{transform:translate(calc(-50% + 6px),calc(-50% - 7px)) scale(var(--sc,1))}}
-@keyframes heavensDriftB{0%,100%{transform:translate(-50%,-50%) scale(var(--sc,1))}50%{transform:translate(calc(-50% - 7px),calc(-50% - 5px)) scale(var(--sc,1))}}
+/* angels — patrol along the water boundary (slow orbit) */
+.heavens-orbit{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;pointer-events:none;
+  transition:opacity .8s ease;animation-name:heavensOrbit;animation-timing-function:linear;animation-iteration-count:infinite}
+.has-js .heavens-orbit.on{opacity:1}
+html:not(.has-js) .heavens-orbit{opacity:1}
+.heavens-orbit-a{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);color:var(--dot);
+  animation-name:heavensOrbitCounter;animation-timing-function:linear;animation-iteration-count:infinite}
+.heavens-ang-svg{width:22px;height:22px;display:block;filter:drop-shadow(0 0 7px color-mix(in srgb,var(--dot) 72%,transparent))}
+@keyframes heavensOrbit{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes heavensOrbitCounter{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(-360deg)}}
 /* material / spiritual key */
 .heavens-key{position:absolute;z-index:2;display:flex;align-items:center;gap:.45rem;white-space:nowrap;
   font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;opacity:0;transition:opacity .8s ease;pointer-events:none}
@@ -531,11 +533,12 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
 @media(max-width:820px){
   .heavens-stage{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;row-gap:.6rem;
     padding:clamp(3.4rem,8vh,5rem) 1.3rem clamp(4.6rem,11vh,6rem);text-align:center}
-  .heavens-viz{width:min(64vmin,360px)}
+  .heavens-viz{width:min(84vmin,430px)}
   .heavens-panel{justify-self:center;max-width:40ch}
   .heavens-name{font-size:clamp(1.7rem,8vw,2.3rem)}
   .heavens-hint{display:none}
 }
 @media(prefers-reduced-motion:reduce){
   .heavens-ring,.heavens-earth,.heavens-beyond,.heavens-badge,.heavens-scene{transition:none}
+  .heavens-water-surf,.heavens-orbit,.heavens-orbit-a{animation:none}
 }

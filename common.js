@@ -286,7 +286,7 @@ function heavensBlock(b){
     star:'<path d="M12 4.5l1.5 4.4 4.5.3-3.6 2.8 1.3 4.4L12 14l-3.7 2.4 1.3-4.4L6 9.2l4.5-.3z"/>',
     planet:'<circle cx="12" cy="12" r="4.6"/><ellipse cx="12" cy="12" rx="9" ry="3" transform="rotate(-22 12 12)"/>',
     rocket:'<path d="M12 3.5c2.8 1.9 3.9 5.6 3.9 8.6L14 15h-4l-1.9-2.9c0-3 1.1-6.7 3.9-8.6z"/><circle cx="12" cy="9.4" r="1.3"/><path d="M9.5 14.6 7.2 19l3-1M14.5 14.6 16.8 19l-3-1"/>',
-    angel:'<circle cx="12" cy="10.4" r="1.9"/><path d="M9.6 12.2c-2.5-1-4.7-.4-5.8 1.4 2.1 1 4.2.8 5.8-.6M14.4 12.2c2.5-1 4.7-.4 5.8 1.4-2.1 1-4.2.8-5.8-.6"/>'
+    angel:'<path d="M9.1 4.9a3 3 0 0 1 5.8 0"/><circle cx="12" cy="6.7" r="1.7"/><path d="M12 8.6c-2.2 0-3.4 2.7-3.7 7h7.4c-.3-4.3-1.5-7-3.7-7z"/><path d="M8.7 11.4C6.1 9.9 3.6 10.5 2.7 13.1c2.1.5 4.1-.3 5.9-1.7M15.3 11.4c2.6-1.5 5.1-.9 6 1.7-2.1.5-4.1-.3-5.9-1.7"/>'
   };
   function icon(name, cls, r, ang, scale, stepAt){
     var rad = ang*Math.PI/180;
@@ -303,15 +303,20 @@ function heavensBlock(b){
   h += '<span class="heavens-fx heavens-beyond" data-at="'+atGod+'" aria-hidden="true"></span>';
   // rings (outer -> inner)
   h += '<span class="heavens-fx heavens-ring heavens-ring--holy" data-at="'+atSpi+'" style="width:94%;height:94%" aria-hidden="true"><span class="heavens-badge">3</span></span>';
-  h += '<span class="heavens-fx heavens-ring heavens-ring--water" data-at="'+atUni+'" style="width:66%;height:66%" aria-hidden="true"><i class="heavens-water-surf" aria-hidden="true"></i></span>';
-  h += '<span class="heavens-fx heavens-ring heavens-ring--stars" data-at="'+atUni+'" style="width:54%;height:54%" aria-hidden="true"><span class="heavens-badge">2</span></span>';
+  // universe (2) — its own outer edge IS the moving water boundary
+  h += '<span class="heavens-fx heavens-ring heavens-ring--stars heavens-ring--water" data-at="'+atUni+'" style="width:63%;height:63%" aria-hidden="true"><i class="heavens-water-surf" aria-hidden="true"></i><span class="heavens-badge">2</span></span>';
   h += '<span class="heavens-fx heavens-ring" data-at="'+atSky+'" style="width:26%;height:26%" aria-hidden="true"><span class="heavens-badge">1</span></span>';
-  // sky icons — clouds + birds
-  h += icon('cloud','',10.5,205,1,atSky) + icon('bird','',12,335,.8,atSky) + icon('bird','',12.5,30,.62,atSky);
-  // universe icons — sun, moon, stars, planet, rocket
-  h += icon('sun','',21,318,1,atUni) + icon('moon','',22,208,.92,atUni) + icon('star','',19.5,38,.68,atUni) + icon('star','',23,128,.55,atUni) + icon('planet','',22.5,158,.95,atUni) + icon('rocket','heavens-rocket',20,66,.85,atUni);
-  // angels — outside the water boundary, drifting
-  h += icon('angel','heavens-ang ang1',40,18,1,atSpi) + icon('angel','heavens-ang ang2',40,145,1,atSpi) + icon('angel','heavens-ang ang3',40,258,1,atSpi);
+  // sky icons — a cloud + birds, kept clear of the central label
+  h += icon('cloud','',11,200,1,atSky) + icon('bird','',11,338,.72,atSky) + icon('bird','',10.5,50,.6,atSky);
+  // universe icons — sun, moon, stars, planet, rocket, spread around the band
+  h += icon('sun','',23,308,1,atUni) + icon('moon','',22,232,.92,atUni) + icon('planet','',24,198,.95,atUni) + icon('star','',21,128,.62,atUni) + icon('rocket','heavens-rocket',22,58,.85,atUni) + icon('star','',24,18,.55,atUni);
+  // angels — patrolling along the water boundary (slow orbit, spaced around the ring)
+  var angSvg = '<svg class="heavens-ang-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC.angel+'</svg>';
+  function orbit(diaPct, delay, dur){
+    return '<span class="heavens-fx heavens-orbit" data-at="'+atSpi+'" style="width:'+diaPct+'%;height:'+diaPct+'%;animation-duration:'+dur+'s;animation-delay:'+delay+'s">'
+      + '<span class="heavens-orbit-a" style="animation-duration:'+dur+'s;animation-delay:'+delay+'s">'+angSvg+'</span></span>';
+  }
+  h += orbit(80,0,46) + orbit(86,-15.3,46) + orbit(74,-30.6,46);
   // material / spiritual key
   h += '<span class="heavens-fx heavens-key heavens-key--mat" data-at="'+atUni+'"><i></i>'+esc(L(matLabel))+'</span>';
   h += '<span class="heavens-fx heavens-key heavens-key--spi" data-at="'+atSpi+'"><i></i>'+esc(L(spiLabel))+'</span>';
