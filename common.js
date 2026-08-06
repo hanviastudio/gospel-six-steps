@@ -253,7 +253,7 @@ var DIA = {
       h+='<b class="duo-b">'+esc(L(it.b))+'</b>';
       if(it.s) h+='<span class="duo-s">'+esc(L(it.s))+'</span>';
       if(it.list){ h+='<ul class="duo-list">'; it.list.forEach(function(x){ h+='<li>'+esc(L(x))+'</li>'; }); h+='</ul>'; }
-      if(it.tag) h+='<span class="duo-tag">'+esc(L(it.tag))+'</span>';
+      if(it.tag) h+='<span class="duo-tag'+(it.list?'':' duo-tag-lg')+'">'+esc(L(it.tag))+'</span>';
       h+='</div>';
     });
     return h+'</div>';
