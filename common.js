@@ -246,14 +246,15 @@ var DIA = {
       sun:'<circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.5M12 18.9v2.5M2.6 12h2.5M18.9 12h2.5M5.1 5.1l1.8 1.8M17.1 17.1l1.8 1.8M18.9 5.1 17.1 6.9M6.9 17.1 5.1 18.9"/>',
       star:'<path d="M12 3l1.9 5.4L19 10l-5.1 1.6L12 17l-1.9-5.4L5 10l5.1-1.6z"/>'
     };
-    var h='<div class="duo">';
-    d.items.forEach(function(it){
-      h+='<div class="duo-col tile">';
+    var info=d.items.every(function(it){return !it.list;});
+    var h='<div class="duo'+(info?' duo--info':'')+'">';
+    d.items.forEach(function(it,i){
+      h+='<div class="duo-col tile'+(info?(i===0?' is-temp':' is-eter'):'')+'">';
       if(it.ic && IC[it.ic]) h+='<span class="duo-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[it.ic]+'</svg></span>';
       h+='<b class="duo-b">'+esc(L(it.b))+'</b>';
       if(it.s) h+='<span class="duo-s">'+esc(L(it.s))+'</span>';
       if(it.list){ h+='<ul class="duo-list">'; it.list.forEach(function(x){ h+='<li>'+esc(L(x))+'</li>'; }); h+='</ul>'; }
-      if(it.tag) h+='<span class="duo-tag'+(it.list?'':' duo-tag-lg')+'">'+esc(L(it.tag))+'</span>';
+      if(it.tag) h+='<span class="duo-tag'+(info?' duo-tag-lg':'')+'">'+esc(L(it.tag))+'</span>';
       h+='</div>';
     });
     return h+'</div>';

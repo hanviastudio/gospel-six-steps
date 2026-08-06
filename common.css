@@ -335,8 +335,24 @@ footer{scroll-snap-align:end}
 .duo-list li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--dot);opacity:.85}
 .duo-tag{align-self:flex-start;margin-top:1.3rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--dot);border:1px solid color-mix(in srgb,var(--dot) 50%,transparent);border-radius:999px;padding:.34rem .8rem}
-.duo-tag-lg{margin-top:2rem;font-family:var(--display);font-weight:500;font-size:2.4rem;line-height:1;letter-spacing:.01em;text-transform:none;color:var(--dot);border:none;border-radius:0;padding:0}
-.duo-col:has(.duo-tag-lg){min-height:186px}
+/* infographic variant — no lists, centered, symmetrical, temporary⇄eternal contrast */
+.duo--info{gap:.9rem}
+.duo--info .duo-col{align-items:center;text-align:center;justify-content:flex-start;padding:2.3rem 1.4rem 2.5rem;gap:0;position:relative;overflow:hidden}
+.duo--info .is-eter{background-image:radial-gradient(130% 90% at 50% -10%,color-mix(in srgb,var(--dot) 13%,transparent),transparent 68%)}
+.duo--info .duo-ic{width:58px;height:58px;margin:0 0 1.25rem;border-radius:50%;display:grid;place-items:center;
+  border:1px solid color-mix(in srgb,var(--dot) 42%,transparent);background:color-mix(in srgb,var(--dot) 8%,transparent);color:var(--dot)}
+.duo--info .duo-ic svg{width:26px;height:26px}
+.duo--info .is-temp .duo-ic{border-style:dashed;opacity:.85}
+.duo--info .is-eter .duo-ic{box-shadow:0 0 0 5px color-mix(in srgb,var(--dot) 10%,transparent),0 0 26px -4px color-mix(in srgb,var(--dot) 55%,transparent)}
+.duo--info .duo-b{font-size:1.16rem;font-weight:500}
+.duo--info .duo-s{margin-top:.4rem}
+.duo--info .duo-tag-lg{position:relative;margin-top:1.55rem;padding-top:1.55rem;width:100%;
+  font-family:var(--display);font-weight:500;font-size:clamp(2.1rem,7vw,2.7rem);line-height:1;letter-spacing:.01em;
+  text-transform:none;color:var(--dot);border:none;border-radius:0}
+.duo--info .duo-tag-lg::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:36px;height:1px;background:color-mix(in srgb,var(--dot) 55%,transparent)}
+.duo--info .is-temp .duo-tag-lg{opacity:.62}
+.duo--info .is-eter .duo-tag-lg{text-shadow:0 0 24px color-mix(in srgb,var(--dot) 50%,transparent)}
 @media(min-width:601px){.duo-col{position:relative}.duo-tag{margin-top:auto}.duo-list{margin-bottom:1.3rem}}
 
 /* callout, memory, questions */
