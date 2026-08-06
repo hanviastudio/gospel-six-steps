@@ -332,8 +332,9 @@ function wireSpy(page){
     var y = window.scrollY || window.pageYOffset;
     if(bar) bar.classList.toggle("scrolled", y > 40);
     if(lessonEls.length){
-      var active = -1, i;
-      for(i=0;i<lessonEls.length;i++){ if(lessonEls[i].offsetTop <= y + window.innerHeight*0.3) active = i; }
+      var active = -1, i, edge = window.innerHeight*0.35;
+      for(i=0;i<lessonEls.length;i++){ if(lessonEls[i].getBoundingClientRect().top <= edge) active = i; }
+      if(active<0) active = 0;
       for(i=0;i<railItems.length;i++){ railItems[i].setAttribute("data-on", i===active ? "1":"0"); }
     }
     if(!prog) return;
