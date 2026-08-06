@@ -309,8 +309,10 @@ function heavensBlock(b){
   h += '<span class="heavens-fx heavens-ring" data-at="'+atSky+'" style="width:26%;height:26%" aria-hidden="true"><span class="heavens-badge">1</span></span>';
   // sky icons — birds (clouds are added below as slow orbiters)
   h += icon('bird','',12.5,335,.72,atSky) + icon('bird','',11.5,46,.58,atSky);
-  // universe icons — sun, moon, planet, stars (enlarged again)
-  h += icon('sun','',24,308,1.9,atUni) + icon('moon','',23,232,1.7,atUni) + icon('planet','',27,196,1.8,atUni) + icon('star','',22,128,1.35,atUni) + icon('rocket','heavens-rocket',22,58,1,atUni) + icon('star','',27,20,1.15,atUni);
+  // universe icons — sun, moon, planets, stars, gently drifting
+  h += icon('sun','heavens-float-a',24,308,1.9,atUni) + icon('moon','heavens-float-b',22,232,1.7,atUni)
+     + icon('planet','heavens-float-c',27,196,1.8,atUni) + icon('planet','heavens-float-a',19,150,1.15,atUni) + icon('planet','heavens-float-b',26,96,1,atUni)
+     + icon('star','heavens-float-c',22,128,1.35,atUni) + icon('star','heavens-float-a',28,20,1.15,atUni) + icon('star','heavens-float-b',17,74,.85,atUni) + icon('star','heavens-float-c',25,340,1,atUni);
   // a body that slowly revolves around the centre, staying upright (angels, clouds)
   function orbiter(diaPct, delay, dur, ccw, inner, stepAt, faceCenter){
     var cc = ccw ? ' heavens-orbit--ccw' : '';
@@ -324,6 +326,9 @@ function heavensBlock(b){
   // clouds — 3 of them drifting very slowly counter-clockwise in the sky (1st heaven), turned upright
   var cloudSvg = '<svg class="heavens-cloud-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC.cloud+'</svg>';
   h += orbiter(16,0,100,true,cloudSvg,atSky,true) + orbiter(19,-33,100,true,cloudSvg,atSky,true) + orbiter(15,-66,100,true,cloudSvg,atSky,true);
+  // rockets — two of them roaming the universe, nose pointing along the flight path
+  var rocketSvg = '<svg class="heavens-rocket-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(90 12 12)">'+IC.rocket+'</g></svg>';
+  h += orbiter(44,0,42,false,rocketSvg,atUni,true) + orbiter(54,-21,52,false,rocketSvg,atUni,true);
   // material / spiritual key
   h += '<span class="heavens-fx heavens-key heavens-key--mat" data-at="'+atUni+'"><i></i>'+esc(L(matLabel))+'</span>';
   h += '<span class="heavens-fx heavens-key heavens-key--spi" data-at="'+atSpi+'"><i></i>'+esc(L(spiLabel))+'</span>';

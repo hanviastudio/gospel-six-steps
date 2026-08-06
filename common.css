@@ -458,7 +458,13 @@ footer b{color:#C9C2B4;font-weight:500}
   transition:opacity .7s ease,transform .7s cubic-bezier(.2,.75,.2,1)}
 .heavens-icon svg{width:22px;height:22px;display:block;filter:drop-shadow(0 0 4px color-mix(in srgb,var(--dot) 24%,transparent))}
 .has-js .heavens-icon.on{opacity:.9;transform:translate(-50%,-50%) scale(var(--sc,1))}
-.heavens-rocket{color:color-mix(in srgb,var(--fg) 82%,transparent)}
+/* gentle left-right / up-down drift for the universe elements */
+.has-js .heavens-float-a.on{animation:heavensFloatA 7.5s ease-in-out infinite}
+.has-js .heavens-float-b.on{animation:heavensFloatB 9s ease-in-out infinite}
+.has-js .heavens-float-c.on{animation:heavensFloatC 8.2s ease-in-out infinite}
+@keyframes heavensFloatA{0%,100%{transform:translate(-50%,-50%) scale(var(--sc,1))}50%{transform:translate(calc(-50% + 6px),calc(-50% - 7px)) scale(var(--sc,1))}}
+@keyframes heavensFloatB{0%,100%{transform:translate(-50%,-50%) scale(var(--sc,1))}50%{transform:translate(calc(-50% - 7px),calc(-50% + 5px)) scale(var(--sc,1))}}
+@keyframes heavensFloatC{0%,100%{transform:translate(-50%,-50%) scale(var(--sc,1))}50%{transform:translate(calc(-50% + 5px),calc(-50% + 7px)) scale(var(--sc,1))}}
 /* angels — patrol along the water boundary (slow orbit) */
 .heavens-orbit{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;pointer-events:none;
   transition:opacity .8s ease;animation-name:heavensOrbit;animation-timing-function:linear;animation-iteration-count:infinite}
@@ -471,6 +477,8 @@ html:not(.has-js) .heavens-orbit{opacity:1}
 .heavens-ang-svg{width:clamp(34px,6.5vmin,48px);height:auto;display:block;filter:drop-shadow(0 0 7px color-mix(in srgb,var(--gold) 70%,transparent))}
 .heavens-cloud-svg{width:clamp(15px,2.7vmin,21px);height:auto;display:block;stroke:color-mix(in srgb,var(--fg) 62%,transparent);
   filter:drop-shadow(0 0 4px color-mix(in srgb,var(--dot) 28%,transparent))}
+.heavens-rocket-svg{width:clamp(30px,5.5vmin,44px);height:auto;display:block;stroke:color-mix(in srgb,var(--fg) 80%,transparent);
+  filter:drop-shadow(0 0 5px color-mix(in srgb,var(--dot) 30%,transparent))}
 @keyframes heavensOrbit{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
 @keyframes heavensOrbitCounter{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(-360deg)}}
 /* material / spiritual key */
@@ -552,5 +560,5 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
 }
 @media(prefers-reduced-motion:reduce){
   .heavens-ring,.heavens-earth,.heavens-beyond,.heavens-badge,.heavens-scene{transition:none}
-  .heavens-water-surf,.heavens-orbit,.heavens-orbit-a{animation:none}
+  .heavens-water-surf,.heavens-orbit,.heavens-orbit-a,.heavens-float-a,.heavens-float-b,.heavens-float-c{animation:none}
 }
