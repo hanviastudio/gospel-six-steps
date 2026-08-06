@@ -20,6 +20,9 @@ var SITE = {
   "back":{"en":"Back to contents","ko":"목차로 돌아가기","zh":"返回目录","es":"Volver al contenido"},
   "prev":{"en":"Previous","ko":"이전 단계","zh":"上一阶段","es":"Anterior"},
   "next":{"en":"Next","ko":"다음 단계","zh":"下一阶段","es":"Siguiente"},
+  "tapHint":{"en":"Tap a reference to open the text","ko":"성경 구절을 누르면 본문이 열립니다","zh":"点击经文出处即可展开原文","es":"Toca una referencia para abrir el texto"},
+  "memory":{"en":"Memory verse","ko":"암송 구절","zh":"背诵经文","es":"Versículo para memorizar"},
+  "questions":{"en":"For discussion","ko":"함께 나눌 질문","zh":"讨论问题","es":"Para dialogar"},
   "footer":{
     "en":"A six-part gospel study. Scripture references and study text for each step will be added from the source material. Korean, Chinese, and Spanish renderings are prepared for this study; swap in your preferred translation as needed.",
     "ko":"여섯 과로 이루어진 복음 교재입니다. 각 단계의 성경 본문과 해설은 원자료에서 이어서 채워집니다. 한국어·중국어·스페인어 번역은 이 교재를 위해 준비한 것이며, 원하시는 역본으로 바꾸실 수 있습니다.",
@@ -196,6 +199,78 @@ function renderChapter(id){
   document.getElementById("app").innerHTML = h;
 }
 
+/* ---------- study body engine (chapter detail from content/step-N.js) ---------- */
+function scripture(ids, verses){
+  var h = '<p class="hint">'+esc(L(SITE.ui.tapHint))+'</p><div class="scripture">';
+  ids.forEach(function(id){
+    var v = verses[id]; if(!v) return;
+    h += '<div class="sv" data-open="0">'
+       + '<button type="button" aria-expanded="false"><span class="sv-ref">'+esc(L(v.ref))+'</span><span class="sv-plus" aria-hidden="true"></span></button>'
+       + '<div class="sv-body"><div class="sv-text">'+esc(L(v.t))+'</div></div></div>';
+  });
+  return h + '</div>';
+}
+var DIA = {
+  cmp:function(d){
+    var h='<div class="cmp">';
+    d.heads.forEach(function(hd){ h+='<div class="cmp-head tile">'+esc(L(hd.b))+(hd.s?'<small>'+esc(L(hd.s))+'</small>':'')+'</div>'; });
+    d.rows.forEach(function(r){
+      if(r.label) h+='<div class="cmp-label">'+esc(L(r.label))+'</div>';
+      h+='<div class="cmp-row tile">'+esc(L(r.l))+'</div><div class="cmp-row tile">'+esc(L(r.r))+'</div>';
+    });
+    return h+'</div>';
+  },
+  grid:function(d){
+    var h='<div class="gridtiles">';
+    d.items.forEach(function(it){ h+='<div class="gt tile"><b>'+esc(L(it.b))+'</b><span>'+esc(L(it.s))+'</span>'+(it.e?'<em>'+esc(L(it.e))+'</em>':'')+'</div>'; });
+    return h+'</div>';
+  },
+  eq:function(d){
+    var h='<div class="eq">';
+    d.items.forEach(function(it){ h+='<div class="eq-term tile"><b>'+esc(L(it.b))+'</b><span>'+esc(L(it.s))+'</span></div>'; if(it.op) h+='<div class="eq-op">'+it.op+'</div>'; });
+    return h+'</div>';
+  },
+  tiers:function(d){
+    var h='<div class="tiers">';
+    d.items.forEach(function(it){ h+='<div class="tier tile"><i>'+esc(L(it.n))+'</i><div><b>'+esc(L(it.b))+'</b><span>'+esc(L(it.s))+'</span></div></div>'; });
+    return h+'</div>';
+  },
+  fork:function(d){
+    var h='<div class="fork">';
+    if(d.stem) h+='<div class="fork-stem tile">'+esc(L(d.stem))+'</div>';
+    d.items.forEach(function(it){ h+='<div class="fk tile"><b>'+esc(L(it.b))+'</b><span>'+esc(L(it.s))+'</span>'+(it.e?'<em>'+esc(L(it.e))+'</em>':'')+'</div>'; });
+    return h+'</div>';
+  }
+};
+function blockBody(b, verses){
+  if(b.t==="p") return '<p class="reveal">'+esc(L(b.x))+'</p>';
+  if(b.t==="h") return '<h3 class="reveal">'+esc(L(b.x))+'</h3>';
+  if(b.t==="callout") return '<div class="callout reveal">'+esc(L(b.x))+'</div>';
+  if(b.t==="s") return '<div class="reveal">'+scripture(b.v, verses)+'</div>';
+  if(b.t==="dia"){ var t=b.title?'<div class="dia-t">'+esc(L(b.title))+'</div>':''; return '<div class="dia reveal">'+t+(DIA[b.kind]?DIA[b.kind](b):'')+'</div>'; }
+  if(b.t==="mem"){ var v=verses[b.ref]; if(!v) return ''; return '<div class="memory reveal"><div class="hint">'+esc(L(SITE.ui.memory))+'</div><q>'+esc(L(v.t))+'</q><cite>'+esc(L(v.ref))+'</cite></div>'; }
+  if(b.t==="q"){ var hq='<h3 class="reveal">'+esc(L(SITE.ui.questions))+'</h3><ul class="qs reveal">'; b.items.forEach(function(q){ hq+='<li>'+esc(L(q))+'</li>'; }); return hq+'</ul>'; }
+  return '';
+}
+window.renderChapterBody = function(detail){
+  var verses = detail.verses || {};
+  var h = '<hr class="hairline reveal"><div class="body">';
+  (detail.blocks||[]).forEach(function(b){ h += blockBody(b, verses); });
+  return h + '</div>';
+};
+function wireAccordion(){
+  document.querySelectorAll(".sv > button").forEach(function(btn){
+    if(btn.__wired) return; btn.__wired = true;
+    btn.addEventListener("click", function(){
+      var sv = btn.parentNode, body = sv.querySelector(".sv-body");
+      var open = sv.getAttribute("data-open")==="1";
+      sv.setAttribute("data-open", open?"0":"1");
+      btn.setAttribute("aria-expanded", open?"false":"true");
+      body.style.maxHeight = open ? "0px" : (body.scrollHeight+16)+"px";
+    });
+  });
+}
+
 /* ---------- shared chrome ---------- */
 function buildRail(page){
   var rail = document.getElementById("rail"); if(!rail) return;
@@ -212,7 +287,7 @@ function wireReveal(){
   document.querySelectorAll("#app section").forEach(function(sec){
     var i = 0;
     sec.querySelectorAll(".reveal").forEach(function(el){
-      el.style.transitionDelay = Math.min(i*0.08, 0.55) + "s";
+      el.style.transitionDelay = Math.min(i*0.05, 0.3) + "s";
       i++;
     });
   });
@@ -269,6 +344,7 @@ function paint(page){
   buildRail(page);
   applyLangButtons();
   wireReveal();
+  wireAccordion();
   wireSpy(page);
 }
 
