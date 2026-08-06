@@ -270,7 +270,74 @@ function blockBody(b, verses){
   if(b.t==="dia"){ var t=b.title?'<div class="dia-t">'+esc(L(b.title))+'</div>':''; return '<div class="dia reveal">'+t+(DIA[b.kind]?DIA[b.kind](b):'')+'</div>'; }
   if(b.t==="mem"){ var v=verses[b.ref]; if(!v) return ''; return '<div class="memory reveal"><div class="hint">'+esc(L(SITE.ui.memory))+'</div><q>'+esc(L(v.t))+'</q><cite>'+esc(L(v.ref))+'</cite></div>'; }
   if(b.t==="q"){ var hq='<div class="qs-head reveal">'+esc(L(SITE.ui.questions))+'</div><ul class="qs reveal">'; b.items.forEach(function(q){ hq+='<li>'+esc(L(q))+'</li>'; }); return hq+'</ul>'; }
+  if(b.t==="heavens") return heavensBlock(b);
   return '';
+}
+function heavensBlock(b){
+  var shells = b.shells || [];
+  var steps = shells.length;
+  var at = {}; shells.forEach(function(s,i){ at[s.role] = i; });
+  var atSky = at.sky, atUni = at.universe, atSpi = at.spiritual, atGod = (at.god!=null?at.god:steps-1);
+  var IC = {
+    cloud:'<path d="M6.5 16a3.3 3.3 0 0 1 .4-6.6 4.1 4.1 0 0 1 7.8-1.1A3.5 3.5 0 0 1 17.5 16z"/>',
+    bird:'<path d="M3 10c1.7 2 3.3 2 5 0 1.7 2 3.3 2 5 0"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2.3M12 18.7V21M3 12h2.3M18.7 12H21M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/>',
+    moon:'<path d="M16 4a7.5 7.5 0 1 0 4 12A6.2 6.2 0 0 1 16 4z"/>',
+    star:'<path d="M12 4.5l1.5 4.4 4.5.3-3.6 2.8 1.3 4.4L12 14l-3.7 2.4 1.3-4.4L6 9.2l4.5-.3z"/>',
+    planet:'<circle cx="12" cy="12" r="4.6"/><ellipse cx="12" cy="12" rx="9" ry="3" transform="rotate(-22 12 12)"/>',
+    rocket:'<path d="M12 3.5c2.8 1.9 3.9 5.6 3.9 8.6L14 15h-4l-1.9-2.9c0-3 1.1-6.7 3.9-8.6z"/><circle cx="12" cy="9.4" r="1.3"/><path d="M9.5 14.6 7.2 19l3-1M14.5 14.6 16.8 19l-3-1"/>',
+    angel:'<circle cx="12" cy="10.4" r="1.9"/><path d="M9.6 12.2c-2.5-1-4.7-.4-5.8 1.4 2.1 1 4.2.8 5.8-.6M14.4 12.2c2.5-1 4.7-.4 5.8 1.4-2.1 1-4.2.8-5.8-.6"/>'
+  };
+  function icon(name, cls, r, ang, scale, stepAt){
+    var rad = ang*Math.PI/180;
+    var x = (50 + r*Math.cos(rad)).toFixed(1), y = (50 + r*Math.sin(rad)).toFixed(1);
+    return '<span class="heavens-fx heavens-icon '+(cls||'')+'" data-at="'+stepAt+'" style="left:'+x+'%;top:'+y+'%;--sc:'+(scale||1)+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[name]+'</svg></span>';
+  }
+  var hint = {en:"scroll or tap to unfold",ko:"스크롤하거나 눌러서 펼치기",zh:"滚动或点按逐层展开",es:"desplaza o toca para desplegar"};
+  var matLabel = {en:"MATERIAL · 1·2",ko:"물질계 · 1·2",zh:"物质界 · 1·2",es:"MATERIAL · 1·2"};
+  var spiLabel = {en:"SPIRITUAL · 3",ko:"영계 · 3",zh:"属灵界 · 3",es:"ESPIRITUAL · 3"};
+  var h = '<div class="heavens-scroll" data-steps="'+steps+'" style="--steps:'+steps+'">';
+  h += '<div class="heavens-stage">';
+  h += '<div class="heavens-head"><span>'+(b.title?esc(L(b.title)):'')+'</span><span class="heavens-count"><b>1</b> / '+steps+'</span></div>';
+  h += '<div class="heavens-viz">';
+  h += '<span class="heavens-fx heavens-beyond" data-at="'+atGod+'" aria-hidden="true"></span>';
+  // rings (outer -> inner)
+  h += '<span class="heavens-fx heavens-ring heavens-ring--holy" data-at="'+atSpi+'" style="width:94%;height:94%" aria-hidden="true"><span class="heavens-badge">3</span></span>';
+  h += '<span class="heavens-fx heavens-ring heavens-ring--water" data-at="'+atUni+'" style="width:66%;height:66%" aria-hidden="true"><i class="heavens-water-surf" aria-hidden="true"></i></span>';
+  h += '<span class="heavens-fx heavens-ring heavens-ring--stars" data-at="'+atUni+'" style="width:54%;height:54%" aria-hidden="true"><span class="heavens-badge">2</span></span>';
+  h += '<span class="heavens-fx heavens-ring" data-at="'+atSky+'" style="width:26%;height:26%" aria-hidden="true"><span class="heavens-badge">1</span></span>';
+  // sky icons — clouds + birds
+  h += icon('cloud','',10.5,205,1,atSky) + icon('bird','',12,335,.8,atSky) + icon('bird','',12.5,30,.62,atSky);
+  // universe icons — sun, moon, stars, planet, rocket
+  h += icon('sun','',21,318,1,atUni) + icon('moon','',22,208,.92,atUni) + icon('star','',19.5,38,.68,atUni) + icon('star','',23,128,.55,atUni) + icon('planet','',22.5,158,.95,atUni) + icon('rocket','heavens-rocket',20,66,.85,atUni);
+  // angels — outside the water boundary, drifting
+  h += icon('angel','heavens-ang ang1',40,18,1,atSpi) + icon('angel','heavens-ang ang2',40,145,1,atSpi) + icon('angel','heavens-ang ang3',40,258,1,atSpi);
+  // material / spiritual key
+  h += '<span class="heavens-fx heavens-key heavens-key--mat" data-at="'+atUni+'"><i></i>'+esc(L(matLabel))+'</span>';
+  h += '<span class="heavens-fx heavens-key heavens-key--spi" data-at="'+atSpi+'"><i></i>'+esc(L(spiLabel))+'</span>';
+  h += '<span class="heavens-fx heavens-earth" data-at="0" aria-hidden="true"></span>';
+  h += '<span class="heavens-fx heavens-home" data-at="0">'
+     + '<span class="heavens-home-label">Church of Jesus</span>'
+     + '<svg class="heavens-church" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+     + '<path d="M12 2.2v3.4M10.3 3.6h3.4"/><path d="M12 6 4.6 12.2h14.8z"/><path d="M6.4 12.2v8.3h11.2v-8.3"/><path d="M10 20.5v-3.4a2 2 0 0 1 4 0v3.4"/>'
+     + '</svg></span>';
+  h += '</div>';
+  h += '<div class="heavens-panel"><div class="heavens-scenes">';
+  shells.forEach(function(s){
+    h += '<div class="heavens-scene">';
+    if(s.k) h += '<div class="heavens-eyebrow">'+esc(L(s.k))+'</div>';
+    h += '<h3 class="heavens-name">'+esc(L(s.b))+'</h3>';
+    if(s.s) h += '<p class="heavens-desc">'+esc(L(s.s))+'</p>';
+    if(s.e) h += '<span class="heavens-cite">'+esc(L(s.e))+'</span>';
+    h += '</div>';
+  });
+  h += '</div></div>';
+  h += '<div class="heavens-ctrl"><button class="heavens-arrow heavens-prev" type="button" aria-label="prev">&#8593;</button><div class="heavens-dots">';
+  for(var i=0;i<steps;i++){ h += '<button class="heavens-dot" type="button" data-i="'+i+'" aria-label="'+(i+1)+'"></button>'; }
+  h += '</div><button class="heavens-arrow heavens-next" type="button" aria-label="next">&#8595;</button></div>';
+  h += '<div class="heavens-hint">'+esc(L(hint))+'</div>';
+  h += '</div></div>';
+  return h;
 }
 window.renderChapterBody = function(detail){
   var verses = detail.verses || {};
@@ -330,6 +397,70 @@ function wireReveal(){
     document.querySelectorAll(".reveal, .cards, .sec-head").forEach(function(el){ el.classList.add("in"); });
   }
 }
+function wireHeavens(){
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll(".heavens-scroll").forEach(function(sc){
+    if(sc.__wired) return; sc.__wired = true;
+    var stage = sc.querySelector(".heavens-stage");
+    var steps = parseInt(sc.getAttribute("data-steps"),10) || 1;
+    var fx = Array.prototype.slice.call(sc.querySelectorAll(".heavens-fx"));
+    var scenes = Array.prototype.slice.call(sc.querySelectorAll(".heavens-scene"));
+    var dots = Array.prototype.slice.call(sc.querySelectorAll(".heavens-dot"));
+    var countB = sc.querySelector(".heavens-count b");
+    var prev = sc.querySelector(".heavens-prev"), next = sc.querySelector(".heavens-next");
+    var cur = -1;
+    function render(i){
+      i = Math.max(0, Math.min(steps-1, i));
+      if(i === cur) return; cur = i;
+      stage.setAttribute("data-step", i);
+      fx.forEach(function(el){
+        var a = +el.getAttribute("data-at");
+        el.classList.toggle("on", i >= a);
+        if(el.classList.contains("heavens-ring")) el.classList.toggle("active", i === a);
+      });
+      scenes.forEach(function(s, idx){ s.classList.toggle("on", idx === i); });
+      dots.forEach(function(d, idx){ d.setAttribute("aria-current", idx === i ? "true" : "false"); });
+      if(countB) countB.textContent = (i+1);
+      if(prev) prev.disabled = i <= 0;
+      if(next) next.disabled = i >= steps-1;
+    }
+    function onScroll(){
+      var vh = window.innerHeight;
+      var total = sc.offsetHeight - vh;
+      var top = sc.getBoundingClientRect().top;
+      var scrolled = Math.min(Math.max(-top, 0), total);
+      var p = total > 0 ? scrolled/total : 0;
+      render(Math.round(p * (steps-1)));
+    }
+    function goto(i){
+      i = Math.max(0, Math.min(steps-1, i));
+      render(i);                       // instant visual feedback (independent of scroll)
+      var vh = window.innerHeight;
+      var total = sc.offsetHeight - vh;
+      var absTop = sc.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+      var y = absTop + (steps > 1 ? total * (i/(steps-1)) : 0);
+      // keep scroll position in sync so wheel-scrolling continues from this step.
+      // (jump instantly — the stage is pinned, so the page does not visibly move.)
+      window.scrollTo(0, Math.round(y) + 2);
+    }
+    window.addEventListener("scroll", onScroll, {passive:true});
+    window.addEventListener("resize", onScroll, {passive:true});
+    onScroll();
+    if(prev) prev.addEventListener("click", function(e){ e.stopPropagation(); goto(cur-1); });
+    if(next) next.addEventListener("click", function(e){ e.stopPropagation(); goto(cur+1); });
+    dots.forEach(function(d){ d.addEventListener("click", function(e){ e.stopPropagation(); goto(+d.getAttribute("data-i")); }); });
+    stage.addEventListener("click", function(e){
+      if(e.target.closest(".heavens-ctrl") || e.target.closest(".heavens-head")) return;
+      goto(cur+1);
+    });
+    window.addEventListener("keydown", function(e){
+      var r = stage.getBoundingClientRect();
+      if(!(r.top <= 1 && r.bottom >= window.innerHeight - 1)) return;
+      if(e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === " "){ e.preventDefault(); goto(cur+1); }
+      else if(e.key === "ArrowUp" || e.key === "ArrowLeft"){ e.preventDefault(); goto(cur-1); }
+    });
+  });
+}
 function wireSpy(page){
   var prog = document.getElementById("prog");
   var curDot = document.getElementById("curDot"), curText = document.getElementById("curText");
@@ -367,6 +498,7 @@ function wireSpy(page){
 
 function paint(page){
   document.documentElement.lang = lang;
+  document.documentElement.classList.add("has-js");
   var foot = document.getElementById("foot");
   if(foot) foot.innerHTML = '<b>'+esc(L(SITE.hero.title))+'</b><br>'+esc(L(SITE.ui.footer));
   /* full-screen intro splash (index only) */
@@ -385,6 +517,7 @@ function paint(page){
   applyLangButtons();
   wireReveal();
   wireAccordion();
+  wireHeavens();
   wireSpy(page);
 }
 
