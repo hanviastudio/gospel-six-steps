@@ -307,23 +307,23 @@ function heavensBlock(b){
   // universe (2) — its own outer edge IS the moving water boundary
   h += '<span class="heavens-fx heavens-ring heavens-ring--stars heavens-ring--water" data-at="'+atUni+'" style="width:63%;height:63%" aria-hidden="true"><i class="heavens-water-surf" aria-hidden="true"></i><span class="heavens-badge">2</span></span>';
   h += '<span class="heavens-fx heavens-ring" data-at="'+atSky+'" style="width:26%;height:26%" aria-hidden="true"><span class="heavens-badge">1</span></span>';
-  // sky icons — cloud (midway between earth and the 1st-heaven ring) + birds
-  h += icon('cloud','',9,208,1,atSky) + icon('bird','',12.5,335,.72,atSky) + icon('bird','',11.5,46,.58,atSky);
-  // universe icons — sun, moon, planet, stars enlarged
-  h += icon('sun','',24,308,1.5,atUni) + icon('moon','',23,232,1.35,atUni) + icon('planet','',26,196,1.4,atUni) + icon('star','',22,128,1,atUni) + icon('rocket','heavens-rocket',22,58,.95,atUni) + icon('star','',26,20,.85,atUni);
-  // angels — patrolling along the water boundary (slow orbit, spaced around the ring)
-  var angSvg = '<svg class="heavens-ang-svg" viewBox="0 0 64 50" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-    + '<path d="M35 26.5 C32.5 17 30 8.5 27 3 C26.5 7 27.5 9.5 27.5 12 C28.5 13.5 29 15 28.5 17 C29.5 18.5 30 20 29.5 22 C30.5 23.5 32.5 25 35 26.5 Z"/>'
-    + '<path d="M34 28 C25.5 24.5 15.5 21.5 8.5 20.5 C12 21.5 14 22.5 14 24 C16 24.5 17.5 25.5 17.5 27 C20.5 27.5 26 28.5 34 28 Z"/>'
-    + '<path d="M35 24.5 C37.5 23 40.5 24.5 39.8 27 C39.2 29 36.5 29.5 34.8 28.5"/>'
-    + '<path d="M39 27 C46 28.5 52 31 56 33.5 L61 31 L61.5 38.5 L55 36 C50.5 34 44.5 31.5 38.5 30 Z"/>'
-    + '<path d="M33 29 C26 29.5 21.5 31.5 20 34.5 C18 39 18 43.5 19.3 47 C20.8 45.5 22 46 23.2 47.2 C24.8 45.5 26.2 46.2 27.5 47.2 C29.5 45.5 31.3 43.3 32.3 39.3"/>'
-    + '</svg>';
-  function orbit(diaPct, delay, dur){
-    return '<span class="heavens-fx heavens-orbit" data-at="'+atSpi+'" style="width:'+diaPct+'%;height:'+diaPct+'%;animation-duration:'+dur+'s;animation-delay:'+delay+'s">'
-      + '<span class="heavens-orbit-a" style="animation-duration:'+dur+'s;animation-delay:'+delay+'s">'+angSvg+'</span></span>';
+  // sky icons — birds (clouds are added below as slow orbiters)
+  h += icon('bird','',12.5,335,.72,atSky) + icon('bird','',11.5,46,.58,atSky);
+  // universe icons — sun, moon, planet, stars (enlarged again)
+  h += icon('sun','',24,308,1.9,atUni) + icon('moon','',23,232,1.7,atUni) + icon('planet','',27,196,1.8,atUni) + icon('star','',22,128,1.35,atUni) + icon('rocket','heavens-rocket',22,58,1,atUni) + icon('star','',27,20,1.15,atUni);
+  // a body that slowly revolves around the centre, staying upright (angels, clouds)
+  function orbiter(diaPct, delay, dur, ccw, inner, stepAt, faceCenter){
+    var cc = ccw ? ' heavens-orbit--ccw' : '';
+    var ia = 'heavens-orbit-a' + cc + (faceCenter ? ' heavens-orbit-a--radial' : '');
+    return '<span class="heavens-fx heavens-orbit'+cc+'" data-at="'+stepAt+'" style="width:'+diaPct+'%;height:'+diaPct+'%;animation-duration:'+dur+'s;animation-delay:'+delay+'s">'
+      + '<span class="'+ia+'" style="animation-duration:'+dur+'s;animation-delay:'+delay+'s">'+inner+'</span></span>';
   }
-  h += orbit(80,0,46) + orbit(86,-15.3,46) + orbit(74,-30.6,46);
+  // angels — the halo angel (enlarged), patrolling the water boundary
+  var angSvg = '<svg class="heavens-ang-svg" viewBox="1.5 3 21 14.5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC.angel+'</svg>';
+  h += orbiter(80,0,46,false,angSvg,atSpi) + orbiter(86,-15.3,46,false,angSvg,atSpi) + orbiter(74,-30.6,46,false,angSvg,atSpi);
+  // clouds — 3 of them drifting very slowly counter-clockwise in the sky (1st heaven), turned upright
+  var cloudSvg = '<svg class="heavens-cloud-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC.cloud+'</svg>';
+  h += orbiter(16,0,100,true,cloudSvg,atSky,true) + orbiter(19,-33,100,true,cloudSvg,atSky,true) + orbiter(15,-66,100,true,cloudSvg,atSky,true);
   // material / spiritual key
   h += '<span class="heavens-fx heavens-key heavens-key--mat" data-at="'+atUni+'"><i></i>'+esc(L(matLabel))+'</span>';
   h += '<span class="heavens-fx heavens-key heavens-key--spi" data-at="'+atSpi+'"><i></i>'+esc(L(spiLabel))+'</span>';
