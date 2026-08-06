@@ -288,10 +288,11 @@ function heavensBlock(b){
     rocket:'<path d="M12 3.5c2.8 1.9 3.9 5.6 3.9 8.6L14 15h-4l-1.9-2.9c0-3 1.1-6.7 3.9-8.6z"/><circle cx="12" cy="9.4" r="1.3"/><path d="M9.5 14.6 7.2 19l3-1M14.5 14.6 16.8 19l-3-1"/>',
     angel:'<path d="M9.1 4.9a3 3 0 0 1 5.8 0"/><circle cx="12" cy="6.7" r="1.7"/><path d="M12 8.6c-2.2 0-3.4 2.7-3.7 7h7.4c-.3-4.3-1.5-7-3.7-7z"/><path d="M8.7 11.4C6.1 9.9 3.6 10.5 2.7 13.1c2.1.5 4.1-.3 5.9-1.7M15.3 11.4c2.6-1.5 5.1-.9 6 1.7-2.1.5-4.1-.3-5.9-1.7"/>'
   };
-  function icon(name, cls, r, ang, scale, stepAt){
+  function icon(name, cls, r, ang, scale, stepAt, rot){
     var rad = ang*Math.PI/180;
     var x = (50 + r*Math.cos(rad)).toFixed(1), y = (50 + r*Math.sin(rad)).toFixed(1);
-    return '<span class="heavens-fx heavens-icon '+(cls||'')+'" data-at="'+stepAt+'" style="left:'+x+'%;top:'+y+'%;--sc:'+(scale||1)+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[name]+'</svg></span>';
+    var inner = rot ? '<g transform="rotate('+rot+' 12 12)">'+IC[name]+'</g>' : IC[name];
+    return '<span class="heavens-fx heavens-icon '+(cls||'')+'" data-at="'+stepAt+'" style="left:'+x+'%;top:'+y+'%;--sc:'+(scale||1)+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+inner+'</svg></span>';
   }
   var hint = {en:"scroll or tap to unfold",ko:"스크롤하거나 눌러서 펼치기",zh:"滚动或点按逐层展开",es:"desplaza o toca para desplegar"};
   var matLabel = {en:"MATERIAL · 1·2",ko:"물질계 · 1·2",zh:"物质界 · 1·2",es:"MATERIAL · 1·2"};
@@ -306,12 +307,18 @@ function heavensBlock(b){
   // universe (2) — its own outer edge IS the moving water boundary
   h += '<span class="heavens-fx heavens-ring heavens-ring--stars heavens-ring--water" data-at="'+atUni+'" style="width:63%;height:63%" aria-hidden="true"><i class="heavens-water-surf" aria-hidden="true"></i><span class="heavens-badge">2</span></span>';
   h += '<span class="heavens-fx heavens-ring" data-at="'+atSky+'" style="width:26%;height:26%" aria-hidden="true"><span class="heavens-badge">1</span></span>';
-  // sky icons — a cloud + birds, kept clear of the central label
-  h += icon('cloud','',11,200,1,atSky) + icon('bird','',11,338,.72,atSky) + icon('bird','',10.5,50,.6,atSky);
-  // universe icons — sun, moon, stars, planet, rocket, spread around the band
-  h += icon('sun','',23,308,1,atUni) + icon('moon','',22,232,.92,atUni) + icon('planet','',24,198,.95,atUni) + icon('star','',21,128,.62,atUni) + icon('rocket','heavens-rocket',22,58,.85,atUni) + icon('star','',24,18,.55,atUni);
+  // sky icons — cloud (midway between earth and the 1st-heaven ring) + birds
+  h += icon('cloud','',9,208,1,atSky) + icon('bird','',12.5,335,.72,atSky) + icon('bird','',11.5,46,.58,atSky);
+  // universe icons — sun, moon, planet, stars enlarged
+  h += icon('sun','',24,308,1.5,atUni) + icon('moon','',23,232,1.35,atUni) + icon('planet','',26,196,1.4,atUni) + icon('star','',22,128,1,atUni) + icon('rocket','heavens-rocket',22,58,.95,atUni) + icon('star','',26,20,.85,atUni);
   // angels — patrolling along the water boundary (slow orbit, spaced around the ring)
-  var angSvg = '<svg class="heavens-ang-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC.angel+'</svg>';
+  var angSvg = '<svg class="heavens-ang-svg" viewBox="0 0 64 50" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    + '<path d="M35 26.5 C32.5 17 30 8.5 27 3 C26.5 7 27.5 9.5 27.5 12 C28.5 13.5 29 15 28.5 17 C29.5 18.5 30 20 29.5 22 C30.5 23.5 32.5 25 35 26.5 Z"/>'
+    + '<path d="M34 28 C25.5 24.5 15.5 21.5 8.5 20.5 C12 21.5 14 22.5 14 24 C16 24.5 17.5 25.5 17.5 27 C20.5 27.5 26 28.5 34 28 Z"/>'
+    + '<path d="M35 24.5 C37.5 23 40.5 24.5 39.8 27 C39.2 29 36.5 29.5 34.8 28.5"/>'
+    + '<path d="M39 27 C46 28.5 52 31 56 33.5 L61 31 L61.5 38.5 L55 36 C50.5 34 44.5 31.5 38.5 30 Z"/>'
+    + '<path d="M33 29 C26 29.5 21.5 31.5 20 34.5 C18 39 18 43.5 19.3 47 C20.8 45.5 22 46 23.2 47.2 C24.8 45.5 26.2 46.2 27.5 47.2 C29.5 45.5 31.3 43.3 32.3 39.3"/>'
+    + '</svg>';
   function orbit(diaPct, delay, dur){
     return '<span class="heavens-fx heavens-orbit" data-at="'+atSpi+'" style="width:'+diaPct+'%;height:'+diaPct+'%;animation-duration:'+dur+'s;animation-delay:'+delay+'s">'
       + '<span class="heavens-orbit-a" style="animation-duration:'+dur+'s;animation-delay:'+delay+'s">'+angSvg+'</span></span>';
