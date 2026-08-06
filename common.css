@@ -322,6 +322,21 @@ footer{scroll-snap-align:end}
 .fk span{font-size:.9rem;opacity:.84;line-height:1.55}
 .fk em{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;font-style:normal;opacity:.6;display:block;margin-top:.6rem}
 
+/* two-world comparison panels */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;align-items:stretch}
+@media(max-width:600px){.duo{grid-template-columns:1fr}}
+.duo-col{display:flex;flex-direction:column;padding:1.5rem 1.4rem}
+.duo-ic{width:30px;height:30px;color:var(--dot);margin-bottom:.9rem}
+.duo-ic svg{width:100%;height:100%;display:block}
+.duo-b{font-family:var(--display);font-weight:500;font-size:1.32rem;line-height:1.15}
+.duo-s{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-top:.35rem}
+.duo-list{list-style:none;margin:1.15rem 0 0;padding:0;display:grid;gap:.55rem}
+.duo-list li{position:relative;padding-left:1.05rem;font-size:.96rem;line-height:1.45;opacity:.92}
+.duo-list li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--dot);opacity:.85}
+.duo-tag{align-self:flex-start;margin-top:1.3rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dot);border:1px solid color-mix(in srgb,var(--dot) 50%,transparent);border-radius:999px;padding:.34rem .8rem}
+@media(min-width:601px){.duo-col{position:relative}.duo-tag{margin-top:auto}.duo-list{margin-bottom:1.3rem}}
+
 /* callout, memory, questions */
 .callout{border-left:2px solid var(--mark);padding:.3rem 0 .3rem 1.15rem;margin:2rem 0;font-family:var(--display);font-weight:300;font-size:1.16rem;line-height:1.5;max-width:48ch}
 .memory{margin:2.4rem 0 1rem;padding:1.4rem 1.35rem;border:1px dashed color-mix(in srgb,var(--fg) 45%,transparent)}
