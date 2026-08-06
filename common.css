@@ -284,7 +284,15 @@ footer{scroll-snap-align:end}
 
 /* compare (two columns) */
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
-@media(max-width:600px){.cmp,.fork{grid-template-columns:1fr}}
+@media(max-width:600px){
+  .fork{grid-template-columns:1fr}
+  /* keep comparison tables side-by-side on mobile so the two columns still compare */
+  .cmp{gap:.4rem}
+  .cmp-head{padding:.6rem .65rem;font-size:.94rem}
+  .cmp-head small{font-size:.5rem;letter-spacing:.1em}
+  .cmp-label{font-size:.54rem;letter-spacing:.12em;padding:.55rem .1rem .05rem}
+  .cmp-row{padding:.55rem .6rem;font-size:.8rem;line-height:1.42}
+}
 .cmp-head{padding:.85rem .95rem;font-family:var(--display);font-weight:500;font-size:1.06rem}
 .cmp-head small{display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;opacity:.6;font-weight:400;margin-top:.2rem}
 .cmp-label{grid-column:1/-1;font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;opacity:.5;padding:.7rem .1rem .1rem}
