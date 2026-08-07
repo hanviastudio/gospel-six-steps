@@ -534,12 +534,13 @@ function wireTour(){
   }
   var coarse = document.documentElement.classList.contains("touch");
   if(coarse){
-    // touch: the track is a native horizontal scroll carousel; active follows scrollLeft
-    function onH(){ var w = track.clientWidth || window.innerWidth; setActive(Math.round(track.scrollLeft / w)); }
-    track.addEventListener("scroll", onH, {passive:true});
-    window.addEventListener("resize", onH, {passive:true});
-    onH();
-    dots.forEach(function(d){ d.addEventListener("click", function(){ var i = +d.getAttribute("data-i"); track.scrollTo({ left: i * (track.clientWidth || window.innerWidth), behavior: "smooth" }); }); });
+    // touch: stages are stacked vertically with CSS scroll-snap; reveal each as it enters view
+    if("IntersectionObserver" in window){
+      var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) e.target.classList.add("is-active"); }); }, {threshold:0.35});
+      panels.forEach(function(p){ io.observe(p); });
+    } else {
+      panels.forEach(function(p){ p.classList.add("is-active"); });
+    }
   } else {
     // desktop: vertical scroll (driven by the pager) slides the track horizontally
     function onScroll(){
