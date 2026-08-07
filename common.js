@@ -138,7 +138,7 @@ function cards(){
   var h = '<div class="cards-head reveal">'+esc(L(SITE.ui.contents))+'</div><div class="cards">';
   SITE.steps.forEach(function(s){
     h += '<a class="card" href="'+s.id+'.html" style="--dot:'+s.dot+'">'
-       + '<div class="card-top"><span class="card-num">Stage '+s.numeral+'</span><span class="card-ic">'+ICON(s.id)+'</span></div>'
+       + '<div class="card-top"><span class="card-num"><span class="cn-w">Stage </span>'+s.numeral+'</span><span class="card-ic">'+ICON(s.id)+'</span></div>'
        + '<h3 class="card-title">'+esc(L(s.title))+'</h3>'
        + '<div class="card-rule"></div>'
        + '<p class="card-teaser">'+esc(L(s.teaser))+'</p>'
