@@ -578,7 +578,7 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
 .tour-panel-in{position:relative;z-index:1;width:min(1120px,100% - 3rem);margin:0 auto;height:100%;
   display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:clamp(2rem,6vw,6rem);padding:clamp(4.5rem,10vh,7rem) 0}
 .tour-kicker{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;opacity:.72;margin-bottom:1.5rem}
-.tour-num{color:var(--dot)}
+.tour-num{color:color-mix(in srgb,var(--dot) 58%,var(--fg))}
 .tour-ic{display:block;width:46px;height:46px;color:var(--dot);margin-bottom:1.2rem}
 .tour-ic svg{width:100%;height:100%}
 .tour-title{font-family:var(--display);font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1;letter-spacing:-.02em;margin:0 0 1.1rem}
@@ -588,8 +588,8 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
 .tour-points li::before{content:"";position:absolute;left:0;top:.58em;width:7px;height:7px;border-radius:50%;background:var(--dot)}
 .tour-actions{display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap}
 .tour-click{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--field);background:var(--dot);border-radius:999px;padding:.9rem 1.6rem;text-decoration:none;transition:transform .2s,box-shadow .2s}
-.tour-click:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px var(--dot)}
+  color:var(--field);background:var(--fg);border-radius:999px;padding:.9rem 1.6rem;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.tour-click:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px color-mix(in srgb,var(--fg) 60%,transparent)}
 .tour-click .arw{transition:transform .2s}
 .tour-click:hover .arw{transform:translateX(4px)}
 .tour-meta{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;opacity:.55}
@@ -608,17 +608,16 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
   .tour-points li{font-size:.94rem}
   .tour-hint{display:none}
 }
-/* touch devices (html.touch): the whole landing is a full-screen slideshow —
-   every scroll snaps crisply to the next full page (mandatory + snap-stop:always), native/smooth on iOS */
+/* touch devices (html.touch): a full-screen slideshow. every scroll snaps to one full page,
+   and the tour keeps its DESKTOP behaviour — the sticky stage stays pinned (the page does NOT scroll
+   down); scrolling slides the next Stage in sideways. On touch that slide runs as a CSS transition on
+   each discrete Stage change (smooth on iOS, not the janky per-frame scroll-linked transform). */
 html.touch{scroll-snap-type:y mandatory}
-html.touch #intro{scroll-snap-align:start}
+html.touch #intro{scroll-snap-align:start;scroll-snap-stop:always}
 html.touch #top{scroll-snap-align:start;scroll-snap-stop:always}
 html.touch .hero-right{display:none}   /* the 6 cards duplicate the tour Stages; overview = hero only, one screen */
-html.touch .tour{height:auto}
-html.touch .tour-snaps{display:none}
-html.touch .tour-stage{position:static;height:auto;overflow:visible}
-html.touch .tour-track{display:block;width:100%;height:auto;transform:none!important;transition:none}
-html.touch .tour-panel{width:100%;height:100vh;min-height:560px;scroll-snap-align:start;scroll-snap-stop:always}
+html.touch .tour-snap{scroll-snap-align:start;scroll-snap-stop:always}
+html.touch .tour-track{transition:transform .6s cubic-bezier(.4,0,.2,1)}
 html.touch .tour-head,html.touch .tour-dots,html.touch .tour-hint{display:none}
 
 /* tour: chapter content enters with a staggered reveal as its panel becomes active */
@@ -631,17 +630,12 @@ html.touch .tour-head,html.touch .tour-dots,html.touch .tour-hint{display:none}
 .tour-panel.is-active .tour-teaser{transition-delay:.28s}
 .tour-panel.is-active .tour-points{transition-delay:.22s}
 .tour-panel.is-active .tour-actions{transition-delay:.36s}
-/* touch: the whole Stage screen slides in from the LEFT as it snaps into view
-   (vertical scroll input, horizontal reveal — smooth CSS entrance, not scroll-linked) */
-html.touch .tour-left > *,html.touch .tour-right > *{opacity:1;transform:none;transition:none}
-html.touch .tour-panel-in{opacity:0;transform:translateX(-84px);
-  transition:opacity .75s ease,transform .95s cubic-bezier(.2,.72,.2,1)}
-html.touch .tour-panel.is-active .tour-panel-in{opacity:1;transform:none}
 
 /* tour: big faint stage numeral (watermark) + STAGE label */
 .tour-bignum{position:absolute;z-index:0;pointer-events:none;right:clamp(0rem,3vw,4rem);top:50%;transform:translateY(-50%);
-  font-family:var(--display);font-weight:300;font-size:min(46vh,34rem);line-height:.8;color:var(--dot);opacity:.1;letter-spacing:-.04em}
+  font-family:var(--display);font-weight:300;font-size:min(46vh,34rem);line-height:.8;
+  color:color-mix(in srgb,var(--fg) 80%,var(--dot));opacity:.13;letter-spacing:-.04em}
 .tour-stage-lbl{opacity:.72}
 @media(max-width:820px){
-  .tour-bignum{top:auto;bottom:1.5%;right:2%;transform:none;font-size:min(28vh,13rem);opacity:.08}
+  .tour-bignum{top:auto;bottom:1%;right:1%;transform:none;font-size:min(30vh,15rem);opacity:.12}
 }

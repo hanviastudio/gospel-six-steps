@@ -534,13 +534,21 @@ function wireTour(){
   }
   var coarse = document.documentElement.classList.contains("touch");
   if(coarse){
-    // touch: stages are stacked vertically with CSS scroll-snap; reveal each as it enters view
-    if("IntersectionObserver" in window){
-      var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) e.target.classList.add("is-active"); }); }, {threshold:0.35});
-      panels.forEach(function(p){ io.observe(p); });
-    } else {
-      panels.forEach(function(p){ p.classList.add("is-active"); });
+    // touch: the sticky stage stays pinned (page doesn't move down); scrolling slides the track sideways.
+    // set the transform DISCRETELY per Stage change so a CSS transition animates it (smooth on iOS).
+    function onScrollM(){
+      var vh = window.innerHeight;
+      var total = sc.offsetHeight - vh;
+      var top = sc.getBoundingClientRect().top;
+      var scrolled = Math.min(Math.max(-top, 0), total);
+      var p = total > 0 ? scrolled/total : 0;
+      var active = Math.max(0, Math.min(n-1, Math.round(p * (n-1))));
+      track.style.transform = "translateX(-" + (active * 100) + "vw)";
+      setActive(active);
     }
+    window.addEventListener("scroll", onScrollM, {passive:true});
+    window.addEventListener("resize", onScrollM, {passive:true});
+    onScrollM();
   } else {
     // desktop: vertical scroll (driven by the pager) slides the track horizontally
     function onScroll(){
