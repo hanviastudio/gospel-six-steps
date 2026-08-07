@@ -608,14 +608,17 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
   .tour-points li{font-size:.94rem}
   .tour-hint{display:none}
 }
-/* touch devices (html.touch): the tour becomes 6 stacked full-screen Stages with vertical scroll-snap
-   — native + smooth on iOS, scroll moves one Stage at a time, no JS-driven transform */
-html.touch{scroll-snap-type:y proximity}
+/* touch devices (html.touch): the whole landing is a full-screen slideshow —
+   every scroll snaps crisply to the next full page (mandatory + snap-stop:always), native/smooth on iOS */
+html.touch{scroll-snap-type:y mandatory}
+html.touch #intro{scroll-snap-align:start}
+html.touch #top{scroll-snap-align:start;scroll-snap-stop:always}
+html.touch .hero-right{display:none}   /* the 6 cards duplicate the tour Stages; overview = hero only, one screen */
 html.touch .tour{height:auto}
 html.touch .tour-snaps{display:none}
 html.touch .tour-stage{position:static;height:auto;overflow:visible}
 html.touch .tour-track{display:block;width:100%;height:auto;transform:none!important;transition:none}
-html.touch .tour-panel{width:100%;height:100vh;min-height:560px;scroll-snap-align:start}
+html.touch .tour-panel{width:100%;height:100vh;min-height:560px;scroll-snap-align:start;scroll-snap-stop:always}
 html.touch .tour-head,html.touch .tour-dots,html.touch .tour-hint{display:none}
 
 /* tour: chapter content enters with a staggered reveal as its panel becomes active */
