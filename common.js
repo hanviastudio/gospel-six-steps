@@ -13,7 +13,7 @@ var SITE = {
   "contact":{"en":"Contact","ko":"연락처","zh":"联系","es":"Contacto"},
   "overview":{"en":"Overview","ko":"개요","zh":"概述","es":"Resumen"},
   "contents":{"en":"Contents · six steps","ko":"목차 · 여섯 단계","zh":"目录 · 六个阶段","es":"Contenido · seis pasos"},
-  "open":{"en":"Click","ko":"클릭","zh":"点击","es":"Clic"},
+  "open":{"en":"Open","ko":"열기","zh":"打开","es":"Abrir"},
   "lessons":{"en":"lessons","ko":"과","zh":"课","es":"lecciones"},
   "inStage":{"en":"In this stage","ko":"이 단계에서 배우는 것","zh":"本阶段学习","es":"En esta etapa"},
   "soon":{"en":"Full study content coming soon","ko":"상세 본문은 곧 추가됩니다","zh":"详细内容即将推出","es":"Contenido detallado en preparación"},
@@ -93,7 +93,7 @@ var SITE = {
    {"en":"The purpose of grace","ko":"은혜의 목적","zh":"恩典的目的","es":"El propósito de la gracia"},
    {"en":"Living and testifying grace","ko":"은혜를 살아내고 증거함","zh":"活出并见证恩典","es":"Vivir y testificar la gracia"}
   ]},
- {"id":"step-6","numeral":"06","dot":"#E9C46A","field":"#D9B24A","fg":"#2A2312","nl":4,"range":"6.1–6.4",
+ {"id":"step-6","numeral":"06","dot":"#F0CB63","field":"#8F6C16","fg":"#FBEFCB","nl":4,"range":"6.1–6.4",
   "title":{"en":"Faith","ko":"믿음","zh":"信","es":"La fe"},
   "sub":{"en":"What I Believe","ko":"What I Believe","zh":"What I Believe","es":"What I Believe"},
   "teaser":{"en":"Open the box. Receive it.","ko":"상자를 열라. 받으라.","zh":"打开盒子，领受它。","es":"Abre la caja. Recíbelo."},
@@ -160,9 +160,12 @@ function tour(){
   h += '<div class="tour-stage">';
   h += '<div class="tour-head"><span class="tour-eyebrow">'+esc(L(SITE.ui.contents))+'</span><span class="tour-count"><b>1</b> / '+n+'</span></div>';
   h += '<div class="tour-track">';
-  steps.forEach(function(s){
+  steps.forEach(function(s, idx){
+    var tourIndex = steps.map(function(st, j){ return '<span class="ti-num'+(j===idx?' on':'')+'">'+st.numeral+'</span>'; }).join('');
     h += '<article class="tour-panel" style="--field:'+s.field+';--fg:'+s.fg+';--dot:'+s.dot+'">'
        + '<span class="tour-bignum" aria-hidden="true">'+parseInt(s.numeral,10)+'</span>'
+       + '<div class="tour-index" aria-hidden="true">'+tourIndex+'</div>'
+       + '<div class="tour-graphic" aria-hidden="true"><span class="tg-word">'+esc(L(s.title))+'</span></div>'
        + '<div class="tour-panel-in">'
        + '<div class="tour-left">'
        + '<div class="tour-kicker"><span class="tour-stage-lbl">Stage</span><b class="tour-num">'+s.numeral+'</b><span class="tour-sep">·</span><span class="tour-sub">'+esc(L(s.sub))+'</span></div>'
@@ -175,7 +178,9 @@ function tour(){
        + '<div class="tour-actions"><a class="tour-click" href="'+s.id+'.html">'+esc(L(SITE.ui.open))+' <span class="arw">&#8594;</span></a>'
        + '<span class="tour-meta">'+esc(lessonsLabel(s))+'</span></div>'
        + '</div>'
-       + '</div></article>';
+       + '</div>'
+       + '<div class="tour-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></div>'
+       + '</article>';
   });
   h += '</div>'; // track
   h += '<div class="tour-dots" role="tablist">';

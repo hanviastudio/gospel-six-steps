@@ -627,6 +627,47 @@ html.touch .tour-snap{scroll-snap-align:start;scroll-snap-stop:always}
 html.touch .tour-track{transition:transform .6s cubic-bezier(.4,0,.2,1)}
 html.touch .tour-head,html.touch .tour-dots,html.touch .tour-hint{display:none}
 
+/* ---- minimal "Open the Gift" Stage (touch only) ---- */
+.tour-index,.tour-graphic,.tour-chev{display:none}                 /* hidden on desktop */
+html.touch .tour-bignum{display:none}
+html.touch .tour-kicker,html.touch .tour-ic,html.touch .tour-points,html.touch .tour-meta,html.touch .tour-title{display:none}
+/* top numeric index: active number big, the rest small & faint */
+html.touch .tour-index{display:flex;align-items:baseline;justify-content:center;gap:.65rem;position:absolute;z-index:4;
+  top:clamp(4.6rem,9vh,6.2rem);left:clamp(1rem,5vw,2rem);right:clamp(1rem,5vw,2rem);
+  font-family:var(--display);white-space:nowrap;overflow:hidden}
+html.touch .ti-num{flex:none;font-weight:300;font-size:1.12rem;line-height:1;letter-spacing:.03em;
+  color:color-mix(in srgb,var(--fg) 30%,transparent)}
+html.touch .ti-num.on{font-size:3.1rem;color:var(--fg)}
+/* big central graphic — a bold circle in the Stage colour with the icon inside */
+html.touch .tour-graphic{display:grid;place-items:center;position:absolute;z-index:2;top:47%;left:53%;
+  transform:translate(-50%,-50%);width:min(63vw,320px);aspect-ratio:1;border-radius:50%;overflow:hidden;
+  will-change:transform,scale;background:color-mix(in srgb,var(--dot) 72%,var(--fg));
+  box-shadow:0 26px 70px -26px color-mix(in srgb,var(--fg) 50%,transparent),
+             inset 0 0 0 1px color-mix(in srgb,var(--fg) 14%,transparent)}
+/* slow orbiting sheen — a highlight that drifts across the surface so it never sits still */
+html.touch .tour-graphic::before{content:"";position:absolute;z-index:0;inset:-28%;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%, rgba(255,255,255,.42), rgba(255,255,255,0) 54%)}
+html.touch .tg-word{position:relative;z-index:1;font-family:var(--display);font-weight:500;color:var(--field);
+  font-size:clamp(1.5rem,6.6vw,2.15rem);line-height:1.08;text-align:center;letter-spacing:-.01em;
+  max-width:78%;text-wrap:balance}
+/* bottom: name + one-line description + OPEN */
+html.touch .tour-panel-in{position:absolute;z-index:4;inset:auto 0 0 0;height:auto;min-height:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;
+  padding:0 clamp(1.5rem,6vw,2.4rem) clamp(5rem,12vh,7rem)}
+html.touch .tour-teaser{font-size:clamp(1.05rem,4.4vw,1.3rem);line-height:1.4;opacity:.82;max-width:24ch;margin:0 0 1.5rem;
+  font-family:var(--display);text-align:center}
+html.touch .tour-actions{margin:0}
+/* minimal, borderless, softly-filled pill — small, no arrow */
+html.touch .tour-click{background:color-mix(in srgb,var(--fg) 11%,transparent);color:var(--fg);
+  border:none;padding:.48rem 1.1rem;font-size:.72rem;letter-spacing:.14em}
+html.touch .tour-click .arw{display:none}
+html.touch .tour-click:active{background:color-mix(in srgb,var(--fg) 19%,transparent)}
+/* up-chevron scroll hint */
+html.touch .tour-chev{display:block;position:absolute;z-index:4;bottom:clamp(1.3rem,3.2vh,2rem);left:50%;
+  width:26px;height:26px;color:color-mix(in srgb,var(--fg) 42%,transparent);animation:tourChev 1.9s ease-in-out infinite}
+html.touch .tour-chev svg{width:100%;height:100%}
+@keyframes tourChev{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-5px)}}
+
 /* tour: chapter content enters with a staggered reveal as its panel becomes active */
 .tour-left > *,.tour-right > *{opacity:0;transform:translateY(26px);
   transition:opacity .7s ease,transform .85s cubic-bezier(.2,.7,.2,1)}
@@ -637,6 +678,33 @@ html.touch .tour-head,html.touch .tour-dots,html.touch .tour-hint{display:none}
 .tour-panel.is-active .tour-teaser{transition-delay:.28s}
 .tour-panel.is-active .tour-points{transition-delay:.22s}
 .tour-panel.is-active .tour-actions{transition-delay:.36s}
+
+/* the central graphic is the hero of each stage: it pops in, then never sits fully still */
+html.touch .tour-panel.is-active .tour-graphic{animation:tgIn .85s cubic-bezier(.34,1.28,.5,1) both}
+html.touch .tour-panel.is-active .tg-word{animation:wordIn .7s .2s both}
+@media (prefers-reduced-motion: no-preference){
+  html.touch .tour-panel.is-active .tour-graphic{
+    animation:tgIn .85s cubic-bezier(.34,1.28,.5,1) both,
+              tgBreathe 5.5s ease-in-out .95s infinite,
+              tgGlow 5.5s ease-in-out .95s infinite}
+  html.touch .tour-panel.is-active .tour-graphic::before{animation:tgSheen 16s linear infinite}
+  html.touch .tour-panel.is-active .tg-word{animation:wordIn .7s .2s both, wordBob 4.6s ease-in-out 1.1s infinite}
+}
+@keyframes tgIn{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.7)}
+  62%{opacity:1;transform:translate(-50%,-50%) scale(1.045)}
+  100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes tgBreathe{0%,100%{scale:1}50%{scale:1.032}}
+@keyframes tgGlow{
+  0%,100%{box-shadow:0 26px 70px -30px color-mix(in srgb,var(--fg) 42%,transparent),
+                     0 0 0 0 color-mix(in srgb,var(--dot) 42%,transparent),
+                     inset 0 0 0 1px color-mix(in srgb,var(--fg) 14%,transparent)}
+  50%{box-shadow:0 32px 84px -26px color-mix(in srgb,var(--fg) 60%,transparent),
+                 0 0 46px 8px color-mix(in srgb,var(--dot) 34%,transparent),
+                 inset 0 0 0 1px color-mix(in srgb,var(--fg) 14%,transparent)}}
+@keyframes tgSheen{to{rotate:360deg}}
+@keyframes wordIn{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes wordBob{0%,100%{translate:0 0}50%{translate:0 -4px}}
 
 /* tour: big faint stage numeral (watermark) + STAGE label */
 .tour-bignum{position:absolute;z-index:0;pointer-events:none;right:clamp(0rem,3vw,4rem);top:50%;transform:translateY(-50%);
