@@ -625,45 +625,65 @@ html.touch #top{scroll-snap-align:start;scroll-snap-stop:always}
 /* page 2 (overview) on touch: keep the intro text, add a LIGHT contents list of the 6 Stages beneath it */
 html.touch #intro,html.touch #top{height:100dvh;min-height:100dvh}
 html.touch #top{padding-top:clamp(4rem,8vh,5rem);padding-bottom:clamp(1.2rem,3.5vh,2rem)}
-html.touch #top .hero-grid{gap:clamp(1.6rem,5vh,2.6rem)}
+html.touch #top .hero-grid{gap:clamp(1.2rem,4vh,2rem)}
 html.touch #top .hero-sub{margin-bottom:0}
-html.touch #top .hero-intro{font-size:.86rem;line-height:1.75;letter-spacing:.01em;opacity:.6;max-width:32ch;margin:0}
+html.touch #top .hero-intro{font-size:.83rem;line-height:1.62;letter-spacing:.01em;opacity:.58;max-width:32ch;margin:0}
 html.touch .hero-right{display:block}
-/* the 6 Stages as a two-row (3×2) stepper: glowing colour circles, dotted connectors, name labels */
-html.touch #top .cards-head{margin:.1rem 0 .85rem}
-html.touch #top .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.15rem .2rem}
+/* the 6 Stages as a two-row (3×2) stepper: soft radial-glow lights, dotted path, triangle arrows */
+html.touch #top .cards-head{margin:.1rem 0 .7rem}
+html.touch #top .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.05rem .2rem}
 html.touch #top .cards .card{opacity:1;transform:none;position:relative;display:flex;flex-direction:column;align-items:center;
-  gap:.55rem;min-height:0;padding:0;border:none;border-radius:0;background:none;box-shadow:none;overflow:visible}
-html.touch #top .card-ic,html.touch #top .card-rule,html.touch #top .card-teaser,html.touch #top .card-foot,html.touch #top .cn-w{display:none}
-html.touch #top .card::before{display:none}   /* base accent bar off */
-/* the glowing circle */
-html.touch #top .card-top{position:relative;z-index:1;margin:0;width:2.6rem;height:2.6rem;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;background:var(--dot);box-shadow:none}
-html.touch #top .card-num{font-family:var(--mono);font-size:.78rem;font-weight:500;letter-spacing:0;color:#14161C}
-/* --- winding dotted path with arrows: 01→02→03, turn down, 06←05←04 --- */
-/* reverse the second row so 04 sits under 03 (right end) and the path snakes back left */
+  gap:.5rem;min-height:0;padding:0;border:none;border-radius:0;background:none;box-shadow:none;overflow:visible}
+html.touch #top .card-ic,html.touch #top .card-rule,html.touch #top .card-teaser,html.touch #top .card-foot,html.touch #top .cn-w,html.touch #top .cn-z,html.touch #top .ct-the{display:none}
+/* the light: a soft radial gradient in the Stage colour with a small solid core holding the number */
+html.touch #top .card-top{position:relative;z-index:1;margin:0;width:3.5rem;height:3.5rem;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle, color-mix(in srgb,var(--dot) 60%,transparent) 0%, color-mix(in srgb,var(--dot) 24%,transparent) 44%, transparent 72%)}
+html.touch #top .card-num{width:1.45rem;height:1.45rem;border-radius:50%;background:var(--dot);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:0;color:#14161C}
+/* --- winding dotted path, triangle arrows: 01→02→03, turn down, 06←05←04 --- */
 html.touch #top .card:nth-child(4){grid-row:2;grid-column:3}
 html.touch #top .card:nth-child(5){grid-row:2;grid-column:2}
 html.touch #top .card:nth-child(6){grid-row:2;grid-column:1}
-html.touch #top .card::after{content:"";position:absolute;top:1.3rem;height:0;z-index:0;
-  border-top:1.5px dotted color-mix(in srgb,var(--paper) 34%,transparent)}
-html.touch #top .card::before{content:"";position:absolute;width:0;height:0;z-index:2;display:none}
-/* row 1 forward (01,02) → arrow right */
-html.touch #top .card:nth-child(1)::after,html.touch #top .card:nth-child(2)::after{left:calc(50% + 1.4rem);width:calc(100% - 2.8rem)}
-html.touch #top .card:nth-child(1)::before,html.touch #top .card:nth-child(2)::before{display:block;top:calc(1.3rem - 3.5px);left:calc(100% - 3px);
-  border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;border-left:6px solid color-mix(in srgb,var(--paper) 60%,transparent)}
-/* row 2 back (04,05) → arrow left */
-html.touch #top .card:nth-child(4)::after,html.touch #top .card:nth-child(5)::after{left:calc(-50% + 1.4rem);width:calc(100% - 2.8rem)}
-html.touch #top .card:nth-child(4)::before,html.touch #top .card:nth-child(5)::before{display:block;top:calc(1.3rem - 3.5px);left:-3px;
-  border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;border-right:6px solid color-mix(in srgb,var(--paper) 60%,transparent)}
-/* the turn: 03 → down into 04 (same column) */
-html.touch #top .card:nth-child(3)::after{top:2.6rem;left:calc(50% - .75px);width:0;border-top:none;
-  height:calc(100% - 1.45rem);border-left:1.5px dotted color-mix(in srgb,var(--paper) 34%,transparent)}
-html.touch #top .card:nth-child(3)::before{display:block;top:calc(100% + 1.15rem - 6px);left:calc(50% - 3.5px);
-  border-left:3.5px solid transparent;border-right:3.5px solid transparent;border-top:6px solid color-mix(in srgb,var(--paper) 60%,transparent)}
+html.touch #top .card::after{content:"";position:absolute;top:1.75rem;height:0;z-index:0;
+  border-top:1.5px dotted color-mix(in srgb,var(--paper) 32%,transparent)}
+html.touch #top .card::before{content:"";position:absolute;width:9px;height:9px;z-index:3;display:none;
+  background:color-mix(in srgb,var(--paper) 66%,transparent)}
+/* row 1 forward (01,02) → arrow ▶ */
+html.touch #top .card:nth-child(1)::after,html.touch #top .card:nth-child(2)::after{left:calc(50% + .8rem);width:calc(100% - 1.6rem)}
+html.touch #top .card:nth-child(1)::before,html.touch #top .card:nth-child(2)::before{display:block;top:calc(1.75rem - 4.5px);left:calc(150% - 1.3rem);
+  clip-path:polygon(0 0,100% 50%,0 100%)}
+/* row 2 back (04,05) → arrow ◀ */
+html.touch #top .card:nth-child(4)::after,html.touch #top .card:nth-child(5)::after{left:calc(-50% + .8rem);width:calc(100% - 1.6rem)}
+html.touch #top .card:nth-child(4)::before,html.touch #top .card:nth-child(5)::before{display:block;top:calc(1.75rem - 4.5px);left:calc(-50% + .7rem);
+  clip-path:polygon(100% 0,0 50%,100% 100%)}
+/* the turn: 03 → down into 04 (same column) ▼ */
+html.touch #top .card:nth-child(3)::after{top:2.475rem;left:calc(50% - .75px);width:0;border-top:none;
+  height:calc(100% - .5rem);border-left:1.5px dotted color-mix(in srgb,var(--paper) 32%,transparent)}
+html.touch #top .card:nth-child(3)::before{display:block;top:calc(100% + 1.45rem);left:calc(50% - 4.5px);
+  clip-path:polygon(0 0,100% 0,50% 100%)}
 html.touch #top .card:nth-child(6)::after{display:none}
 /* stage name */
-html.touch #top .card-title{font-size:.72rem;line-height:1.22;text-align:center;font-weight:500;opacity:.9;max-width:9ch}
+html.touch #top .card-title{font-size:.68rem;line-height:1.2;text-align:center;font-weight:500;opacity:.88;max-width:9ch}
+/* --- sequential reveal along the path: circle → arrow → circle → arrow … --- */
+html.touch #top .card-top{opacity:0;transform:scale(.3);transition:opacity .4s ease,transform .55s cubic-bezier(.3,1.5,.4,1)}
+html.touch #top .card-title{opacity:0;transform:translateY(5px);transition:opacity .45s ease,transform .45s ease}
+html.touch #top .card::after{opacity:0;transition:opacity .35s ease}
+html.touch #top .card::before{opacity:0;transition:opacity .3s ease}
+html.touch #top .cards.in .card-top,html.touch #top .cards.in .card-title{opacity:1;transform:none}
+html.touch #top .cards.in .card::after,html.touch #top .cards.in .card::before{opacity:1}
+html.touch #top .card:nth-child(1) .card-top,html.touch #top .card:nth-child(1) .card-title{transition-delay:0s}
+html.touch #top .card:nth-child(1)::after,html.touch #top .card:nth-child(1)::before{transition-delay:.12s}
+html.touch #top .card:nth-child(2) .card-top,html.touch #top .card:nth-child(2) .card-title{transition-delay:.24s}
+html.touch #top .card:nth-child(2)::after,html.touch #top .card:nth-child(2)::before{transition-delay:.36s}
+html.touch #top .card:nth-child(3) .card-top,html.touch #top .card:nth-child(3) .card-title{transition-delay:.48s}
+html.touch #top .card:nth-child(3)::after,html.touch #top .card:nth-child(3)::before{transition-delay:.6s}
+html.touch #top .card:nth-child(4) .card-top,html.touch #top .card:nth-child(4) .card-title{transition-delay:.72s}
+html.touch #top .card:nth-child(4)::after,html.touch #top .card:nth-child(4)::before{transition-delay:.84s}
+html.touch #top .card:nth-child(5) .card-top,html.touch #top .card:nth-child(5) .card-title{transition-delay:.96s}
+html.touch #top .card:nth-child(5)::after,html.touch #top .card:nth-child(5)::before{transition-delay:1.08s}
+html.touch #top .card:nth-child(6) .card-top,html.touch #top .card:nth-child(6) .card-title{transition-delay:1.2s}
 html.touch .tour-snap{scroll-snap-align:start;scroll-snap-stop:always}
 html.touch .tour-track{transition:transform .6s cubic-bezier(.4,0,.2,1)}
 html.touch .tour-head,html.touch .tour-dots,html.touch .tour-hint{display:none}
