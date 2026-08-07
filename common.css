@@ -622,7 +622,23 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
 html.touch{scroll-snap-type:y mandatory}
 html.touch #intro{scroll-snap-align:start;scroll-snap-stop:always}
 html.touch #top{scroll-snap-align:start;scroll-snap-stop:always}
-html.touch .hero-right{display:none}   /* the 6 cards duplicate the tour Stages; overview = hero only, one screen */
+/* page 2 (overview) on touch: exactly one visible screen + a simple preview of the 6 Stages */
+html.touch #intro,html.touch #top{height:100dvh;min-height:100dvh}
+html.touch #top{padding-top:clamp(4.4rem,9vh,5.4rem);padding-bottom:clamp(1.4rem,4vh,2.2rem)}
+html.touch #top .hero-intro{display:none}          /* drop the long paragraph so the list fits one screen */
+html.touch #top .hero-grid{gap:clamp(1.3rem,4vh,2rem)}
+html.touch #top .hero-sub{margin-bottom:0}
+html.touch .hero-right{display:block}
+html.touch #top .cards-head{margin:.1rem 0 .55rem}
+html.touch #top .cards{display:flex;flex-direction:column;gap:0}
+html.touch #top .cards .card{opacity:1;transform:none;display:grid;grid-template-columns:auto 1fr;align-items:center;
+  column-gap:.85rem;min-height:0;padding:.62rem .1rem;border:none;border-radius:0;background:none;box-shadow:none;
+  border-top:1px solid color-mix(in srgb,var(--dot) 42%,transparent)}
+html.touch #top .card-ic,html.touch #top .card-rule,html.touch #top .card-teaser,html.touch #top .card-foot{display:none}
+html.touch #top .card-top{margin:0;justify-content:flex-start;gap:.6rem}
+html.touch #top .card-top::before{content:"";width:.5rem;height:.5rem;border-radius:50%;background:var(--dot);flex:none}
+html.touch #top .card-num{color:color-mix(in srgb,var(--paper) 52%,transparent)}
+html.touch #top .card-title{font-size:1.04rem}
 html.touch .tour-snap{scroll-snap-align:start;scroll-snap-stop:always}
 html.touch .tour-track{transition:transform .6s cubic-bezier(.4,0,.2,1)}
 html.touch .tour-head,html.touch .tour-dots,html.touch .tour-hint{display:none}
