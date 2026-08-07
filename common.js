@@ -613,6 +613,31 @@ function wirePager(){
     if(!animating) go(d);
   });
 }
+/* landing: make the left rail a working stage navigator (click the dot -> go to that stage; active dot tracks the tour) */
+function wireRail(page){
+  if(page !== "landing") return;
+  var tour = document.getElementById("tour"); if(!tour) return;
+  var items = Array.prototype.slice.call(document.querySelectorAll("#rail li"));
+  if(!items.length) return;
+  var n = tour.querySelectorAll(".tour-snap").length || items.length;
+  function tourY(i){ return Math.round(tour.getBoundingClientRect().top + (window.scrollY || window.pageYOffset) + i * window.innerHeight); }
+  items.forEach(function(li, i){
+    li.style.cursor = "pointer";
+    li.addEventListener("click", function(e){
+      e.preventDefault();
+      smoothScrollTo(tourY(i), 700);
+    });
+    var a = li.querySelector("a"); if(a) a.addEventListener("click", function(e){ e.preventDefault(); });
+  });
+  function onScroll(){
+    var vh = window.innerHeight, rel = -tour.getBoundingClientRect().top;   // scroll depth into the tour
+    var active = -1;
+    if(rel >= -vh * 0.4){ active = Math.max(0, Math.min(n-1, Math.round(rel / vh))); }
+    items.forEach(function(li, i){ li.setAttribute("data-on", i === active ? "1" : "0"); });
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+}
 function wireSpy(page){
   var prog = document.getElementById("prog");
   var curDot = document.getElementById("curDot"), curText = document.getElementById("curText");
@@ -672,6 +697,7 @@ function paint(page){
   wireHeavens();
   wireTour();
   wirePager();
+  wireRail(page);
   wireSpy(page);
 }
 
