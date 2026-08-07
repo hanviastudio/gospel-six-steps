@@ -138,7 +138,7 @@ function cards(){
   var h = '<div class="cards-head reveal">'+esc(L(SITE.ui.contents))+'</div><div class="cards">';
   SITE.steps.forEach(function(s){
     h += '<a class="card" href="'+s.id+'.html" style="--dot:'+s.dot+'">'
-       + '<div class="card-top"><span class="card-num">'+s.numeral+'</span><span class="card-ic">'+ICON(s.id)+'</span></div>'
+       + '<div class="card-top"><span class="card-num">Stage '+s.numeral+'</span><span class="card-ic">'+ICON(s.id)+'</span></div>'
        + '<h3 class="card-title">'+esc(L(s.title))+'</h3>'
        + '<div class="card-rule"></div>'
        + '<p class="card-teaser">'+esc(L(s.teaser))+'</p>'
@@ -149,6 +149,42 @@ function cards(){
   return h + '</div>';
 }
 
+/* Page 3 — horizontal chapter tour: vertical scroll slides the panels left */
+function tour(){
+  var steps = SITE.steps, n = steps.length;
+  var scrollLabel = {en:"Scroll",ko:"스크롤",zh:"滚动",es:"Desplaza"};
+  var h = '<section class="tour" id="tour" style="--n:'+n+'">';
+  h += '<div class="tour-snaps" aria-hidden="true">';
+  for(var si=0; si<n; si++) h += '<div class="tour-snap"></div>';
+  h += '</div>';
+  h += '<div class="tour-stage">';
+  h += '<div class="tour-head"><span class="tour-eyebrow">'+esc(L(SITE.ui.contents))+'</span><span class="tour-count"><b>1</b> / '+n+'</span></div>';
+  h += '<div class="tour-track">';
+  steps.forEach(function(s){
+    h += '<article class="tour-panel" style="--field:'+s.field+';--fg:'+s.fg+';--dot:'+s.dot+'">'
+       + '<span class="tour-bignum" aria-hidden="true">'+parseInt(s.numeral,10)+'</span>'
+       + '<div class="tour-panel-in">'
+       + '<div class="tour-left">'
+       + '<div class="tour-kicker"><span class="tour-stage-lbl">Stage</span><b class="tour-num">'+s.numeral+'</b><span class="tour-sep">·</span><span class="tour-sub">'+esc(L(s.sub))+'</span></div>'
+       + '<span class="tour-ic">'+ICON(s.id)+'</span>'
+       + '<h2 class="tour-title">'+esc(L(s.title))+'</h2>'
+       + '<p class="tour-teaser">'+esc(L(s.teaser))+'</p>'
+       + '</div>'
+       + '<div class="tour-right">'
+       + '<ul class="tour-points">' + s.points.map(function(p){return '<li>'+esc(L(p))+'</li>';}).join('') + '</ul>'
+       + '<div class="tour-actions"><a class="tour-click" href="'+s.id+'.html">'+esc(L(SITE.ui.open))+' <span class="arw">&#8594;</span></a>'
+       + '<span class="tour-meta">'+esc(lessonsLabel(s))+'</span></div>'
+       + '</div>'
+       + '</div></article>';
+  });
+  h += '</div>'; // track
+  h += '<div class="tour-dots" role="tablist">';
+  for(var i=0;i<n;i++) h += '<button class="tour-dot" type="button" data-i="'+i+'" aria-label="'+(i+1)+'"></button>';
+  h += '</div>';
+  h += '<div class="tour-hint">'+esc(L(scrollLabel))+' <span aria-hidden="true">&#8594;</span></div>';
+  h += '</div></section>';
+  return h;
+}
 function renderLanding(){
   var h = '<section class="field" id="top"><div class="wrap"><div class="hero-grid">'
      + '<div class="hero-left">'
@@ -159,6 +195,7 @@ function renderLanding(){
      + '</div>'
      + '<div class="hero-right">'+cards()+'</div>'
      + '</div></div></section>';
+  h += tour();
   document.getElementById("app").innerHTML = h;
 }
 
@@ -478,6 +515,104 @@ function wireHeavens(){
     });
   });
 }
+function wireTour(){
+  var sc = document.querySelector(".tour"); if(!sc || sc.__wired) return; sc.__wired = true;
+  var track = sc.querySelector(".tour-track");
+  var stage = sc.querySelector(".tour-stage");
+  var n = parseInt(getComputedStyle(sc).getPropertyValue("--n"), 10) || track.children.length;
+  var dots = Array.prototype.slice.call(sc.querySelectorAll(".tour-dot"));
+  var panels = Array.prototype.slice.call(sc.querySelectorAll(".tour-panel"));
+  var countB = sc.querySelector(".tour-count b");
+  var cur = -1;
+  function onScroll(){
+    var vh = window.innerHeight;
+    var total = sc.offsetHeight - vh;
+    var top = sc.getBoundingClientRect().top;
+    var scrolled = Math.min(Math.max(-top, 0), total);
+    var p = total > 0 ? scrolled/total : 0;
+    track.style.transform = "translateX(-" + (p * (n-1) * 100) + "vw)";
+    var active = Math.round(p * (n-1));
+    if(active !== cur){
+      cur = active;
+      dots.forEach(function(d, i){ d.setAttribute("aria-current", i === active ? "true" : "false"); });
+      panels.forEach(function(pn, i){ pn.classList.toggle("is-active", i === active); });
+      if(countB) countB.textContent = (active + 1);
+      if(stage) stage.setAttribute("data-panel", active);
+    }
+  }
+  function goto(i){
+    i = Math.max(0, Math.min(n-1, i));
+    var vh = window.innerHeight;
+    var total = sc.offsetHeight - vh;
+    var absTop = sc.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+    smoothScrollTo(Math.round(absTop + (n > 1 ? total * (i/(n-1)) : 0)) + 2, 720);
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  window.addEventListener("resize", onScroll, {passive:true});
+  onScroll();
+  dots.forEach(function(d){ d.addEventListener("click", function(){ goto(+d.getAttribute("data-i")); }); });
+}
+var __scrollAnim = null;
+function smoothScrollTo(y, dur, done){
+  if(__scrollAnim) cancelAnimationFrame(__scrollAnim);
+  var start = window.scrollY || window.pageYOffset, dist = y - start, t0 = null;
+  dur = dur || 700;
+  function ease(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2; } // easeInOutCubic
+  function step(ts){
+    if(t0 === null) t0 = ts;
+    var p = dur > 0 ? Math.min(1, (ts - t0)/dur) : 1;
+    window.scrollTo(0, Math.round(start + dist * ease(p)));
+    if(p < 1){ __scrollAnim = requestAnimationFrame(step); } else { __scrollAnim = null; if(done) done(); }
+  }
+  __scrollAnim = requestAnimationFrame(step);
+}
+/* landing: hijack wheel/keys to move one full-frame page at a time, animated */
+function wirePager(){
+  if(window.__pagerInit) return;                                     // wire window listeners only once
+  if(!document.getElementById("tour")) return;                       // landing only
+  var mq = window.matchMedia;
+  if(mq && (mq("(pointer:coarse)").matches || mq("(prefers-reduced-motion:reduce)").matches)) return;
+  window.__pagerInit = true;
+  document.documentElement.style.scrollBehavior = "auto";           // rAF drives the smoothness
+  var pts = [];
+  function measure(){
+    var tour = document.getElementById("tour"); if(!tour) return;    // re-query (DOM re-renders on lang change)
+    var scY = window.scrollY || window.pageYOffset, vh = window.innerHeight, p = [0];
+    var topEl = document.getElementById("top");
+    if(topEl) p.push(Math.round(topEl.getBoundingClientRect().top + scY));
+    var t0 = tour.getBoundingClientRect().top + scY, n = tour.querySelectorAll(".tour-snap").length || 1;
+    for(var i=0; i<n; i++) p.push(Math.round(t0 + i*vh));
+    pts = p;
+  }
+  measure();
+  window.addEventListener("resize", measure);
+  var animating = false, armed = true, rearm = null;
+  function idx(){ var y = window.scrollY || window.pageYOffset, b = 0, bd = 1e9; for(var i=0;i<pts.length;i++){ var d = Math.abs(pts[i]-y); if(d<bd){ bd=d; b=i; } } return b; }
+  function go(dir){
+    var i = idx(), t = Math.max(0, Math.min(pts.length-1, i + dir));
+    if(t === i) return;
+    animating = true;
+    smoothScrollTo(pts[t], 700, function(){ animating = false; });
+  }
+  window.addEventListener("wheel", function(e){
+    if(Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;             // let horizontal/trackpad-x pass
+    e.preventDefault();
+    if(rearm) clearTimeout(rearm);
+    rearm = setTimeout(function(){ armed = true; }, 180);            // re-arm only after the whole gesture (incl. momentum) settles
+    if(animating || !armed) return;
+    armed = false;                                                   // at most one page per gesture
+    go(e.deltaY > 0 ? 1 : -1);
+  }, {passive:false});
+  window.addEventListener("keydown", function(e){
+    var d = 0;
+    if(e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") d = 1;
+    else if(e.key === "ArrowUp" || e.key === "PageUp") d = -1;
+    else return;
+    if(e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    e.preventDefault();
+    if(!animating) go(d);
+  });
+}
 function wireSpy(page){
   var prog = document.getElementById("prog");
   var curDot = document.getElementById("curDot"), curText = document.getElementById("curText");
@@ -535,6 +670,8 @@ function paint(page){
   wireReveal();
   wireAccordion();
   wireHeavens();
+  wireTour();
+  wirePager();
   wireSpy(page);
 }
 

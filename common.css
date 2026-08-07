@@ -9,13 +9,8 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-/* magnetic scroll-snap: intro ⇄ contents (gentle 'proximity' so long content never gets trapped) */
-html{scroll-snap-type:y proximity}
-#intro{scroll-snap-align:start}
-#top{scroll-snap-align:start}
-@media(prefers-reduced-motion:reduce){html{scroll-snap-type:none}}
-/* touch devices: free scrolling (snap felt sticky on mobile) */
-@media(pointer:coarse){html{scroll-snap-type:none}}
+/* full-frame page transitions are driven by JS (wirePager) for a crisp, animated feel */
+html{scroll-snap-type:none}
 body{
   margin:0;background:var(--ink);color:var(--paper);
   font-family:var(--body);font-weight:300;font-size:17px;line-height:1.72;
@@ -569,4 +564,66 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
 @media(prefers-reduced-motion:reduce){
   .heavens-ring,.heavens-earth,.heavens-beyond,.heavens-badge,.heavens-scene{transition:none}
   .heavens-water-surf,.heavens-orbit,.heavens-orbit-a,.heavens-float-a,.heavens-float-b,.heavens-float-c{animation:none}
+}
+
+/* ============ Landing Page 3 — horizontal chapter tour ============ */
+.tour{position:relative;height:calc(var(--n) * 100vh);background:var(--ink)}
+.tour-snaps{position:absolute;inset:0;z-index:0;pointer-events:none}
+.tour-snap{height:100vh}
+.tour-stage{position:sticky;top:0;height:100vh;min-height:560px;overflow:hidden;z-index:1}
+.tour-track{display:flex;height:100%;width:calc(var(--n) * 100vw);will-change:transform;transition:transform .08s linear}
+.tour-panel{flex:0 0 100vw;width:100vw;height:100%;position:relative;background:var(--field);color:var(--fg);overflow:hidden}
+.tour-panel::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(115% 90% at 12% 18%,color-mix(in srgb,var(--dot) 24%,transparent),transparent 58%)}
+.tour-panel-in{position:relative;z-index:1;width:min(1120px,100% - 3rem);margin:0 auto;height:100%;
+  display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:clamp(2rem,6vw,6rem);padding:clamp(4.5rem,10vh,7rem) 0}
+.tour-kicker{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;opacity:.72;margin-bottom:1.5rem}
+.tour-num{color:var(--dot)}
+.tour-ic{display:block;width:46px;height:46px;color:var(--dot);margin-bottom:1.2rem}
+.tour-ic svg{width:100%;height:100%}
+.tour-title{font-family:var(--display);font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1;letter-spacing:-.02em;margin:0 0 1.1rem}
+.tour-teaser{font-family:var(--display);font-weight:300;font-size:clamp(1.2rem,2.3vw,1.65rem);line-height:1.4;opacity:.9;max-width:22ch;margin:0}
+.tour-points{list-style:none;margin:0 0 2.1rem;padding:0;display:grid;gap:.85rem}
+.tour-points li{position:relative;padding-left:1.3rem;font-size:1.02rem;line-height:1.4;opacity:.92}
+.tour-points li::before{content:"";position:absolute;left:0;top:.58em;width:7px;height:7px;border-radius:50%;background:var(--dot)}
+.tour-actions{display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap}
+.tour-click{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--field);background:var(--dot);border-radius:999px;padding:.9rem 1.6rem;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.tour-click:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px var(--dot)}
+.tour-click .arw{transition:transform .2s}
+.tour-click:hover .arw{transform:translateX(4px)}
+.tour-meta{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;opacity:.55}
+.tour-head{position:absolute;top:clamp(1.4rem,4vh,2.4rem);z-index:3;left:50%;transform:translateX(-50%);width:min(1120px,100% - 3rem);
+  display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#F1E9DA;mix-blend-mode:difference}
+.tour-count b{font-weight:700}
+.tour-dots{position:absolute;bottom:clamp(1.6rem,4vh,2.6rem);left:0;right:0;z-index:3;display:flex;justify-content:center;gap:.55rem}
+.tour-dot{width:10px;height:10px;border-radius:50%;border:1px solid #F1E9DA;background:transparent;cursor:pointer;padding:0;mix-blend-mode:difference;transition:width .3s,background .3s}
+.tour-dot[aria-current="true"]{background:#F1E9DA;width:28px;border-radius:6px}
+.tour-hint{position:absolute;bottom:clamp(1.6rem,4vh,2.6rem);right:clamp(1.4rem,5vw,4rem);z-index:3;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#F1E9DA;opacity:.7;mix-blend-mode:difference}
+@media(max-width:820px){
+  .tour-panel-in{grid-template-columns:1fr;align-content:center;gap:1.3rem;padding:clamp(5rem,13vh,7rem) 0}
+  .tour-title{font-size:clamp(2.2rem,10vw,3.2rem)}
+  .tour-points{margin-bottom:1.6rem;gap:.65rem}
+  .tour-points li{font-size:.94rem}
+  .tour-hint{display:none}
+}
+
+/* tour: chapter content enters with a staggered reveal as its panel becomes active */
+.tour-left > *,.tour-right > *{opacity:0;transform:translateY(26px);
+  transition:opacity .7s ease,transform .85s cubic-bezier(.2,.7,.2,1)}
+.tour-panel.is-active .tour-left > *,.tour-panel.is-active .tour-right > *{opacity:1;transform:none}
+.tour-panel.is-active .tour-kicker{transition-delay:.06s}
+.tour-panel.is-active .tour-ic{transition-delay:.13s}
+.tour-panel.is-active .tour-title{transition-delay:.2s}
+.tour-panel.is-active .tour-teaser{transition-delay:.28s}
+.tour-panel.is-active .tour-points{transition-delay:.22s}
+.tour-panel.is-active .tour-actions{transition-delay:.36s}
+
+/* tour: big faint stage numeral (watermark) + STAGE label */
+.tour-bignum{position:absolute;z-index:0;pointer-events:none;right:clamp(0rem,3vw,4rem);top:50%;transform:translateY(-50%);
+  font-family:var(--display);font-weight:300;font-size:min(46vh,34rem);line-height:.8;color:var(--dot);opacity:.1;letter-spacing:-.04em}
+.tour-stage-lbl{opacity:.72}
+@media(max-width:820px){
+  .tour-bignum{top:auto;bottom:1.5%;right:2%;transform:none;font-size:min(28vh,13rem);opacity:.08}
 }
