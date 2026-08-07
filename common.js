@@ -524,33 +524,45 @@ function wireTour(){
   var panels = Array.prototype.slice.call(sc.querySelectorAll(".tour-panel"));
   var countB = sc.querySelector(".tour-count b");
   var cur = -1;
-  function onScroll(){
-    var vh = window.innerHeight;
-    var total = sc.offsetHeight - vh;
-    var top = sc.getBoundingClientRect().top;
-    var scrolled = Math.min(Math.max(-top, 0), total);
-    var p = total > 0 ? scrolled/total : 0;
-    track.style.transform = "translateX(-" + (p * (n-1) * 100) + "vw)";
-    var active = Math.round(p * (n-1));
-    if(active !== cur){
-      cur = active;
-      dots.forEach(function(d, i){ d.setAttribute("aria-current", i === active ? "true" : "false"); });
-      panels.forEach(function(pn, i){ pn.classList.toggle("is-active", i === active); });
-      if(countB) countB.textContent = (active + 1);
-      if(stage) stage.setAttribute("data-panel", active);
+  function setActive(active){
+    active = Math.max(0, Math.min(n-1, active));
+    if(active === cur) return; cur = active;
+    dots.forEach(function(d, i){ d.setAttribute("aria-current", i === active ? "true" : "false"); });
+    panels.forEach(function(pn, i){ pn.classList.toggle("is-active", i === active); });
+    if(countB) countB.textContent = (active + 1);
+    if(stage) stage.setAttribute("data-panel", active);
+  }
+  var coarse = document.documentElement.classList.contains("touch");
+  if(coarse){
+    // touch: the track is a native horizontal scroll carousel; active follows scrollLeft
+    function onH(){ var w = track.clientWidth || window.innerWidth; setActive(Math.round(track.scrollLeft / w)); }
+    track.addEventListener("scroll", onH, {passive:true});
+    window.addEventListener("resize", onH, {passive:true});
+    onH();
+    dots.forEach(function(d){ d.addEventListener("click", function(){ var i = +d.getAttribute("data-i"); track.scrollTo({ left: i * (track.clientWidth || window.innerWidth), behavior: "smooth" }); }); });
+  } else {
+    // desktop: vertical scroll (driven by the pager) slides the track horizontally
+    function onScroll(){
+      var vh = window.innerHeight;
+      var total = sc.offsetHeight - vh;
+      var top = sc.getBoundingClientRect().top;
+      var scrolled = Math.min(Math.max(-top, 0), total);
+      var p = total > 0 ? scrolled/total : 0;
+      track.style.transform = "translateX(-" + (p * (n-1) * 100) + "vw)";
+      setActive(Math.round(p * (n-1)));
     }
+    function goto(i){
+      i = Math.max(0, Math.min(n-1, i));
+      var vh = window.innerHeight;
+      var total = sc.offsetHeight - vh;
+      var absTop = sc.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+      smoothScrollTo(Math.round(absTop + (n > 1 ? total * (i/(n-1)) : 0)) + 2, 720);
+    }
+    window.addEventListener("scroll", onScroll, {passive:true});
+    window.addEventListener("resize", onScroll, {passive:true});
+    onScroll();
+    dots.forEach(function(d){ d.addEventListener("click", function(){ goto(+d.getAttribute("data-i")); }); });
   }
-  function goto(i){
-    i = Math.max(0, Math.min(n-1, i));
-    var vh = window.innerHeight;
-    var total = sc.offsetHeight - vh;
-    var absTop = sc.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
-    smoothScrollTo(Math.round(absTop + (n > 1 ? total * (i/(n-1)) : 0)) + 2, 720);
-  }
-  window.addEventListener("scroll", onScroll, {passive:true});
-  window.addEventListener("resize", onScroll, {passive:true});
-  onScroll();
-  dots.forEach(function(d){ d.addEventListener("click", function(){ goto(+d.getAttribute("data-i")); }); });
 }
 var __scrollAnim = null;
 function smoothScrollTo(y, dur, done){
@@ -570,8 +582,9 @@ function smoothScrollTo(y, dur, done){
 function wirePager(){
   if(window.__pagerInit) return;                                     // wire window listeners only once
   if(!document.getElementById("tour")) return;                       // landing only
+  if(document.documentElement.classList.contains("touch")) return;   // touch uses native scroll + carousel
   var mq = window.matchMedia;
-  if(mq && (mq("(pointer:coarse)").matches || mq("(prefers-reduced-motion:reduce)").matches)) return;
+  if(mq && mq("(prefers-reduced-motion:reduce)").matches) return;
   window.__pagerInit = true;
   document.documentElement.style.scrollBehavior = "auto";           // rAF drives the smoothness
   var pts = [];
@@ -676,6 +689,7 @@ function wireSpy(page){
 function paint(page){
   document.documentElement.lang = lang;
   document.documentElement.classList.add("has-js");
+  if((window.matchMedia && window.matchMedia("(pointer:coarse)").matches) || /[?&]touch\b/.test(location.search)) document.documentElement.classList.add("touch");
   var foot = document.getElementById("foot");
   if(foot) foot.innerHTML = '<b>'+esc(L(SITE.hero.title))+'</b><br>'+esc(L(SITE.ui.footer));
   /* full-screen intro splash (index only) */

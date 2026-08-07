@@ -608,6 +608,15 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
   .tour-points li{font-size:.94rem}
   .tour-hint{display:none}
 }
+/* touch devices (html.touch): the tour is a native horizontal swipe carousel (smooth on iOS; the track
+   itself scrolls, so the JS no longer drives its transform, and the head/dots stay fixed) */
+html.touch .tour{height:100vh;min-height:560px}
+html.touch .tour-snaps{display:none}
+html.touch .tour-stage{position:relative;top:auto}
+html.touch .tour-track{width:100vw;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;transform:none!important;transition:none;scrollbar-width:none}
+html.touch .tour-track::-webkit-scrollbar{display:none}
+html.touch .tour-panel{scroll-snap-align:start;scroll-snap-stop:always}
 
 /* tour: chapter content enters with a staggered reveal as its panel becomes active */
 .tour-left > *,.tour-right > *{opacity:0;transform:translateY(26px);
