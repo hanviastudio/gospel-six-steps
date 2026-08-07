@@ -625,8 +625,9 @@ html.touch #top{scroll-snap-align:start;scroll-snap-stop:always}
 /* page 2 (overview) on touch: keep the intro text, add a LIGHT contents list of the 6 Stages beneath it */
 html.touch #intro,html.touch #top{height:100dvh;min-height:100dvh}
 html.touch #top{padding-top:clamp(4rem,8vh,5rem);padding-bottom:clamp(1.2rem,3.5vh,2rem)}
-html.touch #top .hero-grid{gap:clamp(1rem,3vh,1.5rem)}
-html.touch #top .hero-intro{font-size:.92rem;line-height:1.55;margin:0}
+html.touch #top .hero-grid{gap:clamp(1.6rem,5vh,2.6rem)}
+html.touch #top .hero-sub{margin-bottom:0}
+html.touch #top .hero-intro{font-size:.86rem;line-height:1.75;letter-spacing:.01em;opacity:.6;max-width:32ch;margin:0}
 html.touch .hero-right{display:block}
 /* the 6 Stages as a two-row (3×2) stepper: glowing colour circles, dotted connectors, name labels */
 html.touch #top .cards-head{margin:.1rem 0 .85rem}
@@ -636,14 +637,31 @@ html.touch #top .cards .card{opacity:1;transform:none;position:relative;display:
 html.touch #top .card-ic,html.touch #top .card-rule,html.touch #top .card-teaser,html.touch #top .card-foot,html.touch #top .cn-w{display:none}
 html.touch #top .card::before{display:none}   /* base accent bar off */
 /* the glowing circle */
-html.touch #top .card-top{position:relative;z-index:1;margin:0;width:2.9rem;height:2.9rem;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;background:var(--dot);
-  box-shadow:0 0 0 .45rem color-mix(in srgb,var(--dot) 18%,transparent),0 0 1.5rem .05rem color-mix(in srgb,var(--dot) 50%,transparent)}
-html.touch #top .card-num{font-family:var(--mono);font-size:.82rem;font-weight:500;letter-spacing:0;color:#14161C}
-/* dotted connector to the next circle (hidden at the end of each row) */
-html.touch #top .card::after{content:"";position:absolute;top:1.45rem;left:calc(50% + 1.6rem);width:calc(100% - 3.2rem);height:0;
-  border-top:2px dotted color-mix(in srgb,var(--paper) 34%,transparent);z-index:0}
-html.touch #top .card:nth-child(3n)::after{display:none}
+html.touch #top .card-top{position:relative;z-index:1;margin:0;width:2.6rem;height:2.6rem;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;background:var(--dot);box-shadow:none}
+html.touch #top .card-num{font-family:var(--mono);font-size:.78rem;font-weight:500;letter-spacing:0;color:#14161C}
+/* --- winding dotted path with arrows: 01→02→03, turn down, 06←05←04 --- */
+/* reverse the second row so 04 sits under 03 (right end) and the path snakes back left */
+html.touch #top .card:nth-child(4){grid-row:2;grid-column:3}
+html.touch #top .card:nth-child(5){grid-row:2;grid-column:2}
+html.touch #top .card:nth-child(6){grid-row:2;grid-column:1}
+html.touch #top .card::after{content:"";position:absolute;top:1.3rem;height:0;z-index:0;
+  border-top:1.5px dotted color-mix(in srgb,var(--paper) 34%,transparent)}
+html.touch #top .card::before{content:"";position:absolute;width:0;height:0;z-index:2;display:none}
+/* row 1 forward (01,02) → arrow right */
+html.touch #top .card:nth-child(1)::after,html.touch #top .card:nth-child(2)::after{left:calc(50% + 1.4rem);width:calc(100% - 2.8rem)}
+html.touch #top .card:nth-child(1)::before,html.touch #top .card:nth-child(2)::before{display:block;top:calc(1.3rem - 3.5px);left:calc(100% - 3px);
+  border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;border-left:6px solid color-mix(in srgb,var(--paper) 60%,transparent)}
+/* row 2 back (04,05) → arrow left */
+html.touch #top .card:nth-child(4)::after,html.touch #top .card:nth-child(5)::after{left:calc(-50% + 1.4rem);width:calc(100% - 2.8rem)}
+html.touch #top .card:nth-child(4)::before,html.touch #top .card:nth-child(5)::before{display:block;top:calc(1.3rem - 3.5px);left:-3px;
+  border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;border-right:6px solid color-mix(in srgb,var(--paper) 60%,transparent)}
+/* the turn: 03 → down into 04 (same column) */
+html.touch #top .card:nth-child(3)::after{top:2.6rem;left:calc(50% - .75px);width:0;border-top:none;
+  height:calc(100% - 1.45rem);border-left:1.5px dotted color-mix(in srgb,var(--paper) 34%,transparent)}
+html.touch #top .card:nth-child(3)::before{display:block;top:calc(100% + 1.15rem - 6px);left:calc(50% - 3.5px);
+  border-left:3.5px solid transparent;border-right:3.5px solid transparent;border-top:6px solid color-mix(in srgb,var(--paper) 60%,transparent)}
+html.touch #top .card:nth-child(6)::after{display:none}
 /* stage name */
 html.touch #top .card-title{font-size:.72rem;line-height:1.22;text-align:center;font-weight:500;opacity:.9;max-width:9ch}
 html.touch .tour-snap{scroll-snap-align:start;scroll-snap-stop:always}
