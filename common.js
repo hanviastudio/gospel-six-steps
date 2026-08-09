@@ -711,7 +711,10 @@ function wireSpy(page){
 function paint(page){
   document.documentElement.lang = lang;
   document.documentElement.classList.add("has-js");
-  if((window.matchMedia && window.matchMedia("(pointer:coarse)").matches) || /[?&]touch\b/.test(location.search)) document.documentElement.classList.add("touch");
+  /* phone-only mobile layout: a touch device counts as "mobile" only when its SHORTER side is < 768px.
+     Tablets (iPad etc.) have a shorter side >= 768 and so get the full desktop layout. ?touch=1 forces it for testing. */
+  var phoneSized = Math.min(window.innerWidth || 9999, window.innerHeight || 9999) < 768;
+  if(/[?&]touch\b/.test(location.search) || (window.matchMedia && window.matchMedia("(pointer:coarse)").matches && phoneSized)) document.documentElement.classList.add("touch");
   document.documentElement.classList.toggle("is-landing", page==="landing");  // scroll-snap is landing-only
   var foot = document.getElementById("foot");
   if(foot) foot.innerHTML = '<b>'+esc(L(SITE.hero.title))+'</b><br>'+esc(L(SITE.ui.footer));
