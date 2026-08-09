@@ -638,13 +638,17 @@ html.touch #intro,html.touch #top{height:100dvh;min-height:100dvh}
 html.touch .tour{height:calc(var(--n) * 100dvh)}
 html.touch .tour-snap{height:100dvh}
 html.touch .tour-stage{height:100dvh;min-height:0}
-html.touch #top{padding-top:clamp(4rem,8vh,5rem);padding-bottom:clamp(1.2rem,3.5vh,2rem)}
-html.touch #top .hero-grid{gap:clamp(1.2rem,4vh,2rem)}
-html.touch #top .hero-sub{margin-bottom:0}
-html.touch #top .hero-intro{font-size:.83rem;line-height:1.62;letter-spacing:.01em;opacity:.58;max-width:32ch;margin:0}
+html.touch #top{padding-top:clamp(3rem,6.5vh,4rem);padding-bottom:clamp(2rem,5vh,3rem)}
+html.touch #top .hero-grid{gap:clamp(2.4rem,9vh,4.5rem)}
+/* centre the whole intro so it reads as one symmetric block with the stepper */
+html.touch #top .hero-left{text-align:center}
+html.touch #top .eyebrow{margin-bottom:1.2rem;opacity:.6}
+html.touch #top .hero-sub{margin:.9rem auto 0;max-width:23ch}
+html.touch #top .hero-intro{font-size:.83rem;line-height:1.65;letter-spacing:.01em;opacity:.55;max-width:30ch;margin:1.15rem auto 0;text-align:center}
 html.touch .hero-right{display:block}
 /* the 6 Stages as a two-row (3×2) stepper: soft radial-glow lights, dotted path, triangle arrows */
-html.touch #top .cards-head{margin:.1rem 0 .7rem}
+html.touch #top .cards-head{margin:0 0 1rem;justify-content:center;gap:1rem}
+html.touch #top .cards-head::before{content:"";flex:1;height:1px;background:currentColor;opacity:.22}
 html.touch #top .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.05rem .2rem}
 html.touch #top .cards .card{opacity:1;transform:none;position:relative;display:flex;flex-direction:column;align-items:center;
   gap:.5rem;min-height:0;padding:0;border:none;border-radius:0;background:none;box-shadow:none;overflow:visible}
