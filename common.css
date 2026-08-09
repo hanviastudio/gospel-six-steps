@@ -673,13 +673,15 @@ html.touch #top .card:nth-child(4)::after,html.touch #top .card:nth-child(5)::af
 html.touch #top .card:nth-child(4)::before,html.touch #top .card:nth-child(5)::before{display:block;top:calc(1.75rem - 4.5px);left:calc(-50% + .7rem);
   clip-path:polygon(100% 0,0 50%,100% 100%)}
 /* the turn: 03 → down into 04 (same column) ▼ */
+/* uniform card height (labels reserve 2 lines) makes the turn geometry fixed, not label-dependent */
 html.touch #top .card:nth-child(3)::after{top:2.475rem;left:calc(50% - .75px);width:0;border-top:none;
-  height:calc(100% - .5rem);border-left:1.5px dotted color-mix(in srgb,var(--paper) 32%,transparent)}
-html.touch #top .card:nth-child(3)::before{display:block;top:calc(100% + 1.45rem);left:calc(50% - 4.5px);
+  height:5.1rem;border-left:1.5px dotted color-mix(in srgb,var(--paper) 32%,transparent)}
+html.touch #top .card:nth-child(3)::before{display:block;top:6.95rem;left:calc(50% - 4.5px);
   clip-path:polygon(0 0,100% 0,50% 100%)}
 html.touch #top .card:nth-child(6)::after{display:none}
 /* stage name */
-html.touch #top .card-title{font-size:.68rem;line-height:1.2;text-align:center;font-weight:500;opacity:.88;max-width:9ch}
+html.touch #top .card-title{font-size:.68rem;line-height:1.2;text-align:center;font-weight:500;opacity:.88;
+  max-width:10ch;min-height:2.4em;hyphens:none;overflow-wrap:normal}
 /* --- sequential reveal along the path: circle → arrow → circle → arrow … --- */
 html.touch #top .card-top{opacity:0;transform:scale(.3);transition:opacity .4s ease,transform .55s cubic-bezier(.3,1.5,.4,1)}
 html.touch #top .card-title{opacity:0;transform:translateY(5px);transition:opacity .45s ease,transform .45s ease}
