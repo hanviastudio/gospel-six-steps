@@ -24,6 +24,8 @@ var SITE = {
   "memory":{"en":"Memory verse","ko":"암송 구절","zh":"背诵经文","es":"Versículo para memorizar"},
   "questions":{"en":"For discussion","ko":"함께 나눌 질문","zh":"讨论问题","es":"Para dialogar"},
   "lesson":{"en":"Lesson","ko":"레슨","zh":"课","es":"Lección"},
+  "quizKicker":{"en":"Test yourself","ko":"실력 점검","zh":"自我检测","es":"Ponte a prueba"},
+  "quizLabel":{"en":"Stage quiz","ko":"스테이지 퀴즈","zh":"阶段测验","es":"Cuestionario de etapa"},
   "footer":{
     "en":"A six-part gospel study. Scripture references and study text for each step will be added from the source material. Korean, Chinese, and Spanish renderings are prepared for this study; swap in your preferred translation as needed.",
     "ko":"여섯 과로 이루어진 복음 교재입니다. 각 단계의 성경 본문과 해설은 원자료에서 이어서 채워집니다. 한국어·중국어·스페인어 번역은 이 교재를 위해 준비한 것이며, 원하시는 역본으로 바꾸실 수 있습니다.",
@@ -232,8 +234,15 @@ function renderChapter(id){
     h += '<div class="soon reveal"><i></i>'+esc(L(SITE.ui.soon))+'</div>';
   }
 
+  var quizHref = "https://inspiring-paletas-23e826.netlify.app/?stage=" + (idx + 1);
+  var quizLink = '<a class="cnav quiz" href="'+quizHref+'" target="_blank" rel="noopener" '
+     + 'style="--dot:'+s.dot+';flex:1 1 100%;min-width:100%;align-items:center;text-align:center;border-color:'+s.dot+'">'
+     + '<small style="color:'+s.dot+';opacity:1">'+esc(L(SITE.ui.quizKicker))+' &#8594;</small>'
+     + '<b>'+s.numeral+' &middot; '+esc(L(SITE.ui.quizLabel))+'</b></a>';
+
   h += '<div class="chapter-nav">'
      + navLink(prev,"prev") + navLink(next,"next")
+     + quizLink
      + '<a class="cnav toc" href="index.html"><small>&#8593; '+esc(L(SITE.ui.back))+'</small></a>'
      + '</div>';
 
