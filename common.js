@@ -243,10 +243,10 @@ function renderChapter(id){
   var quizHref = "https://inspiring-paletas-23e826.netlify.app/?stage=" + (idx + 1);
   h += '<section class="quiz-cta" id="quiz" style="--field:'+s.field+';--fg:'+s.fg+';--dot:'+s.dot+'">'
      + '<div class="quiz-cta-in reveal">'
-     + '<span class="quiz-cta-kicker">'+esc(L(SITE.ui.quizKicker))+'</span>'
      + '<div class="quiz-cta-orb" aria-hidden="true"><span class="quiz-cta-q">?</span></div>'
+     + '<span class="quiz-cta-kicker">'+esc(L(SITE.ui.quizKicker))+'</span>'
      + '<h2 class="quiz-cta-title">'+esc(L(SITE.ui.quizCtaTitle))+'</h2>'
-     + '<p class="quiz-cta-sub"><b>'+s.numeral+'</b> &middot; '+esc(L(SITE.ui.quizLabel))+' &middot; '+esc(L(s.title))+'</p>'
+     + '<p class="quiz-cta-sub"><b>'+s.numeral+'</b> &middot; '+esc(L(s.title))+'</p>'
      + '<a class="quiz-cta-btn" href="'+quizHref+'" target="_blank" rel="noopener">'+esc(L(SITE.ui.quizCtaBtn))+' <span class="arw" aria-hidden="true">&#8594;</span></a>'
      + '<span class="quiz-cta-note">'+esc(L(SITE.ui.quizCtaNote))+'</span>'
      + '</div>'
