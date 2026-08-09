@@ -537,6 +537,17 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
 .heavens-desc{font-size:clamp(1rem,1.4vw,1.12rem);line-height:1.5;opacity:.9;margin:0}
 .heavens-cite{display:inline-block;margin-top:1rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;
   color:color-mix(in srgb,var(--fg) 62%,transparent);border-top:1px solid color-mix(in srgb,var(--fg) 22%,transparent);padding-top:.5rem}
+/* clickable scripture in the three-heavens panel (desktop only) */
+.heavens-verses{margin-top:1rem;max-width:36ch}
+.heavens-verses .sv{border-bottom:1px solid color-mix(in srgb,var(--fg) 20%,transparent)}
+.heavens-verses .sv:first-child{border-top:1px solid color-mix(in srgb,var(--fg) 20%,transparent)}
+.heavens-verses .sv>button{padding:.6rem 0;gap:.6rem}
+.heavens-verses .sv-ref{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;opacity:.78}
+.heavens-verses .sv-plus{width:13px;height:13px}
+.heavens-verses .sv-plus::before{width:9px}
+.heavens-verses .sv-plus::after{height:9px}
+.heavens-verses .sv-text{font-family:var(--display);font-weight:300;font-size:.94rem;line-height:1.56;padding:.15rem 0 .95rem;max-width:42ch;opacity:.92}
+.heavens-verses .sv-text::before{width:22px;margin-bottom:.6rem}
 
 /* controls */
 .heavens-ctrl{position:absolute;left:0;right:0;bottom:clamp(1.2rem,3.4vh,2.2rem);z-index:2;

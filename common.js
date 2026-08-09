@@ -312,10 +312,11 @@ function blockBody(b, verses){
   if(b.t==="dia"){ var t=b.title?'<div class="dia-t">'+esc(L(b.title))+'</div>':''; return '<div class="dia reveal">'+t+(DIA[b.kind]?DIA[b.kind](b):'')+'</div>'; }
   if(b.t==="mem"){ var v=verses[b.ref]; if(!v) return ''; return '<div class="memory reveal"><div class="hint">'+esc(L(SITE.ui.memory))+'</div><q>'+esc(L(v.t))+'</q><cite>'+esc(L(v.ref))+'</cite></div>'; }
   if(b.t==="q"){ var hq='<div class="qs-head reveal">'+esc(L(SITE.ui.questions))+'</div><ul class="qs reveal">'; b.items.forEach(function(q){ hq+='<li>'+esc(L(q))+'</li>'; }); return hq+'</ul>'; }
-  if(b.t==="heavens") return heavensBlock(b);
+  if(b.t==="heavens") return heavensBlock(b, verses);
   return '';
 }
-function heavensBlock(b){
+function heavensBlock(b, verses){
+  verses = verses || {};
   var shells = b.shells || [];
   var steps = shells.length;
   var at = {}; shells.forEach(function(s,i){ at[s.role] = i; });
@@ -387,7 +388,13 @@ function heavensBlock(b){
     if(s.k) h += '<div class="heavens-eyebrow">'+esc(L(s.k))+'</div>';
     h += '<h3 class="heavens-name">'+esc(L(s.b))+'</h3>';
     if(s.s) h += '<p class="heavens-desc">'+esc(L(s.s))+'</p>';
-    if(s.e) h += '<span class="heavens-cite">'+esc(L(s.e))+'</span>';
+    if(s.ev && s.ev.length && !document.documentElement.classList.contains("touch")){
+      h += '<div class="heavens-verses">';
+      s.ev.forEach(function(id){ var v = verses[id]; if(!v) return;
+        h += '<div class="sv" data-open="0"><button type="button" aria-expanded="false"><span class="sv-ref">'+esc(L(v.ref))+'</span><span class="sv-plus" aria-hidden="true"></span></button><div class="sv-body"><div class="sv-text">'+esc(L(v.t))+'</div></div></div>';
+      });
+      h += '</div>';
+    } else if(s.e){ h += '<span class="heavens-cite">'+esc(L(s.e))+'</span>'; }
     h += '</div>';
   });
   h += '</div></div>';
@@ -407,7 +414,8 @@ window.renderChapterBody = function(detail){
 function wireAccordion(){
   document.querySelectorAll(".sv > button").forEach(function(btn){
     if(btn.__wired) return; btn.__wired = true;
-    btn.addEventListener("click", function(){
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
       var sv = btn.parentNode, body = sv.querySelector(".sv-body");
       var open = sv.getAttribute("data-open")==="1";
       sv.setAttribute("data-open", open?"0":"1");
@@ -509,7 +517,7 @@ function wireHeavens(){
     if(next) next.addEventListener("click", function(e){ e.stopPropagation(); goto(cur+1); });
     dots.forEach(function(d){ d.addEventListener("click", function(e){ e.stopPropagation(); goto(+d.getAttribute("data-i")); }); });
     stage.addEventListener("click", function(e){
-      if(e.target.closest(".heavens-ctrl") || e.target.closest(".heavens-head")) return;
+      if(e.target.closest(".heavens-ctrl") || e.target.closest(".heavens-head") || e.target.closest(".heavens-verses")) return;
       goto(cur+1);
     });
     window.addEventListener("keydown", function(e){
