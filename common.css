@@ -665,6 +665,10 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
    down); scrolling slides the next Stage in sideways. On touch that slide runs as a CSS transition on
    each discrete Stage change (smooth on iOS, not the janky per-frame scroll-linked transform). */
 html.touch.is-landing{scroll-snap-type:y mandatory}   /* snap only on the landing, never on chapter pages */
+/* chapter pages on touch: let the reading scroll freely, but snap the full-frame quiz crisply into view */
+html.touch:not(.is-landing){scroll-snap-type:y proximity}
+html.touch .quiz-cta{scroll-snap-align:start;scroll-snap-stop:always;min-height:100dvh}
+html.touch:not(.is-landing) footer{scroll-snap-align:none}
 html.touch #intro{scroll-snap-align:start;scroll-snap-stop:always}
 html.touch #top{scroll-snap-align:start;scroll-snap-stop:always}
 /* every full-screen page on touch = exactly the visible viewport (dvh), so nothing hides behind the URL bar */
