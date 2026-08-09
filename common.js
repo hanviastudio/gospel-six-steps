@@ -712,6 +712,7 @@ function paint(page){
   document.documentElement.lang = lang;
   document.documentElement.classList.add("has-js");
   if((window.matchMedia && window.matchMedia("(pointer:coarse)").matches) || /[?&]touch\b/.test(location.search)) document.documentElement.classList.add("touch");
+  document.documentElement.classList.toggle("is-landing", page==="landing");  // scroll-snap is landing-only
   var foot = document.getElementById("foot");
   if(foot) foot.innerHTML = '<b>'+esc(L(SITE.hero.title))+'</b><br>'+esc(L(SITE.ui.footer));
   /* full-screen intro splash (index only) */
@@ -826,6 +827,10 @@ window.G = {
   cosmos: cosmos,
   init: function(opts){
     var page = (opts && opts.page) || "landing";
+    /* always open a page at the very top — don't let the browser restore a deep
+       scroll position (which made chapters appear to open at the bottom on mobile). */
+    if("scrollRestoration" in history){ try{ history.scrollRestoration = "manual"; }catch(e){} }
+    window.scrollTo(0,0);
     document.querySelectorAll(".langs button").forEach(function(btn){
       btn.addEventListener("click", function(){
         var y = window.scrollY;
@@ -836,6 +841,8 @@ window.G = {
     });
     paint(page);
     introMotion();
+    window.scrollTo(0,0);
+    requestAnimationFrame(function(){ window.scrollTo(0,0); });
   }
 };
 })();

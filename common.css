@@ -630,11 +630,14 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
    and the tour keeps its DESKTOP behaviour — the sticky stage stays pinned (the page does NOT scroll
    down); scrolling slides the next Stage in sideways. On touch that slide runs as a CSS transition on
    each discrete Stage change (smooth on iOS, not the janky per-frame scroll-linked transform). */
-html.touch{scroll-snap-type:y mandatory}
+html.touch.is-landing{scroll-snap-type:y mandatory}   /* snap only on the landing, never on chapter pages */
 html.touch #intro{scroll-snap-align:start;scroll-snap-stop:always}
 html.touch #top{scroll-snap-align:start;scroll-snap-stop:always}
-/* page 2 (overview) on touch: keep the intro text, add a LIGHT contents list of the 6 Stages beneath it */
+/* every full-screen page on touch = exactly the visible viewport (dvh), so nothing hides behind the URL bar */
 html.touch #intro,html.touch #top{height:100dvh;min-height:100dvh}
+html.touch .tour{height:calc(var(--n) * 100dvh)}
+html.touch .tour-snap{height:100dvh}
+html.touch .tour-stage{height:100dvh;min-height:0}
 html.touch #top{padding-top:clamp(4rem,8vh,5rem);padding-bottom:clamp(1.2rem,3.5vh,2rem)}
 html.touch #top .hero-grid{gap:clamp(1.2rem,4vh,2rem)}
 html.touch #top .hero-sub{margin-bottom:0}
@@ -725,13 +728,13 @@ html.touch .tg-word{position:relative;z-index:1;font-family:var(--display);font-
 /* bottom: name + one-line description + OPEN */
 html.touch .tour-panel-in{position:absolute;z-index:4;inset:auto 0 0 0;height:auto;min-height:0;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;
-  padding:0 clamp(1.5rem,6vw,2.4rem) clamp(5rem,12vh,7rem)}
+  padding:0 clamp(1.5rem,6vw,2.4rem) calc(clamp(4.5rem,11vh,6.5rem) + env(safe-area-inset-bottom))}
 html.touch .tour-teaser{font-size:clamp(1.05rem,4.4vw,1.3rem);line-height:1.4;opacity:.82;max-width:24ch;margin:0 0 1.5rem;
   font-family:var(--display);text-align:center}
 html.touch .tour-actions{margin:0}
 /* minimal, borderless, softly-filled pill — small, no arrow */
 html.touch .tour-click{background:color-mix(in srgb,var(--fg) 11%,transparent);color:var(--fg);
-  border:none;padding:.48rem 1.1rem;font-size:.72rem;letter-spacing:.14em}
+  border:none;padding:.72rem 1.6rem;font-size:.72rem;letter-spacing:.14em}
 html.touch .tour-click .arw{display:none}
 html.touch .tour-click:active{background:color-mix(in srgb,var(--fg) 19%,transparent)}
 /* up-chevron scroll hint */
