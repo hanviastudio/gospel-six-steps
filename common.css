@@ -239,26 +239,28 @@ footer{scroll-snap-align:end}
   padding:clamp(4rem,14vh,8rem) clamp(1.75rem,8vw,3rem)}
 .quiz-cta::before{content:"";position:absolute;left:50%;top:34%;width:min(74vw,30rem);aspect-ratio:1;transform:translate(-50%,-50%);
   border-radius:50%;pointer-events:none;background:radial-gradient(circle, color-mix(in srgb,var(--dot) 20%,transparent), transparent 66%)}
-.quiz-cta-in{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:1.5rem;max-width:30rem}
-/* a small, quiet orb — no ring, no spin */
-.quiz-cta-orb{width:3.4rem;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;margin-bottom:.4rem;
+.quiz-cta-in{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;
+  gap:clamp(1.4rem,2.6vh,2.1rem);max-width:min(90vw,36rem)}
+/* a small, quiet orb — no ring, no spin — grows a little on wider screens */
+.quiz-cta-orb{width:clamp(3.4rem,5vw,5rem);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;margin-bottom:.3rem;
   background:color-mix(in srgb,var(--dot) 72%,var(--fg));
-  box-shadow:0 0 38px -6px color-mix(in srgb,var(--dot) 55%,transparent)}
-.quiz-cta-q{font-family:var(--display);font-weight:500;font-size:1.4rem;line-height:1;color:var(--field)}
-.quiz-cta-kicker{font-family:var(--mono);font-size:.64rem;letter-spacing:.36em;text-transform:uppercase;
+  box-shadow:0 0 clamp(38px,4vw,60px) -6px color-mix(in srgb,var(--dot) 55%,transparent)}
+.quiz-cta-q{font-family:var(--display);font-weight:500;font-size:clamp(1.4rem,2.1vw,2rem);line-height:1;color:var(--field)}
+.quiz-cta-kicker{font-family:var(--mono);font-size:clamp(.64rem,.8vw,.74rem);letter-spacing:.36em;text-transform:uppercase;
   color:color-mix(in srgb,var(--dot) 70%,var(--fg));opacity:.85;margin:0}
-.quiz-cta-title{font-family:var(--display);font-weight:400;font-size:clamp(2rem,6vw,3rem);line-height:1.12;margin:.2rem 0 0;
-  max-width:13ch;letter-spacing:-.01em}
-.quiz-cta-sub{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;opacity:.5;margin:-.5rem 0 0}
+.quiz-cta-title{font-family:var(--display);font-weight:400;font-size:clamp(2rem,6vw,4rem);line-height:1.1;margin:.2rem 0 0;
+  max-width:14ch;letter-spacing:-.01em}
+.quiz-cta-sub{font-family:var(--mono);font-size:clamp(.64rem,.8vw,.74rem);letter-spacing:.2em;text-transform:uppercase;opacity:.5;margin:-.4rem 0 0}
 .quiz-cta-sub b{opacity:.85;color:color-mix(in srgb,var(--dot) 70%,var(--fg))}
 /* bright, high-contrast button so the action is unmistakable */
-.quiz-cta-btn{display:inline-flex;align-items:center;gap:.55rem;margin-top:.7rem;padding:1rem 2.3rem;border-radius:999px;
-  background:var(--fg);color:var(--field);font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+.quiz-cta-btn{display:inline-flex;align-items:center;gap:.55rem;margin-top:.6rem;border-radius:999px;
+  padding:clamp(.95rem,1.3vw,1.25rem) clamp(2.1rem,3vw,3rem);
+  background:var(--fg);color:var(--field);font-family:var(--mono);font-size:clamp(.75rem,.9vw,.85rem);letter-spacing:.14em;text-transform:uppercase;font-weight:700;
   text-decoration:none;transition:transform .25s ease,box-shadow .25s ease;box-shadow:0 16px 40px -14px color-mix(in srgb,#000 70%,transparent)}
 .quiz-cta-btn:hover,.quiz-cta-btn:focus-visible{transform:translateY(-2px);box-shadow:0 22px 50px -14px color-mix(in srgb,#000 75%,transparent)}
 .quiz-cta-btn .arw{transition:transform .25s ease}
 .quiz-cta-btn:hover .arw{transform:translateX(4px)}
-.quiz-cta-note{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;opacity:.38;margin:.3rem 0 0}
+.quiz-cta-note{font-family:var(--mono);font-size:clamp(.56rem,.7vw,.66rem);letter-spacing:.16em;text-transform:uppercase;opacity:.38;margin:.3rem 0 0}
 /* slim outro nav below the quiz */
 .chapter-outro{background:var(--field);color:var(--fg);padding:0 0 clamp(3rem,8vh,5rem)}
 .chapter-outro .chapter-nav{margin-top:0}
