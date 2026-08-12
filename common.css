@@ -668,6 +668,10 @@ html.touch.is-landing{scroll-snap-type:y mandatory}   /* snap only on the landin
 html.touch:not(.is-landing){scroll-snap-type:y proximity}
 html.touch .quiz-cta{scroll-snap-align:start;scroll-snap-stop:always;min-height:100dvh}
 html.touch:not(.is-landing) footer{scroll-snap-align:none}
+/* touch TABLETS (coarse, desktop layout, no wheel pager): snap the tour to full stages so a swipe
+   can't leave it stuck mid-slide; the intro/overview above still scroll freely. */
+html.coarse:not(.touch).is-landing{scroll-snap-type:y proximity}
+html.coarse:not(.touch) .tour-snap{scroll-snap-align:start;scroll-snap-stop:always}
 html.touch #intro{scroll-snap-align:start;scroll-snap-stop:always}
 html.touch #top{scroll-snap-align:start;scroll-snap-stop:always}
 /* every full-screen page on touch = exactly the visible viewport (dvh), so nothing hides behind the URL bar */

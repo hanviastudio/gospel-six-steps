@@ -625,7 +625,7 @@ function smoothScrollTo(y, dur, done){
 function wirePager(){
   if(window.__pagerInit) return;                                     // wire window listeners only once
   if(!document.getElementById("tour")) return;                       // landing only
-  if(document.documentElement.classList.contains("touch")) return;   // touch uses native scroll + carousel
+  if(document.documentElement.classList.contains("coarse")) return;  // touch (phone/tablet) uses native scroll + CSS snap, not the wheel pager
   var mq = window.matchMedia;
   if(mq && mq("(prefers-reduced-motion:reduce)").matches) return;
   window.__pagerInit = true;
@@ -736,6 +736,8 @@ function paint(page){
      Tablets (iPad etc.) have a shorter side >= 768 and so get the full desktop layout. ?touch=1 forces it for testing. */
   var phoneSized = Math.min(window.innerWidth || 9999, window.innerHeight || 9999) < 768;
   if(/[?&]touch\b/.test(location.search) || (window.matchMedia && window.matchMedia("(pointer:coarse)").matches && phoneSized)) document.documentElement.classList.add("touch");
+  /* any touch device (phone OR tablet) is "coarse" — it can't use the wheel pager, so it needs CSS scroll-snap */
+  if((window.matchMedia && window.matchMedia("(pointer:coarse)").matches) || /[?&](touch|coarse)\b/.test(location.search)) document.documentElement.classList.add("coarse");
   document.documentElement.classList.toggle("is-landing", page==="landing");  // scroll-snap is landing-only
   var foot = document.getElementById("foot");
   if(foot) foot.innerHTML = '<b>'+esc(L(SITE.hero.title))+'</b><br>'+esc(L(SITE.ui.footer))
