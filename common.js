@@ -240,7 +240,7 @@ function renderChapter(id){
   h += '</div></section>';   // close the reading section
 
   // full-frame quiz invitation — a bold, inviting call to test yourself
-  var quizHref = "https://inspiring-paletas-23e826.netlify.app/?stage=" + (idx + 1);
+  var quizHref = "https://inspiring-paletas-23e826.netlify.app/?stage=" + (idx + 1) + "&lang=" + lang;
   h += '<section class="quiz-cta" id="quiz" style="--field:'+s.field+';--fg:'+s.fg+';--dot:'+s.dot+'">'
      + '<div class="quiz-cta-in reveal">'
      + '<div class="quiz-cta-orb" aria-hidden="true"><span class="quiz-cta-q">?</span></div>'
@@ -456,12 +456,12 @@ function buildRail(page){
   if(lessons.length){
     var s = stepById(page), dot = s ? s.dot : "#8B9BEC";
     rail.innerHTML = lessons.map(function(ls){
-      var lid = lessonId(ls.n), label = ls.n + (ls.title ? " " + L(ls.title) : "");
-      return '<li data-sec="'+lid+'" style="--dot:'+dot+'"><a href="#'+lid+'">'+esc(label)+'</a></li>';
+      var lid = lessonId(ls.n), full = ls.n + (ls.title ? " " + L(ls.title) : "");
+      return '<li data-sec="'+lid+'" style="--dot:'+dot+'"><a href="#'+lid+'" title="'+esc(full)+'"><span class="rail-n">'+esc(ls.n)+'</span></a></li>';
     }).join("");
   } else {
     rail.innerHTML = SITE.steps.map(function(s){
-      return '<li data-sec="'+s.id+'"'+(s.id===page?' data-on="1"':'')+' style="--dot:'+s.dot+'"><a href="'+s.id+'.html">'+esc(L(s.title))+'</a></li>';
+      return '<li data-sec="'+s.id+'"'+(s.id===page?' data-on="1"':'')+' style="--dot:'+s.dot+'"><a href="'+s.id+'.html" title="'+esc(L(s.title))+'"><span class="rail-n">'+esc(s.numeral)+'</span></a></li>';
     }).join("");
   }
 }
@@ -738,7 +738,8 @@ function paint(page){
   if(/[?&]touch\b/.test(location.search) || (window.matchMedia && window.matchMedia("(pointer:coarse)").matches && phoneSized)) document.documentElement.classList.add("touch");
   document.documentElement.classList.toggle("is-landing", page==="landing");  // scroll-snap is landing-only
   var foot = document.getElementById("foot");
-  if(foot) foot.innerHTML = '<b>'+esc(L(SITE.hero.title))+'</b><br>'+esc(L(SITE.ui.footer));
+  if(foot) foot.innerHTML = '<b>'+esc(L(SITE.hero.title))+'</b><br>'+esc(L(SITE.ui.footer))
+     + '<br><span class="scripture-credit">Scripture quotations taken from The Holy Bible, New International Version® NIV®. Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.® Used by permission. All rights reserved worldwide.</span>';
   /* full-screen intro splash (index only) */
   var it = document.getElementById("introTitle");
   if(it){
