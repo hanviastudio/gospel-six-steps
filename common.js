@@ -53,10 +53,10 @@ var SITE = {
   "sub":{"en":"Spiritual World","ko":"Spiritual World","zh":"Spiritual World","es":"Spiritual World"},
   "teaser":{"en":"There is a reality you cannot see.","ko":"보이지 않는 실재가 있다.","zh":"有一个你看不见的实在。","es":"Hay una realidad que no puedes ver."},
   "points":[
-   {"en":"Two worlds — the seen and the unseen","ko":"두 세계 — 보이는 것과 보이지 않는 것","zh":"两个世界——看得见的与看不见的","es":"Dos mundos: lo visible y lo invisible"},
+   {"en":"Two worlds — the visible and invisible","ko":"두 세계 — 보이는 것과 보이지 않는 것","zh":"两个世界——看得见的与看不见的","es":"Dos mundos: lo visible y lo invisible"},
    {"en":"Created, or evolved?","ko":"창조인가, 진화인가?","zh":"是受造，还是进化？","es":"¿Creado o evolucionado?"},
    {"en":"Who is God?","ko":"하나님은 누구신가?","zh":"神是谁？","es":"¿Quién es Dios?"},
-   {"en":"The heavens and the spiritual realm","ko":"하늘과 영의 세계","zh":"诸天与灵界","es":"Los cielos y el mundo espiritual"}
+   {"en":"The three heavens","ko":"세 하늘","zh":"三重天","es":"Los tres cielos"}
   ]},
  {"id":"step-2","numeral":"02","dot":"#5CC2A0","field":"#14615A","fg":"#E9F6F0","nl":4,"range":"2.1–2.4",
   "title":{"en":"The Human Being","ko":"인간","zh":"人","es":"El ser humano"},
