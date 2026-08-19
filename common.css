@@ -693,8 +693,10 @@ html:not(.has-js) .heavens-human .hpart{opacity:1}
 .twoself-svg{width:100%;height:auto;display:block;overflow:visible}
 .twoself .ts-cap{font-family:var(--mono);font-size:12px;letter-spacing:1.6px;fill:color-mix(in srgb,var(--fg) 84%,transparent)}
 .twoself .ts-fig--inv{opacity:.92}
-.twoself .ts-tag{font-family:var(--display);font-style:italic;font-weight:500;font-size:21px;fill:var(--fg)}
+.twoself .ts-tag{font-family:var(--display);font-style:italic;font-weight:500;font-size:21px;fill:var(--fg);animation:tsBlink 1.5s ease-in-out infinite}
+@keyframes tsBlink{0%,58%,100%{opacity:1}78%{opacity:.12}}
 .twoself .ts-arrow{stroke:color-mix(in srgb,var(--fg) 72%,transparent);stroke-width:1.5;stroke-linecap:round}
+@media(prefers-reduced-motion:reduce){.twoself .ts-tag{animation:none}}
 
 /* ---- summary card (at-a-glance framework before the teaching) ---- */
 .summary{margin:1.8rem 0 2rem;padding:1.25rem 1.6rem 1.35rem;border:1px solid color-mix(in srgb,var(--fg) 20%,transparent);

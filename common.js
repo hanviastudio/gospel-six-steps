@@ -373,8 +373,8 @@ function twoselfBlock(b){
    + '<text class="ts-cap" x="160" y="276" text-anchor="middle">'+esc(vis)+'</text>'
    + '<image class="ts-fig ts-fig--inv" href="assets/human.png" x="286" y="14" width="164" height="236" preserveAspectRatio="xMidYMid meet" filter="url(#ts-lum)" mask="url(#ts-mask)"/>'
    + '<text class="ts-cap" x="368" y="276" text-anchor="middle">'+esc(inv)+'</text>'
-   + '<path class="ts-arrow" d="M520,84 C494,66 456,74 432,104" fill="none" marker-end="url(#ts-arrow)"/>'
-   + '<text class="ts-tag" x="548" y="78" text-anchor="end">'+esc(tag)+'</text>'
+   + '<path class="ts-arrow" d="M512,82 C474,74 436,72 404,70" fill="none" marker-end="url(#ts-arrow)"/>'
+   + '<text class="ts-tag" x="552" y="66" text-anchor="end">'+esc(tag)+'</text>'
    + '</svg>';
   return '<div class="twoself reveal">'+svg+'</div>';
 }
