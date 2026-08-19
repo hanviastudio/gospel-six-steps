@@ -334,6 +334,7 @@ function blockBody(b, verses){
   if(b.t==="mem"){ var v=verses[b.ref]; if(!v) return ''; return '<div class="memory reveal"><div class="hint">'+esc(L(SITE.ui.memory))+'</div><q>'+esc(L(v.t))+'</q><cite>'+esc(L(v.ref))+'</cite></div>'; }
   if(b.t==="q"){ var hq='<div class="qs-head reveal">'+esc(L(SITE.ui.questions))+'</div><ul class="qs reveal">'; b.items.forEach(function(q){ hq+='<li>'+esc(L(q))+'</li>'; }); return hq+'</ul>'; }
   if(b.t==="heavens") return heavensBlock(b, verses);
+  if(b.t==="human") return humanBlock(b, verses);
   return '';
 }
 function heavensBlock(b, verses){
@@ -421,6 +422,144 @@ function heavensBlock(b, verses){
   h += '</div></div>';
   h += '<div class="heavens-ctrl"><button class="heavens-arrow heavens-prev" type="button" aria-label="prev">&#8593;</button><div class="heavens-dots">';
   for(var i=0;i<steps;i++){ h += '<button class="heavens-dot" type="button" data-i="'+i+'" aria-label="'+(i+1)+'"></button>'; }
+  h += '</div><button class="heavens-arrow heavens-next" type="button" aria-label="next">&#8595;</button></div>';
+  h += '<div class="heavens-hint">'+esc(L(hint))+'</div>';
+  h += '</div></div>';
+  return h;
+}
+/* Stage 2 signature: "the human being" — a figurative re-skin of the heavens engine.
+   A person forms from dust, the spirit ignites within, faculties appear, then the
+   visible/invisible self divide. Reuses .heavens-scroll so wireHeavens binds unchanged. */
+function humanSVG(){
+  var seed = 20240824;                               // deterministic dust (no jitter on re-render)
+  function rnd(){ seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }
+  // The figure itself is a hand-drawn illustration (assets/human.png): white line-art on
+  // black, made transparent at render time by a luminance->alpha filter. A rough body
+  // polygon (never drawn) only aims the "formed from dust" motes at the figure.
+  var R = [ [335,124],[351,140],[381,165],[385,205],[379,268],[372,318],[366,356],
+            [366,394],[351,394],[353,356],[355,318],[356,270],[348,182],[344,234],
+            [340,298],[355,344],[351,414],[342,486],[348,532],[336,574],[357,588],
+            [323,588],[320,550],[314,486],[317,416],[320,346] ];
+  var L = R.map(function(p){ return [640-p[0], p[1]]; }).reverse();
+  var pts = R.concat(L.slice(1));
+  function inside(px,py){
+    var ex=(px-320)/28, ey=(py-72)/36; if(ex*ex+ey*ey <= 1) return true;   // head
+    var ins=false;
+    for(var i=0,j=pts.length-1;i<pts.length;j=i++){
+      var xi=pts[i][0],yi=pts[i][1],xj=pts[j][0],yj=pts[j][1];
+      if(((yi>py)!==(yj>py)) && (px < (xj-xi)*(py-yi)/(yj-yi)+xi)) ins=!ins;
+    }
+    return ins;
+  }
+  var dust = '', got = 0, guard = 0;
+  while(got < 90 && guard++ < 9000){
+    var px = 246 + rnd()*148, py = 40 + rnd()*548;
+    if(!inside(px,py)) continue;
+    got++;
+    var sa = rnd()*6.2831853, sd = 46 + rnd()*88;
+    var dx = (Math.cos(sa)*sd).toFixed(1), dy = (Math.sin(sa)*sd - 26).toFixed(1);
+    var rad = (1 + rnd()*1.6).toFixed(2), col = (got%2?'#DCEFE8':'#AFCFC6');
+    var dd = (rnd()*0.55).toFixed(2);
+    dust += '<circle class="hdust" cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="'+rad+'" fill="'+col+'" style="--dx:'+dx+'px;--dy:'+dy+'px;--dd:'+dd+'s"/>';
+  }
+  function figImg(cls,x,y,w,h){ return '<image class="'+cls+'" href="assets/human.png" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" preserveAspectRatio="xMidYMid meet" filter="url(#hg-lum)"/>'; }
+  // The person = intelligence + emotion + free will. They are not organs in fixed places;
+  // they circle the whole being. Three labelled nodes ride an orbit ring; the ring turns,
+  // each label counter-rotates so it stays upright and readable.
+  var oc = {x:320, y:246, r:116}, dur = '56s';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var spin = reduce ? '' : '<animateTransform attributeName="transform" type="rotate" from="0 '+oc.x+' '+oc.y+'" to="360 '+oc.x+' '+oc.y+'" dur="'+dur+'" repeatCount="indefinite"/>';
+  var counter = reduce ? '' : '<animateTransform attributeName="transform" type="rotate" from="0 0 0" to="-360 0 0" dur="'+dur+'" repeatCount="indefinite"/>';
+  var facs = [
+    {a:-90, cap:'INTELLIGENCE', sub:'to learn & apply'},
+    {a:30,  cap:'EMOTION',      sub:'to feel & respond'},
+    {a:150, cap:'FREE WILL',    sub:'to decide & obey'}
+  ];
+  var orbitItems = '';
+  facs.forEach(function(it){
+    var r = it.a*Math.PI/180;
+    var x = (oc.x + oc.r*Math.cos(r)).toFixed(1), y = (oc.y + oc.r*Math.sin(r)).toFixed(1);
+    orbitItems += '<g class="horbit-item" transform="translate('+x+','+y+')"><g class="horbit-lab">'+counter
+      + '<circle class="horbit-dot" cx="0" cy="0" r="3.4"/>'
+      + '<text class="hfac-cap" x="0" y="-9" text-anchor="middle">'+it.cap+'</text>'
+      + '<text class="hfac-sub" x="0" y="8" text-anchor="middle">'+it.sub+'</text>'
+      + '</g></g>';
+  });
+  var faculties = '<circle class="horbit-ring" cx="'+oc.x+'" cy="'+oc.y+'" r="'+oc.r+'" fill="none"/>'
+    + '<g class="horbit">'+spin+orbitItems+'</g>';
+  // Split scene: visible self (solid, eats bread) beside invisible self (ghostly, eats the Word).
+  var loaf = '<g class="hbread"><path d="M-12,3 C-12,-6 12,-6 12,3 M-12,3 H12" fill="none" stroke="#EAF6F1" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M-6,-3 V3 M0,-4 V3 M6,-3 V3" fill="none" stroke="#EAF6F1" stroke-width="1" stroke-linecap="round" opacity=".7"/></g>';
+  var wordFlow = '<g class="hword-flow">'
+    + '<rect class="hwd hwd1" x="-5" width="10" height="3" rx="1.5" fill="#EAF6F1"/>'
+    + '<rect class="hwd hwd2" x="-5" width="10" height="3" rx="1.5" fill="#EAF6F1"/>'
+    + '<rect class="hwd hwd3" x="-5" width="10" height="3" rx="1.5" fill="#EAF6F1"/></g>';
+  var bible = '<g class="hbible" transform="translate(430,116)">'
+    + '<path d="M0,-3 C-6,-8 -16,-8 -21,-5 L-21,7 C-16,4 -6,4 0,8 C6,4 16,4 21,7 L21,-5 C16,-8 6,-8 0,-3 Z" fill="none" stroke="#EAF6F1" stroke-width="1.3" stroke-linejoin="round"/>'
+    + '<path d="M0,-3 V8" fill="none" stroke="#EAF6F1" stroke-width="1"/>'
+    + '<path d="M-14,-1 H-6 M-14,2 H-7 M6,-1 H14 M7,2 H14" fill="none" stroke="#9FD6C6" stroke-width="0.9" stroke-linecap="round" opacity=".8"/>'
+    + '</g>';
+  var split =
+      '<line class="hsplit-rule" x1="320" y1="188" x2="320" y2="470" stroke="#5CC2A0" stroke-width="1" stroke-dasharray="2 8" opacity=".35"/>'
+    + '<g class="hself hself--visible">'
+    +   figImg('hfig-half', 110, 178, 200, 300)
+    +   '<g class="hbread-fly" transform="translate(150,230)">'+loaf+'</g>'
+    +   '<text class="hself-cap" x="210" y="500" text-anchor="middle">VISIBLE ME</text>'
+    +   '<text class="hself-sub" x="210" y="516" text-anchor="middle">eats bread</text>'
+    + '</g>'
+    + '<g class="hself hself--invisible">'
+    +   bible
+    +   '<circle class="hcore hcore--sm" cx="430" cy="256" r="28" fill="url(#hg-spirit)"/>'
+    +   figImg('hfig-half hfig-ghost', 330, 178, 200, 300)
+    +   '<g class="hword-stream" transform="translate(430,150)">'+wordFlow+'</g>'
+    +   '<text class="hself-cap" x="430" y="500" text-anchor="middle">INVISIBLE ME</text>'
+    +   '<text class="hself-sub" x="430" y="516" text-anchor="middle">eats the Word</text>'
+    + '</g>';
+  // The breath of God, blown into the mouth (the light kindles there, then fills the body).
+  var mouthX = 318, mouthY = 100;
+  var wind = '<path class="hwind" d="M186,58 C232,74 282,88 '+(mouthX-8)+','+(mouthY-3)+'" fill="none" stroke="#CFEFE3" stroke-width="1.6" stroke-linecap="round"/>'
+    + '<path class="hwind hwind2" d="M174,96 C224,106 274,102 '+(mouthX-9)+','+(mouthY+3)+'" fill="none" stroke="#CFEFE3" stroke-width="1.1" stroke-linecap="round" opacity=".6"/>';
+  return '<svg class="hviz-svg" viewBox="0 0 640 640" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'
+   + '<defs>'
+   + '<filter id="hg-lum" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 0.95  0 0 0 0 0.99  0 0 0 0 0.97  0.33 0.34 0.33 0 0"/><feComponentTransfer><feFuncA type="linear" slope="2.1" intercept="-0.06"/></feComponentTransfer></filter>'
+   + '<radialGradient id="hg-spirit" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#EAFBF3"/><stop offset="52%" stop-color="#5CC2A0"/><stop offset="100%" stop-color="#5CC2A0" stop-opacity="0"/></radialGradient>'
+   + '</defs>'
+   + '<g class="heavens-fx hpart hpart--glow" data-at="2"><circle class="hcore" cx="320" cy="192" r="48" fill="url(#hg-spirit)"/><circle class="hspark" cx="320" cy="188" r="4" fill="#EAFBF3"/></g>'
+   + '<g class="heavens-fx hpart hpart--flesh" data-at="0"><g class="hdust-field">'+dust+'</g>'+figImg('hfigure',120,6,400,600)+'</g>'
+   + '<g class="heavens-fx hpart hpart--breath" data-at="2">'+wind
+   +   '<ellipse class="hmouth" cx="'+mouthX+'" cy="'+mouthY+'" rx="3.5" ry="4.5" fill="#0C3F3A"/>'
+   +   '<circle class="hspark hspark--mouth" cx="'+mouthX+'" cy="'+mouthY+'" r="4.5" fill="#EAFBF3"/></g>'
+   + '<g class="heavens-fx hpart hpart--soul" data-at="3">'+faculties+'</g>'
+   + '<g class="heavens-fx hpart hpart--word" data-at="4">'+split+'</g>'
+   + '</svg>';
+}
+function humanBlock(b, verses){
+  verses = verses || {};
+  var parts = b.parts || [];
+  var steps = parts.length || 1;
+  var touch = document.documentElement.classList.contains("touch");
+  var hint = {en:"scroll or tap to unfold",ko:"스크롤하거나 눌러서 펼치기",zh:"滚动或点按逐层展开",es:"desplaza o toca para desplegar"};
+  var h = '<div class="heavens-scroll heavens-human" data-steps="'+steps+'" style="--steps:'+steps+'">';
+  h += '<div class="heavens-stage" data-step="0">';
+  h += '<div class="heavens-head"><span>'+(b.title?esc(L(b.title)):'')+'</span><span class="heavens-count"><b>1</b> / '+steps+'</span></div>';
+  h += '<div class="heavens-viz human-viz">'+humanSVG()+'</div>';
+  h += '<div class="heavens-panel"><div class="heavens-scenes">';
+  parts.forEach(function(p){
+    h += '<div class="heavens-scene">';
+    if(p.k) h += '<div class="heavens-eyebrow">'+esc(L(p.k))+'</div>';
+    h += '<h3 class="heavens-name">'+esc(L(p.b))+'</h3>';
+    if(p.s) h += '<p class="heavens-desc">'+esc(L(p.s))+'</p>';
+    if(p.ev && p.ev.length && !touch){
+      h += '<div class="heavens-verses">';
+      p.ev.forEach(function(id){ var v = verses[id]; if(!v) return;
+        h += '<div class="sv" data-open="0"><button type="button" aria-expanded="false"><span class="sv-ref">'+esc(L(v.ref))+'</span><span class="sv-plus" aria-hidden="true"></span></button><div class="sv-body"><div class="sv-text">'+esc(L(v.t))+'</div></div></div>';
+      });
+      h += '</div>';
+    } else if(p.e){ h += '<span class="heavens-cite">'+esc(L(p.e))+'</span>'; }
+    h += '</div>';
+  });
+  h += '</div></div>';
+  h += '<div class="heavens-ctrl"><button class="heavens-arrow heavens-prev" type="button" aria-label="prev">&#8593;</button><div class="heavens-dots">';
+  for(var i=0;i<steps;i++) h += '<button class="heavens-dot" type="button" data-i="'+i+'" aria-label="'+(i+1)+'"></button>';
   h += '</div><button class="heavens-arrow heavens-next" type="button" aria-label="next">&#8595;</button></div>';
   h += '<div class="heavens-hint">'+esc(L(hint))+'</div>';
   h += '</div></div>';

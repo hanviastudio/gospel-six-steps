@@ -610,6 +610,80 @@ html:not(.has-js) .heavens-scene{opacity:1;transform:none;position:relative}
   .heavens-water-surf,.heavens-orbit,.heavens-orbit-a,.heavens-float-a,.heavens-float-b,.heavens-float-c{animation:none}
 }
 
+/* ===== Stage 2 signature: "the human being" — a person formed, indwelt, divided ===== */
+.human-viz .hviz-svg{width:100%;height:100%;display:block;overflow:visible}
+.hpart{opacity:0;transition:opacity .65s ease}
+.has-js .heavens-human .hpart.on{opacity:1}
+html:not(.has-js) .heavens-human .hpart{opacity:1}
+
+/* ---- 1 · the flesh: a handful of dust gathers into the drawn figure ---- */
+.heavens-human .hfigure{opacity:0;transition:opacity 1.1s ease}
+.has-js .heavens-human .heavens-stage:not([data-step="0"]) .hfigure{opacity:1}
+.heavens-human .hdust{transform-box:fill-box;transform:translate(var(--dx),var(--dy));opacity:.5;
+  transition:transform 1.25s cubic-bezier(.22,.72,.2,1),opacity .8s ease;transition-delay:var(--dd)}
+.has-js .heavens-human .heavens-stage:not([data-step="0"]) .hdust{transform:translate(0,0);opacity:.85}
+/* x-ray: once the spirit ignites, the flesh turns translucent so the light shows through */
+.has-js .heavens-human .heavens-stage[data-step="2"] .hfigure{opacity:.5}
+.has-js .heavens-human .heavens-stage[data-step="3"] .hfigure{opacity:.36}
+.has-js .heavens-human .heavens-stage[data-step="2"] .hdust,
+.has-js .heavens-human .heavens-stage[data-step="3"] .hdust{opacity:.5}
+/* at the division the single flesh dissolves; the two selves take over */
+.has-js .heavens-human .heavens-stage[data-step="4"] .hpart--flesh,
+.has-js .heavens-human .heavens-stage[data-step="4"] .hpart--glow,
+.has-js .heavens-human .heavens-stage[data-step="4"] .hpart--breath,
+.has-js .heavens-human .heavens-stage[data-step="4"] .hpart--soul{opacity:0}
+
+/* ---- 2 · the spirit: breath into the mouth, light kindles and breathes within ---- */
+.heavens-human .hcore,.heavens-human .hspark{transform-box:fill-box;transform-origin:center}
+.has-js .heavens-human .hpart--glow.on .hcore,
+.has-js .heavens-human .hpart--word.on .hcore--sm{animation:hCoreBreathe 4.8s ease-in-out infinite}
+@keyframes hCoreBreathe{0%,100%{transform:scale(.9);opacity:.85}50%{transform:scale(1.06);opacity:1}}
+.has-js .heavens-human .hpart--glow.on .hspark,
+.has-js .heavens-human .hpart--breath.on .hspark{animation:hSpark 4.8s ease-in-out infinite}
+@keyframes hSpark{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+.heavens-human .hwind{stroke-dasharray:300;stroke-dashoffset:300;opacity:0}
+.has-js .heavens-human .hpart--breath.on .hwind{animation:hWind 1.7s ease-out forwards}
+.has-js .heavens-human .hpart--breath.on .hwind2{animation-delay:.18s}
+@keyframes hWind{0%{stroke-dashoffset:300;opacity:0}35%{opacity:1}80%{opacity:.9}100%{stroke-dashoffset:0;opacity:0}}
+
+/* ---- 3 · the person: intelligence / emotion / free will circle the whole being ---- */
+.heavens-human .horbit-ring{stroke:#8FD3BF;stroke-width:1;stroke-dasharray:2 9;opacity:.3}
+.heavens-human .horbit-dot{fill:#EAFBF3}
+.heavens-human .hfac-cap{font-family:var(--mono);font-size:13px;letter-spacing:1.4px;fill:#EDFBF5;paint-order:stroke;stroke:color-mix(in srgb,var(--field) 92%,#000);stroke-width:4.5px;stroke-linejoin:round}
+.heavens-human .hfac-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.8px;fill:color-mix(in srgb,#EAFBF3 76%,transparent);paint-order:stroke;stroke:color-mix(in srgb,var(--field) 92%,#000);stroke-width:3.4px;stroke-linejoin:round}
+
+/* ---- 4 · the division: visible self eats bread, invisible self eats the Word ---- */
+.heavens-human .hself,.heavens-human .hsplit-rule{opacity:0}
+.heavens-human .hfig-ghost{opacity:.42}
+.heavens-human .hself-cap{font-family:var(--mono);font-size:12px;letter-spacing:1.6px;fill:#E9F6F0}
+.heavens-human .hself-sub{font-family:var(--mono);font-size:10px;letter-spacing:.6px;fill:color-mix(in srgb,#E9F6F0 64%,transparent)}
+.has-js .heavens-human .hpart--word.on .hsplit-rule{opacity:1;transition:opacity 1s ease .3s}
+.has-js .heavens-human .hpart--word.on .hself--visible{animation:hSplitL .95s cubic-bezier(.2,.72,.2,1) both}
+.has-js .heavens-human .hpart--word.on .hself--invisible{animation:hSplitR .95s cubic-bezier(.2,.72,.2,1) both}
+@keyframes hSplitL{0%{transform:translateX(110px);opacity:0}45%{opacity:1}100%{transform:translateX(0);opacity:1}}
+@keyframes hSplitR{0%{transform:translateX(-110px);opacity:0}45%{opacity:1}100%{transform:translateX(0);opacity:1}}
+.has-js .heavens-human .hpart--word.on .hbread-fly{animation:hBread 2.8s ease-in-out .6s infinite}
+@keyframes hBread{0%{transform:translate(150px,230px);opacity:0}22%{opacity:1}58%{transform:translate(206px,230px);opacity:1}72%{opacity:0}100%{transform:translate(206px,230px);opacity:0}}
+.has-js .heavens-human .hpart--word.on .hwd{opacity:0;animation:hFlow 2.8s linear .8s infinite}
+.heavens-human .hpart--word.on .hwd2{animation-delay:1.73s}
+.heavens-human .hpart--word.on .hwd3{animation-delay:2.66s}
+@keyframes hFlow{0%{transform:translateY(0);opacity:0}18%{opacity:1}82%{opacity:1}100%{transform:translateY(60px);opacity:0}}
+
+/* keep the family look: teal eyebrows, no heavens-gold leak */
+.heavens-human .heavens-scene .heavens-eyebrow{color:color-mix(in srgb,var(--dot) 82%,var(--fg))!important}
+@media(prefers-reduced-motion:reduce){
+  .has-js .heavens-human .hpart--glow.on .hcore,.has-js .heavens-human .hpart--word.on .hcore--sm,
+  .has-js .heavens-human .hpart--glow.on .hspark,.has-js .heavens-human .hpart--breath.on .hspark,
+  .has-js .heavens-human .hpart--breath.on .hwind,
+  .has-js .heavens-human .hpart--word.on .hself--visible,.has-js .heavens-human .hpart--word.on .hself--invisible,
+  .has-js .heavens-human .hpart--word.on .hbread-fly,.has-js .heavens-human .hpart--word.on .hwd{animation:none}
+  .heavens-human .hdust{transition:opacity .4s ease}
+  .heavens-human .hwind{stroke-dashoffset:0;opacity:.5}
+  .has-js .heavens-human .hpart--word.on .hself{opacity:1}
+  .has-js .heavens-human .hpart--word.on .hwd{opacity:1}
+  .heavens-human .hbread-fly{opacity:1;transform:translate(206px,230px)}
+}
+
 /* ============ Landing Page 3 — horizontal chapter tour ============ */
 .tour{position:relative;height:calc(var(--n) * 100vh);background:var(--ink)}
 .tour-snaps{position:absolute;inset:0;z-index:0;pointer-events:none}
