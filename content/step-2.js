@@ -94,17 +94,18 @@ window.CHAPTER = {
  {"t":"p","x":{"en":"It is the word of God that gives life to the spirit."}},
  {"t":"s","v":["jn15_7"]},
  {"t":"p","x":{"en":"Remaining in God, in Jesus, means remaining in His word. It means remaining in His life, maintaining a relationship with Him. And the way He gives us His life is through His command."}},
- {"t":"dia","kind":"grid","title":{"en":"His life"},"items":[
-   {"b":{"en":"Does not spoil or fade"},"s":{"en":"1 Peter 1:4"}},
-   {"b":{"en":"Everlasting, no end"},"s":{"en":"it never runs out"}},
-   {"b":{"en":"Flawless"},"s":{"en":"without blemish — Ephesians 5:27; Hebrews 7:3"}}
+ {"t":"summary","mark":"✳","title":{"en":"His life"},"rows":[
+   {"v":{"en":"Does not spoil or fade"},"s":{"en":"1 Peter 1:4"}},
+   {"v":{"en":"Everlasting, no end"},"s":{"en":"it never runs out"}},
+   {"v":{"en":"Flawless"},"s":{"en":"without blemish — Ephesians 5:27; Hebrews 7:3"}}
  ]},
  {"t":"s","v":["jn12_50"]},
  {"t":"p","x":{"en":"So if we choose life for the spirit then, whether we like it or not, we have to receive His word as command. And when we obey His command, the word becomes life in our spirit. God wants to pour out His life to us all, yet He does not override our free will; He wants us to use our free will to choose to obey, and so to receive life. His word is spirit and life: when it enters the spirit, it becomes life to the spirit “me.”"}},
- {"t":"dia","kind":"tiers","title":{"en":"How life comes"},"items":[
-   {"n":{"en":"1"},"b":{"en":"God"},"s":{"en":"the source of life"}},
-   {"n":{"en":"2"},"b":{"en":"the Word"},"s":{"en":"given as command"}},
-   {"n":{"en":"3"},"b":{"en":"the spirit"},"s":{"en":"receives it and lives"}}
+ {"t":"flow","title":{"en":"How life comes"},"steps":[
+   {"b":{"en":"God"},"s":{"en":"the source of life"}},
+   {"b":{"en":"the Word"},"s":{"en":"God speaks to us"}},
+   {"b":{"en":"as command"},"s":{"en":"the Word is given as command"},"key":true},
+   {"b":{"en":"the Spirit"},"s":{"en":"receives it, and lives"}}
  ]},
  {"t":"q","items":[{"en":"What is your relationship with the word of God? How do you respond to His word in your daily life? Discuss."}]},
 
@@ -120,10 +121,10 @@ window.CHAPTER = {
  {"t":"p","x":{"en":"In the Old Testament, after believers died their spirits went to a place called “Abraham’s side” (Luke 16:22) — a spiritual space that is a portion of the third heaven. The same location is later called “paradise” in the New Testament (Luke 23:43). So today the spirits of believers return to God — to paradise."}},
  {"t":"h","x":{"en":"Who Are “Unclean Spirits”?"}},
  {"t":"p","x":{"en":"When the spirit of a person leaves the body without having made a relationship with Jesus while alive, it is unclean — because of sin. Unclean spirits remain in Hades, that is, the world, and are called “unclean spirits” (Mark 1:23). To have a relationship with Jesus, our spirits have to be washed and cleansed with the blood of Jesus while we are still alive in the flesh. Then our spirits become “clean” and can return to God after the flesh dies."}},
- {"t":"dia","kind":"grid","title":{"en":"Unclean spirits"},"items":[
-   {"b":{"en":"No part with Jesus"},"s":{"en":"Mark 1:24; John 13:8"}},
-   {"b":{"en":"Never washed"},"s":{"en":"spirits of unbelievers, unwashed by the blood of Jesus"}},
-   {"b":{"en":"Seeking rest"},"s":{"en":"they pass through “arid places seeking rest,” but find none"}}
+ {"t":"summary","mark":"✳","title":{"en":"Unclean spirits"},"rows":[
+   {"v":{"en":"No part with Jesus"},"s":{"en":"Mark 1:24; John 13:8"}},
+   {"v":{"en":"Never washed"},"s":{"en":"spirits of unbelievers, unwashed by the blood of Jesus"}},
+   {"v":{"en":"Seeking rest"},"s":{"en":"they pass through “arid places seeking rest,” but find none"}}
  ]},
  {"t":"q","items":[{"en":"How does this teaching about life after death affect the way you see your own life? What do you think will happen to you after you die? What about your family and friends?"}]},
 

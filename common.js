@@ -337,7 +337,24 @@ function blockBody(b, verses){
   if(b.t==="human") return humanBlock(b, verses);
   if(b.t==="twoself") return twoselfBlock(b);
   if(b.t==="summary") return summaryBlock(b);
+  if(b.t==="flow") return flowBlock(b);
   return '';
+}
+/* Vertical top-down chain (God -> the Word -> as command -> the Spirit), each node and
+   arrow revealing one after another once the block scrolls in. */
+function flowBlock(b){
+  b = b || {};
+  var title = b.title ? esc(L(b.title)) : "";
+  var chain = "", i = 0;
+  (b.steps||[]).forEach(function(st, idx){
+    if(idx > 0) chain += '<div class="flow-arrow" style="--i:'+(i++)+'">&#8595;</div>';
+    var sub = st.s ? '<span class="flow-s">'+esc(L(st.s))+'</span>' : '';
+    chain += '<div class="flow-step'+(st.key?' flow-step--key':'')+'" style="--i:'+(i++)+'">'
+      + '<span class="flow-b">'+esc(L(st.b))+'</span>'+sub+'</div>';
+  });
+  return '<div class="flow reveal">'
+   + (title ? '<div class="flow-t">'+title+'</div>' : '')
+   + '<div class="flow-chain">'+chain+'</div></div>';
 }
 /* At-a-glance overview shown before the detailed teaching (e.g. the "composition of man",
    or "the Word"). Each row carries a marker (✳ / =), an optional kicker, and a value. */
@@ -349,7 +366,8 @@ function summaryBlock(b){
   (b.rows||[]).forEach(function(r){
     var v = esc(L(r.v)).replace(/ \+ /g, ' <span class="sum-op">+</span> ');
     var k = r.k ? '<span class="sum-k">'+esc(L(r.k))+'</span>' : '';
-    rows += '<li class="sum-row"><span class="sum-op sum-mark">'+mark+'</span>'+k+'<span class="sum-v">'+v+'</span></li>';
+    var s = r.s ? '<span class="sum-s">'+esc(L(r.s))+'</span>' : '';
+    rows += '<li class="sum-row"><span class="sum-op sum-mark">'+mark+'</span>'+k+'<span class="sum-v">'+v+'</span>'+s+'</li>';
   });
   return '<div class="summary reveal">'
    + (title ? '<div class="sum-head">'+title+'</div>' : '')
