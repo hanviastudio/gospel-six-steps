@@ -35,6 +35,7 @@ window.CHAPTER = {
  {"t":"p","x":{"en":"The Bible tells us where we come from and who we are: we are people created in the image of God (Genesis 1:27). Furthermore, it shows us that we are spiritual beings and that we came from God (Genesis 2:7; Luke 3:23–38). So the Bible is like a mirror through which we can discover our true identity."}},
  {"t":"s","v":["gen1_27"]},
  {"t":"p","x":{"en":"Importantly, we are made of two parts: the flesh and the spirit. The flesh is the visible part of us, which we know as “me.” But there is another “me,” the invisible part — the spirit. While the flesh lives for a finite time, the spirit lives infinitely. So the flesh is like clothing for the spirit. The spirit is the true “me.”"}},
+ {"t":"twoself"},
  {"t":"q","items":[{"en":"When someone asks you, “Who are you?”, what comes to mind first? Why? But is that really who or what you are?"}]},
 
  {"t":"h","x":{"en":"What Am I Made Of?"}},

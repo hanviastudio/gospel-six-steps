@@ -688,6 +688,14 @@ html:not(.has-js) .heavens-human .hpart{opacity:1}
   .heavens-human .hbread-fly{opacity:1;transform:translate(206px,230px)}
 }
 
+/* ---- inline "two selves" figure (visible vs invisible) ---- */
+.twoself{margin:2.4rem auto 2.6rem;max-width:520px}
+.twoself-svg{width:100%;height:auto;display:block;overflow:visible}
+.twoself .ts-cap{font-family:var(--mono);font-size:12px;letter-spacing:1.6px;fill:color-mix(in srgb,var(--fg) 84%,transparent)}
+.twoself .ts-fig--inv{opacity:.92}
+.twoself .ts-tag{font-family:var(--display);font-style:italic;font-weight:500;font-size:21px;fill:var(--fg)}
+.twoself .ts-arrow{stroke:color-mix(in srgb,var(--fg) 72%,transparent);stroke-width:1.5;stroke-linecap:round}
+
 /* ============ Landing Page 3 — horizontal chapter tour ============ */
 .tour{position:relative;height:calc(var(--n) * 100vh);background:var(--ink)}
 .tour-snaps{position:absolute;inset:0;z-index:0;pointer-events:none}

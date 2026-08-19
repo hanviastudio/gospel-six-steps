@@ -335,7 +335,31 @@ function blockBody(b, verses){
   if(b.t==="q"){ var hq='<div class="qs-head reveal">'+esc(L(SITE.ui.questions))+'</div><ul class="qs reveal">'; b.items.forEach(function(q){ hq+='<li>'+esc(L(q))+'</li>'; }); return hq+'</ul>'; }
   if(b.t==="heavens") return heavensBlock(b, verses);
   if(b.t==="human") return humanBlock(b, verses);
+  if(b.t==="twoself") return twoselfBlock(b);
   return '';
+}
+/* Inline figure for the "two parts" idea: the same drawn person twice — the visible self
+   (solid) and the invisible self (rendered as dots), with an arrow tagging the true "me". */
+function twoselfBlock(b){
+  b = b || {};
+  var vis = b.visible ? L(b.visible) : "VISIBLE ME";
+  var inv = b.invisible ? L(b.invisible) : "INVISIBLE ME";
+  var tag = b.tag ? L(b.tag) : "True me!";
+  var lum = '<filter id="ts-lum" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 0.95  0 0 0 0 0.99  0 0 0 0 0.97  0.33 0.34 0.33 0 0"/><feComponentTransfer><feFuncA type="linear" slope="2.1" intercept="-0.06"/></feComponentTransfer></filter>';
+  var svg = '<svg class="twoself-svg" viewBox="0 0 560 300" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'
+   + '<defs>'+lum
+   + '<pattern id="ts-dot" width="4.6" height="4.6" patternUnits="userSpaceOnUse"><circle cx="2.3" cy="2.3" r="1.25" fill="#fff"/></pattern>'
+   + '<mask id="ts-mask"><rect x="286" y="14" width="164" height="236" fill="url(#ts-dot)"/></mask>'
+   + '<marker id="ts-arrow" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L7,4.5 L0,9 Z" fill="context-stroke"/></marker>'
+   + '</defs>'
+   + '<image class="ts-fig" href="assets/human.png" x="78" y="14" width="164" height="236" preserveAspectRatio="xMidYMid meet" filter="url(#ts-lum)"/>'
+   + '<text class="ts-cap" x="160" y="276" text-anchor="middle">'+esc(vis)+'</text>'
+   + '<image class="ts-fig ts-fig--inv" href="assets/human.png" x="286" y="14" width="164" height="236" preserveAspectRatio="xMidYMid meet" filter="url(#ts-lum)" mask="url(#ts-mask)"/>'
+   + '<text class="ts-cap" x="368" y="276" text-anchor="middle">'+esc(inv)+'</text>'
+   + '<path class="ts-arrow" d="M520,84 C494,66 456,74 432,104" fill="none" marker-end="url(#ts-arrow)"/>'
+   + '<text class="ts-tag" x="548" y="78" text-anchor="end">'+esc(tag)+'</text>'
+   + '</svg>';
+  return '<div class="twoself reveal">'+svg+'</div>';
 }
 function heavensBlock(b, verses){
   verses = verses || {};
