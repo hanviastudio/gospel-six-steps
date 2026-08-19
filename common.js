@@ -336,7 +336,24 @@ function blockBody(b, verses){
   if(b.t==="heavens") return heavensBlock(b, verses);
   if(b.t==="human") return humanBlock(b, verses);
   if(b.t==="twoself") return twoselfBlock(b);
+  if(b.t==="summary") return summaryBlock(b);
   return '';
+}
+/* At-a-glance overview shown before the detailed teaching (e.g. the "composition of man",
+   or "the Word"). Each row carries a marker (✳ / =), an optional kicker, and a value. */
+function summaryBlock(b){
+  b = b || {};
+  var title = b.title ? esc(L(b.title)) : "";
+  var mark = b.mark ? esc(b.mark) : "=";
+  var rows = "";
+  (b.rows||[]).forEach(function(r){
+    var v = esc(L(r.v)).replace(/ \+ /g, ' <span class="sum-op">+</span> ');
+    var k = r.k ? '<span class="sum-k">'+esc(L(r.k))+'</span>' : '';
+    rows += '<li class="sum-row"><span class="sum-op sum-mark">'+mark+'</span>'+k+'<span class="sum-v">'+v+'</span></li>';
+  });
+  return '<div class="summary reveal">'
+   + (title ? '<div class="sum-head">'+title+'</div>' : '')
+   + '<ul class="sum-list">'+rows+'</ul></div>';
 }
 /* Inline figure for the "two parts" idea: the same drawn person twice — the visible self
    (solid) and the invisible self (rendered as dots), with an arrow tagging the true "me". */

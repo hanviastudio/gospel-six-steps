@@ -696,6 +696,18 @@ html:not(.has-js) .heavens-human .hpart{opacity:1}
 .twoself .ts-tag{font-family:var(--display);font-style:italic;font-weight:500;font-size:21px;fill:var(--fg)}
 .twoself .ts-arrow{stroke:color-mix(in srgb,var(--fg) 72%,transparent);stroke-width:1.5;stroke-linecap:round}
 
+/* ---- summary card (at-a-glance framework before the teaching) ---- */
+.summary{margin:1.8rem 0 2rem;padding:1.25rem 1.6rem 1.35rem;border:1px solid color-mix(in srgb,var(--fg) 20%,transparent);
+  border-radius:14px;background:color-mix(in srgb,var(--fg) 5%,transparent)}
+.summary .sum-head{font-family:var(--display);font-weight:500;font-size:1.16rem;letter-spacing:-.01em;margin:0 0 .95rem}
+.summary .sum-list{list-style:none;margin:0;padding:0;display:grid;gap:.62rem}
+.summary .sum-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem;line-height:1.45}
+.summary .sum-op{color:var(--dot)}
+.summary .sum-mark{font-family:var(--mono);font-weight:700;flex:0 0 auto}
+.summary .sum-k{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  color:color-mix(in srgb,var(--dot) 74%,var(--fg))}
+.summary .sum-v{font-family:var(--display);font-weight:300;font-size:1.05rem}
+
 /* ============ Landing Page 3 — horizontal chapter tour ============ */
 .tour{position:relative;height:calc(var(--n) * 100vh);background:var(--ink)}
 .tour-snaps{position:absolute;inset:0;z-index:0;pointer-events:none}

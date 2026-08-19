@@ -39,6 +39,10 @@ window.CHAPTER = {
  {"t":"q","items":[{"en":"When someone asks you, “Who are you?”, what comes to mind first? Why? But is that really who or what you are?"}]},
 
  {"t":"h","x":{"en":"What Am I Made Of?"}},
+ {"t":"summary","mark":"✳","title":{"en":"The composition of man"},"rows":[
+   {"k":{"en":"Two beings"},"v":{"en":"the flesh + the spirit"}},
+   {"k":{"en":"Three functions"},"v":{"en":"the flesh + the spirit + the person (the “soul”)"}}
+ ]},
  {"t":"s","v":["gen2_7"]},
  {"t":"p","x":{"en":"God formed the man from the dust of the ground and made him in His image. Into such a man God breathed His breath, the breath of life, and the man became a living being — the spiritual being living in the flesh. In other words, the man became Adam, the living being (1 Corinthians 15:45)."}},
  {"t":"p","x":{"en":"Thus man is made up of two beings: the flesh and the spirit. A “being,” in this sense, is something that either lives or dies. Both the flesh and the spirit are beings, because each can either live or die."}},
@@ -64,10 +68,10 @@ window.CHAPTER = {
  {"t":"s","v":["mt4_4"]},
  {"t":"p","x":{"en":"This is why God gave Adam the commandment regarding the fruit of the tree of the knowledge of good and evil: “you must not eat” (Genesis 2:17). For the living being to live, Adam had to eat the word and obey the commandment."}},
  {"t":"p","x":{"en":"For the spiritual being to “live” is to have the same life as God — that is, eternal life. And eternal life is living eternally with God and like God: joyfully, happily and gloriously, with Him, forever. For us to have eternal life we must obey the word. The flesh eats to live, yet it still dies; but when the spirit eats the word of God and obeys it, it can live forever with God."}},
- {"t":"dia","kind":"grid","title":{"en":"The word"},"items":[
-   {"b":{"en":"Food for the spirit"},"s":{"en":"the spirit eats it and lives"}},
-   {"b":{"en":"Life is in it"},"s":{"en":"it carries the very life of God"}},
-   {"b":{"en":"The connection"},"s":{"en":"between God and the living being"}}
+ {"t":"summary","title":{"en":"The Word"},"rows":[
+   {"v":{"en":"the food for the spirit"}},
+   {"v":{"en":"life is in it"}},
+   {"v":{"en":"the connection between God and the living being"}}
  ]},
  {"t":"q","items":[{"en":"Are you eating the word? How are you eating it, and what kind of word? Discuss any challenges you face in obeying the word."}]},
 
