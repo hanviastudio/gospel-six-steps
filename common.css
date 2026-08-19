@@ -737,33 +737,52 @@ html:not(.has-js) .heavens-human .hpart{opacity:1}
 .hades-svg{width:100%;height:auto;display:block;overflow:visible}
 .hades-c{fill:none;stroke:color-mix(in srgb,var(--dot) 60%,var(--fg));stroke-width:1.4;stroke-dasharray:7 7;opacity:.68}
 .hades-c1{stroke-dasharray:4 5}
+.hades-c3{transition:stroke .8s ease,opacity .8s ease}
+.hades[data-state="2"] .hades-c3{stroke:#F2D06A;opacity:.95}
 .hades-lbl{font-family:var(--display);font-weight:500;font-size:15px;fill:var(--fg);
   paint-order:stroke;stroke:color-mix(in srgb,var(--field) 90%,#000);stroke-width:3.6px;stroke-linejoin:round}
 .hades-lbl--sm{font-family:var(--mono);font-weight:400;font-size:10.5px;letter-spacing:.06em;
   fill:color-mix(in srgb,var(--fg) 68%,transparent);stroke-width:3px}
-.hades-lbl-uni{transition:opacity .4s ease}
-.hades-fire,.hades-fireglow,.hades-ans,.hades-hatch-fill{opacity:0}
+.hades-lbl-sky,.hades-lbl-uni{transition:opacity .4s ease}
+.hades-fire,.hades-fireglow,.hades-ans,.hades-para{opacity:0}
 .hades-fire,.hades-fireglow,.hades-ans{transition:opacity .6s ease}
-.hades-hatch-fill{transition:opacity .7s ease}
+.hades-para{transition:opacity .8s ease}
+.hades-hatch-fill{opacity:.5}
 .hades[data-state="1"] .hades-fire,.hades[data-state="2"] .hades-fire,
 .hades[data-state="1"] .hades-fireglow,.hades[data-state="2"] .hades-fireglow,
 .hades[data-state="1"] .hades-ans--hell,.hades[data-state="2"] .hades-ans--hell{opacity:1}
-.hades[data-state="1"] .hades-lbl-uni,.hades[data-state="2"] .hades-lbl-uni{opacity:0}
-.hades[data-state="2"] .hades-hatch-fill{opacity:.62}
-.hades[data-state="2"] .hades-ans--para{opacity:1}
+.hades[data-state="1"] .hades-lbl-uni,.hades[data-state="2"] .hades-lbl-uni,
+.hades[data-state="1"] .hades-lbl-sky,.hades[data-state="2"] .hades-lbl-sky{opacity:0}
+.hades[data-state="2"] .hades-para,.hades[data-state="2"] .hades-ans--para{opacity:1}
 .hades-ans{font-family:var(--display);font-weight:700;font-style:italic}
-.hades-ans--hell{font-size:23px;fill:#F7C948;paint-order:stroke;stroke:#5A1E12;stroke-width:4.5px;stroke-linejoin:round}
-.hades-ans--para{font-size:17px;fill:#EAFBF3;paint-order:stroke;stroke:color-mix(in srgb,var(--field) 86%,#000);stroke-width:3.6px;stroke-linejoin:round}
+/* Hades = Hell emerges over the sky, growing into place */
+.hades-ans--hell{font-size:23px;fill:#F7C948;paint-order:stroke;stroke:#5A1E12;stroke-width:4.5px;stroke-linejoin:round;
+  transform-box:fill-box;transform-origin:center;transform:scale(.55)}
+.hades[data-state="1"] .hades-ans--hell,.hades[data-state="2"] .hades-ans--hell{transform:scale(1);
+  transition:opacity .5s ease,transform .55s cubic-bezier(.2,.85,.25,1)}
+.hades-ans--para{font-size:17px;fill:#FBE9B0;paint-order:stroke;stroke:color-mix(in srgb,#4A3A0E 88%,#000);stroke-width:3.6px;stroke-linejoin:round}
+/* flames burn — irregular rise & sway */
 .hades-flame > path{transform-box:fill-box;transform-origin:bottom center;
-  animation:hadesFlick var(--fdu,2s) ease-in-out var(--fdl,0s) infinite}
-@keyframes hadesFlick{0%,100%{transform:scaleY(.8) scaleX(1.05)}50%{transform:scaleY(1.14) scaleX(.93)}}
+  animation:hadesFlick var(--fdu,1s) ease-in-out var(--fdl,0s) infinite}
+@keyframes hadesFlick{
+  0%{transform:scaleY(.78) scaleX(1.07) translateY(2px)}
+  22%{transform:scaleY(1.05) scaleX(.95) translateY(-1px)}
+  44%{transform:scaleY(.9) scaleX(1.03) translateY(1px)}
+  66%{transform:scaleY(1.22) scaleX(.87) translateY(-3px)}
+  84%{transform:scaleY(.96) scaleX(1.01) translateY(0)}
+  100%{transform:scaleY(.78) scaleX(1.07) translateY(2px)}
+}
+/* paradise sparkles (3rd heaven turns gold and glints) */
+.hades-spark{transform-box:fill-box;transform-origin:center;opacity:0}
+.hades[data-state="2"] .hades-spark{animation:hadesTwinkle var(--sdu,2s) ease-in-out var(--sdl,0s) infinite}
+@keyframes hadesTwinkle{0%,100%{opacity:0;transform:scale(.3)}50%{opacity:1;transform:scale(1.2)}}
 .hades-ask{margin-top:1rem;min-height:2.6em}
 .hades-q{display:none;font-family:var(--display);font-size:1.32rem;font-weight:500}
 .hades[data-state="0"] .hades-q0{display:block}
 .hades[data-state="1"] .hades-q1{display:block}
 .hades[data-state="2"] .hades-q2{display:block}
 .hades-hint{display:block;margin-top:.4rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;opacity:.48}
-@media(prefers-reduced-motion:reduce){.hades-flame > path{animation:none}}
+@media(prefers-reduced-motion:reduce){.hades-flame > path,.hades-spark{animation:none}.hades[data-state="2"] .hades-spark{opacity:.85}}
 
 /* ============ Landing Page 3 — horizontal chapter tour ============ */
 .tour{position:relative;height:calc(var(--n) * 100vh);background:var(--ink)}
