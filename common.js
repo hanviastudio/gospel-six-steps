@@ -460,7 +460,12 @@ function humanSVG(){
     var dx = (Math.cos(sa)*sd).toFixed(1), dy = (Math.sin(sa)*sd - 26).toFixed(1);
     var rad = (1 + rnd()*1.6).toFixed(2), col = (got%2?'#DCEFE8':'#AFCFC6');
     var dd = (rnd()*0.55).toFixed(2);
-    dust += '<circle class="hdust" cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="'+rad+'" fill="'+col+'" style="--dx:'+dx+'px;--dy:'+dy+'px;--dd:'+dd+'s"/>';
+    // idle drift, per mote — the wrapper does the converge, the mote floats within it
+    var fx = (2 + rnd()*4).toFixed(1), fy = (2 + rnd()*4).toFixed(1);
+    var ft = (4.5 + rnd()*5).toFixed(1), fdl = (rnd()*ft).toFixed(1);
+    dust += '<g class="hdust" style="--dx:'+dx+'px;--dy:'+dy+'px;--dd:'+dd+'s">'
+      + '<circle class="hdust-mote" cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="'+rad+'" fill="'+col+'" style="--fx:'+fx+'px;--fy:'+fy+'px;--ft:'+ft+'s;--fdl:'+fdl+'s"/>'
+      + '</g>';
   }
   function figImg(cls,x,y,w,h){ return '<image class="'+cls+'" href="assets/human.png" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" preserveAspectRatio="xMidYMid meet" filter="url(#hg-lum)"/>'; }
   // The person = intelligence + emotion + free will. They are not organs in fixed places;

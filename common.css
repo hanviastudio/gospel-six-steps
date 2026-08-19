@@ -622,6 +622,9 @@ html:not(.has-js) .heavens-human .hpart{opacity:1}
 .heavens-human .hdust{transform-box:fill-box;transform:translate(var(--dx),var(--dy));opacity:.5;
   transition:transform 1.25s cubic-bezier(.22,.72,.2,1),opacity .8s ease;transition-delay:var(--dd)}
 .has-js .heavens-human .heavens-stage:not([data-step="0"]) .hdust{transform:translate(0,0);opacity:.85}
+.heavens-human .hdust-mote{transform-box:fill-box;transform-origin:center}
+.has-js .heavens-human .hdust-mote{animation:hFloat var(--ft,6s) ease-in-out var(--fdl,0s) infinite}
+@keyframes hFloat{0%,100%{transform:translate(0,0)}25%{transform:translate(var(--fx),calc(-1*var(--fy)))}50%{transform:translate(calc(-0.6*var(--fx)),var(--fy))}75%{transform:translate(calc(0.7*var(--fx)),calc(0.5*var(--fy)))}}
 /* x-ray: once the spirit ignites, the flesh turns translucent so the light shows through */
 .has-js .heavens-human .heavens-stage[data-step="2"] .hfigure{opacity:.5}
 .has-js .heavens-human .heavens-stage[data-step="3"] .hfigure{opacity:.36}
@@ -678,6 +681,7 @@ html:not(.has-js) .heavens-human .hpart{opacity:1}
   .has-js .heavens-human .hpart--word.on .hself--visible,.has-js .heavens-human .hpart--word.on .hself--invisible,
   .has-js .heavens-human .hpart--word.on .hbread-fly,.has-js .heavens-human .hpart--word.on .hwd{animation:none}
   .heavens-human .hdust{transition:opacity .4s ease}
+  .heavens-human .hdust-mote{animation:none}
   .heavens-human .hwind{stroke-dashoffset:0;opacity:.5}
   .has-js .heavens-human .hpart--word.on .hself{opacity:1}
   .has-js .heavens-human .hpart--word.on .hwd{opacity:1}
