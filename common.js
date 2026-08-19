@@ -338,7 +338,62 @@ function blockBody(b, verses){
   if(b.t==="twoself") return twoselfBlock(b);
   if(b.t==="summary") return summaryBlock(b);
   if(b.t==="flow") return flowBlock(b);
+  if(b.t==="hades") return hadesBlock(b);
   return '';
+}
+/* Click-through over the three heavens (reused from Stage 1): reveal that Hades/Hell is
+   the 2nd heaven (fire), and that believers go up to the 3rd heaven (hatched). */
+function hadesBlock(b){
+  b = b || {};
+  var title = b.title ? esc(L(b.title)) : "";
+  var q1 = b.q1 ? esc(L(b.q1)) : "Where is Hades?";
+  var a1 = b.a1 ? esc(L(b.a1)) : "Hades = Hell";
+  var q2 = b.q2 ? esc(L(b.q2)) : "Where do believers go?";
+  var a2 = b.a2 ? esc(L(b.a2)) : "Paradise — the 3rd heaven";
+  var hint = {en:"tap the diagram",ko:"그림을 누르세요",zh:"点按图示",es:"toca el diagrama"};
+  var C = 280, seed = 424242;
+  function rnd(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+  var flames = '';
+  [{r:86,n:11},{r:120,n:13}].forEach(function(rg){
+    for(var i=0;i<rg.n;i++){
+      var a = (i/rg.n)*360 + rnd()*14;
+      var sc = (0.9 + rnd()*0.5).toFixed(2), dl = (rnd()*1.3).toFixed(2), du = (1.5+rnd()*1.1).toFixed(2);
+      var x = (C + rg.r*Math.cos(a*Math.PI/180)).toFixed(1), y = (C + rg.r*Math.sin(a*Math.PI/180)).toFixed(1);
+      flames += '<g class="hades-flame" style="--fdl:'+dl+'s;--fdu:'+du+'s" transform="translate('+x+','+y+') rotate('+(a+90).toFixed(1)+') scale('+sc+')">'
+        + '<path d="M0,5 C-7,-6 -3,-15 0,-26 C3,-15 7,-6 0,5 Z" fill="url(#hades-fire)"/></g>';
+    }
+  });
+  var svg = '<svg class="hades-svg" viewBox="0 0 560 560" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'
+   + '<defs>'
+   + '<radialGradient id="hades-fire" cx="50%" cy="82%" r="75%"><stop offset="0%" stop-color="#F7C948"/><stop offset="48%" stop-color="#E2683A"/><stop offset="100%" stop-color="#BE3A26"/></radialGradient>'
+   + '<radialGradient id="hades-fireglow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#E2683A" stop-opacity="0"/><stop offset="62%" stop-color="#E2683A" stop-opacity=".05"/><stop offset="100%" stop-color="#E2683A" stop-opacity=".42"/></radialGradient>'
+   + '<pattern id="hades-hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="9" stroke="#8FE0C6" stroke-width="1.3"/></pattern>'
+   + '<mask id="hades-2nd"><circle cx="280" cy="280" r="147" fill="#fff"/><circle cx="280" cy="280" r="60" fill="#000"/></mask>'
+   + '<mask id="hades-3rd"><circle cx="280" cy="280" r="252" fill="#fff"/><circle cx="280" cy="280" r="149" fill="#000"/></mask>'
+   + '</defs>'
+   + '<rect class="hades-hatch-fill" x="0" y="0" width="560" height="560" fill="url(#hades-hatch)" mask="url(#hades-3rd)"/>'
+   + '<circle class="hades-fireglow" cx="280" cy="280" r="147" fill="url(#hades-fireglow)" mask="url(#hades-2nd)"/>'
+   + '<circle class="hades-c hades-c3" cx="280" cy="280" r="252"/>'
+   + '<circle class="hades-c hades-c2" cx="280" cy="280" r="147"/>'
+   + '<circle class="hades-c hades-c1" cx="280" cy="280" r="60"/>'
+   + '<g class="hades-fire" mask="url(#hades-2nd)">'+flames+'</g>'
+   + '<text class="hades-lbl" x="280" y="276" text-anchor="middle">Sky</text>'
+   + '<text class="hades-lbl hades-lbl--sm" x="280" y="292" text-anchor="middle">1st heaven</text>'
+   + '<g class="hades-lbl-uni"><text class="hades-lbl" x="280" y="404" text-anchor="middle">Universe</text>'
+   +   '<text class="hades-lbl hades-lbl--sm" x="280" y="420" text-anchor="middle">2nd heaven</text></g>'
+   + '<text class="hades-lbl" x="280" y="486" text-anchor="middle">Spiritual heaven</text>'
+   + '<text class="hades-lbl hades-lbl--sm" x="280" y="502" text-anchor="middle">3rd heaven</text>'
+   + '<text class="hades-ans hades-ans--hell" x="280" y="378" text-anchor="middle">'+a1+'</text>'
+   + '<text class="hades-ans hades-ans--para" x="280" y="120" text-anchor="middle">'+a2+'</text>'
+   + '</svg>';
+  var ask = '<div class="hades-ask">'
+   + '<span class="hades-q hades-q0">'+q1+'</span>'
+   + '<span class="hades-q hades-q1">'+q2+'</span>'
+   + '<span class="hades-q hades-q2">'+esc(L({en:"tap to replay",ko:"다시 보려면 누르세요",zh:"点按重播",es:"toca para repetir"}))+'</span>'
+   + '<span class="hades-hint">'+esc(L(hint))+'</span></div>';
+  return '<div class="hades reveal" data-state="0" role="button" tabindex="0">'
+   + (title ? '<div class="hades-head">'+title+'</div>' : '')
+   + '<div class="hades-viz">'+svg+'</div>'+ask+'</div>';
 }
 /* Vertical top-down chain (God -> the Word -> as command -> the Spirit), each node and
    arrow revealing one after another once the block scrolls in. */
@@ -752,6 +807,18 @@ function wireHeavens(){
     });
   });
 }
+function wireHades(){
+  document.querySelectorAll(".hades").forEach(function(el){
+    if(el.__wired) return; el.__wired = true;
+    var max = 2;
+    function advance(){
+      var s = parseInt(el.getAttribute("data-state")||"0",10);
+      el.setAttribute("data-state", s>=max ? 0 : s+1);
+    }
+    el.addEventListener("click", advance);
+    el.addEventListener("keydown", function(e){ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); advance(); } });
+  });
+}
 function wireTour(){
   var sc = document.querySelector(".tour"); if(!sc || sc.__wired) return; sc.__wired = true;
   var track = sc.querySelector(".tour-track");
@@ -962,6 +1029,7 @@ function paint(page){
   wireReveal();
   wireAccordion();
   wireHeavens();
+  wireHades();
   wireTour();
   wirePager();
   wireRail(page);
