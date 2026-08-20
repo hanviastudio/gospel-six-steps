@@ -387,12 +387,12 @@ function hadesBlock(b){
    + '<circle class="hades-c hades-c2" cx="280" cy="280" r="147"/>'
    + '<circle class="hades-c hades-c1" cx="280" cy="280" r="60"/>'
    + '<g class="hades-fire" mask="url(#hades-2nd)">'+flames+'</g>'
-   + '<g class="hades-lbl-sky"><text class="hades-lbl" x="280" y="276" text-anchor="middle">Sky</text>'
-   +   '<text class="hades-lbl hades-lbl--sm" x="280" y="292" text-anchor="middle">1st heaven</text></g>'
-   + '<g class="hades-lbl-uni"><text class="hades-lbl" x="280" y="404" text-anchor="middle">Universe</text>'
-   +   '<text class="hades-lbl hades-lbl--sm" x="280" y="420" text-anchor="middle">2nd heaven</text></g>'
-   + '<text class="hades-lbl" x="280" y="486" text-anchor="middle">Spiritual heaven</text>'
-   + '<text class="hades-lbl hades-lbl--sm" x="280" y="502" text-anchor="middle">3rd heaven</text>'
+   + '<g class="hades-lbl-sky"><text class="hades-lbl" x="280" y="276" text-anchor="middle">'+esc(L({en:'Sky',ko:'하늘',zh:'天空',es:'El cielo'}))+'</text>'
+   +   '<text class="hades-lbl hades-lbl--sm" x="280" y="292" text-anchor="middle">'+esc(L({en:'1st heaven',ko:'첫째 하늘',zh:'第一层天',es:'primer cielo'}))+'</text></g>'
+   + '<g class="hades-lbl-uni"><text class="hades-lbl" x="280" y="404" text-anchor="middle">'+esc(L({en:'Universe',ko:'우주',zh:'宇宙',es:'El universo'}))+'</text>'
+   +   '<text class="hades-lbl hades-lbl--sm" x="280" y="420" text-anchor="middle">'+esc(L({en:'2nd heaven',ko:'둘째 하늘',zh:'第二层天',es:'segundo cielo'}))+'</text></g>'
+   + '<text class="hades-lbl" x="280" y="486" text-anchor="middle">'+esc(L({en:'Spiritual heaven',ko:'영의 하늘',zh:'属灵的天',es:'El cielo espiritual'}))+'</text>'
+   + '<text class="hades-lbl hades-lbl--sm" x="280" y="502" text-anchor="middle">'+esc(L({en:'3rd heaven',ko:'셋째 하늘',zh:'第三层天',es:'tercer cielo'}))+'</text>'
    + '<text class="hades-ans hades-ans--hell" x="280" y="290" text-anchor="middle">'+a1+'</text>'
    + '<text class="hades-ans hades-ans--para" x="280" y="120" text-anchor="middle">'+a2+'</text>'
    + '</svg>';
@@ -442,9 +442,9 @@ function summaryBlock(b){
    (solid) and the invisible self (rendered as dots), with an arrow tagging the true "me". */
 function twoselfBlock(b){
   b = b || {};
-  var vis = b.visible ? L(b.visible) : "VISIBLE ME";
-  var inv = b.invisible ? L(b.invisible) : "INVISIBLE ME";
-  var tag = b.tag ? L(b.tag) : "True me!";
+  var vis = L(b.visible || {en:"VISIBLE ME",ko:"보이는 나",zh:"看得见的我",es:"YO VISIBLE"});
+  var inv = L(b.invisible || {en:"INVISIBLE ME",ko:"보이지 않는 나",zh:"看不见的我",es:"YO INVISIBLE"});
+  var tag = L(b.tag || {en:"True me!",ko:"진짜 '나'!",zh:"真正的我！",es:"¡El verdadero yo!"});
   var lum = '<filter id="ts-lum" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 0.95  0 0 0 0 0.99  0 0 0 0 0.97  0.33 0.34 0.33 0 0"/><feComponentTransfer><feFuncA type="linear" slope="2.1" intercept="-0.06"/></feComponentTransfer></filter>';
   var svg = '<svg class="twoself-svg" viewBox="0 0 560 300" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'
    + '<defs>'+lum
@@ -600,9 +600,9 @@ function humanSVG(){
   var spin = reduce ? '' : '<animateTransform attributeName="transform" type="rotate" from="0 '+oc.x+' '+oc.y+'" to="360 '+oc.x+' '+oc.y+'" dur="'+dur+'" repeatCount="indefinite"/>';
   var counter = reduce ? '' : '<animateTransform attributeName="transform" type="rotate" from="0 0 0" to="-360 0 0" dur="'+dur+'" repeatCount="indefinite"/>';
   var facs = [
-    {a:-90, cap:'INTELLIGENCE', sub:'to learn & apply'},
-    {a:30,  cap:'EMOTION',      sub:'to feel & respond'},
-    {a:150, cap:'FREE WILL',    sub:'to decide & obey'}
+    {a:-90, cap:{en:'INTELLIGENCE',ko:'지성',zh:'智慧',es:'INTELIGENCIA'}, sub:{en:'to learn & apply',ko:'배우고 적용함',zh:'学习与应用',es:'aprender y aplicar'}},
+    {a:30,  cap:{en:'EMOTION',ko:'감정',zh:'情感',es:'EMOCIÓN'}, sub:{en:'to feel & respond',ko:'느끼고 반응함',zh:'感受与回应',es:'sentir y responder'}},
+    {a:150, cap:{en:'FREE WILL',ko:'자유의지',zh:'自由意志',es:'LIBRE ALBEDRÍO'}, sub:{en:'to decide & obey',ko:'결정하고 순종함',zh:'抉择与顺服',es:'decidir y obedecer'}}
   ];
   var orbitItems = '';
   facs.forEach(function(it){
@@ -610,8 +610,8 @@ function humanSVG(){
     var x = (oc.x + oc.r*Math.cos(r)).toFixed(1), y = (oc.y + oc.r*Math.sin(r)).toFixed(1);
     orbitItems += '<g class="horbit-item" transform="translate('+x+','+y+')"><g class="horbit-lab">'+counter
       + '<circle class="horbit-dot" cx="0" cy="0" r="3.4"/>'
-      + '<text class="hfac-cap" x="0" y="-9" text-anchor="middle">'+it.cap+'</text>'
-      + '<text class="hfac-sub" x="0" y="8" text-anchor="middle">'+it.sub+'</text>'
+      + '<text class="hfac-cap" x="0" y="-9" text-anchor="middle">'+esc(L(it.cap))+'</text>'
+      + '<text class="hfac-sub" x="0" y="8" text-anchor="middle">'+esc(L(it.sub))+'</text>'
       + '</g></g>';
   });
   var faculties = '<circle class="horbit-ring" cx="'+oc.x+'" cy="'+oc.y+'" r="'+oc.r+'" fill="none"/>'
@@ -632,16 +632,16 @@ function humanSVG(){
     + '<g class="hself hself--visible">'
     +   figImg('hfig-half', 110, 178, 200, 300)
     +   '<g class="hbread-fly" transform="translate(150,230)">'+loaf+'</g>'
-    +   '<text class="hself-cap" x="210" y="500" text-anchor="middle">VISIBLE ME</text>'
-    +   '<text class="hself-sub" x="210" y="516" text-anchor="middle">eats bread</text>'
+    +   '<text class="hself-cap" x="210" y="500" text-anchor="middle">'+esc(L({en:'VISIBLE ME',ko:'보이는 나',zh:'看得见的我',es:'YO VISIBLE'}))+'</text>'
+    +   '<text class="hself-sub" x="210" y="516" text-anchor="middle">'+esc(L({en:'eats bread',ko:'떡을 먹는다',zh:'吃饼',es:'come pan'}))+'</text>'
     + '</g>'
     + '<g class="hself hself--invisible">'
     +   bible
     +   '<circle class="hcore hcore--sm" cx="430" cy="256" r="28" fill="url(#hg-spirit)"/>'
     +   figImg('hfig-half hfig-ghost', 330, 178, 200, 300)
     +   '<g class="hword-stream" transform="translate(430,150)">'+wordFlow+'</g>'
-    +   '<text class="hself-cap" x="430" y="500" text-anchor="middle">INVISIBLE ME</text>'
-    +   '<text class="hself-sub" x="430" y="516" text-anchor="middle">eats the Word</text>'
+    +   '<text class="hself-cap" x="430" y="500" text-anchor="middle">'+esc(L({en:'INVISIBLE ME',ko:'보이지 않는 나',zh:'看不见的我',es:'YO INVISIBLE'}))+'</text>'
+    +   '<text class="hself-sub" x="430" y="516" text-anchor="middle">'+esc(L({en:'eats the Word',ko:'말씀을 먹는다',zh:'吃道',es:'come la Palabra'}))+'</text>'
     + '</g>';
   // The breath of God, blown into the mouth (the light kindles there, then fills the body).
   var mouthX = 318, mouthY = 100;
