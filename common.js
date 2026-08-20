@@ -564,8 +564,8 @@ function humanSVG(){
             [366,394],[351,394],[353,356],[355,318],[356,270],[348,182],[344,234],
             [340,298],[355,344],[351,414],[342,486],[348,532],[336,574],[357,588],
             [323,588],[320,550],[314,486],[317,416],[320,346] ];
-  var L = R.map(function(p){ return [640-p[0], p[1]]; }).reverse();
-  var pts = R.concat(L.slice(1));
+  var Lm = R.map(function(p){ return [640-p[0], p[1]]; }).reverse();
+  var pts = R.concat(Lm.slice(1));
   function inside(px,py){
     var ex=(px-320)/28, ey=(py-72)/36; if(ex*ex+ey*ey <= 1) return true;   // head
     var ins=false;
